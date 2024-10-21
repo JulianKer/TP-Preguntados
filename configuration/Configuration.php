@@ -8,7 +8,7 @@ include_once("helper/MustachePresenter.php");
 include_once("model/PokedexModel.php");
 include_once("controller/PokedexController.php");
 
-include_once("controller/UsuarioController.php");
+include_once("controller/AccesoController.php"); //este lo unifique para hacer el register y login en el mismo acceso q usa el model de usuario
 include_once("model/UsuarioModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
@@ -25,6 +25,10 @@ class Configuration
 
     public function getUsuarioController(){
         return new UsuarioController($this->getUsuarioModel(), $this->getPresenter());
+    }
+
+    public function getAccesoController(){
+        return new AccesoController($this->getUsuarioModel(), $this->getPresenter());
     }
 
     private function getPokedexModel()
@@ -53,7 +57,7 @@ class Configuration
 
     public function getRouter()
     {
-        return new Router($this, "getPokedexController", "list");
+        return new Router($this, "getAccesoController", "ingresar");
     }
 
     private function getUsuarioModel()
