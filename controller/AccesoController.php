@@ -12,7 +12,11 @@ class AccesoController
     }
 
     public function ingresar(){
-        $this->presenter->show("login");
+        $data = [];
+        if (isset($_GET["msj"])){
+            $data["msj"] = $_GET["msj"];
+        }
+        $this->presenter->show("login", $data);
     }
 
     public function registrar(){

@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap y FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>QuizMaster - Iniciar sesión</title>
     <style>
         body {
@@ -16,6 +19,12 @@
             color: white;
             padding: 1rem;
             text-align: center;
+            & h1{
+                margin: 0.83em 0;
+                width: 100%;
+                text-align: center;
+                font-size: 1.5em;
+            }
         }
         .main-content {
             padding: 1rem;
@@ -78,6 +87,11 @@
                     <label for="password">Contraseña</label>
                     <input type="password" id="password" name="password" required>
                 </div>
+                {{#msj}}
+                    <p class="alert alert-danger">{{msj}}</p>
+                {{/msj}}
+
+
                 <button type="submit" class="button">Iniciar sesión</button>
             </form>
             <div class="register-link">
@@ -85,5 +99,6 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
