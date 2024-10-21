@@ -17,6 +17,10 @@ class MysqlObjectDatabase
         return $this->conn->affected_rows;
     }
 
+    public function insertar($sql){
+        return $this->conn->query($sql);
+    }
+
     public function __destruct()
     {
         $this->conn->close();

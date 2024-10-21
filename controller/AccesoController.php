@@ -16,11 +16,18 @@ class AccesoController
         if (isset($_GET["msj"])){
             $data["msj"] = $_GET["msj"];
         }
+        if (isset($_GET["exito"])){
+            $data["exito"] = $_GET["exito"];
+        }
         $this->presenter->show("login", $data);
     }
 
     public function registrar(){
-        $this->presenter->show("register");
+        $data = [];
+        if (isset($_GET["msj"])){
+            $data["msj"] = $_GET["msj"];
+        }
+        $this->presenter->show("register", $data);
     }
 
     public function validarIngreso(){
@@ -44,97 +51,59 @@ class AccesoController
         header("location: /");
         exit();
     }
-     /*   public function nuevoUsuario(){
-        $data["errores"] = [];
-        $nombre = $_POST ['nombre'];
-        $nacimiento = $_POST ['nacimiento'];
-        $sexo = $_POST ['sexo'];
-        $email = $_POST ['email'];
-        $password = $_POST ['password'];
-        $confirm_password = $_POST ['confirm_password'];
-        $username = $_POST ['username'];
-        $profile_pic = $_POST ['profile_pic'];
 
-        $vacios = $this -> model -> sinCamposVacios($_POST);
-
-        if($vacios){
-
-            array_push($data,["valores_incompletos",$_POST]);
-            array_push($data ["errores"],"Algunos de los campos se encuentra incompleto");
-            foreach ($data as $key => $value) {
-                if (is_array($value)) {
-                    $data[$key] = json_encode($value); // Convierte el array a un string
-                }
-            }
-            $this -> presenter ->show ('register', $data);
-        }
-
-        $emailEncontrado = $this->model->buscarEmail($_POST["email"]);
-
-        if ($emailEncontrado) {
-            array_push($data["errores"], "Este email ya se encuentra registrado");
-
-            foreach ($data as $key => $value) {
-                if (is_array($value)) {
-                    $data[$key] = json_encode($value); // Convierte el array a un string
-                }
-            }
-
-            // Mostrar el error y detener la ejecución para no registrar al usuario
-            $this->presenter->show('register', $data);
-            return; // Detiene la ejecución para evitar que continúe el registro
-        }
-
-// Código para registrar al usuario si no se encontró el email
-        $registrado = $this->model->registrarUsuario($nombre, $nacimiento, $sexo, $email, $password, $username);
-
-        if ($registrado) {
-            header("Location: /login");
-            exit();
-        }
-
-    } */
     public function nuevoUsuario() {
-        $data["errores"] = [];
+        $data = [];
+
         $nombre = $_POST['nombre'];
+        $apellido = $_POST['apellido'];
         $nacimiento = $_POST['nacimiento'];
         $sexo = $_POST['sexo'];
+        $ubicacion = $_POST['ubicacion'];
         $email = $_POST['email'];
         $password = $_POST['password'];
         $confirm_password = $_POST['confirm_password'];
         $username = $_POST['username'];
-        $profile_pic = $_POST['profile_pic'];
+        $profile_pic = $_POST['profile_pic']; // aca ver lo de la img pq tenemos q recibirlo por $_FILE, pero bueno, ese post te da el nombre del archivo + extension
 
         $vacios = $this->model->sinCamposVacios($_POST);
 
-        if($vacios){
+        if ($vacios){
+            $msj = "Los campos no pueden estar vacíos.";
+            header("location: /acceso/registrar?msj=" . urldecode($msj));
+            exit();
+        }
 
-            array_push($data,["valores_incompletos",$_POST]);
-            array_push($data ["errores"],"Algunos de los campos se encuentra incompleto");
-            foreach ($data as $key => $value) {
-                if (is_array($value)) {
-                    $data[$key] = json_encode($value); // Convierte el array a un string
-                }
-            }
-            $this -> presenter ->show ('register', $data);
+        if ($password != $confirm_password){
+            $msj = "Las contraseñas no coinciden.";
+            header("location: /acceso/registrar?msj=" . urldecode($msj));
+            exit();
         }
 
         $emailEncontrado = $this->model->buscarEmail($email);
-
-        if ($emailEncontrado) {
-            array_push($data["errores"], "Este email ya se encuentra registrado");
-            $this->presenter->show('register', $data);
-            return;
-        }
-
-        $registrado = $this->model->registrarUsuario($nombre, $nacimiento, $sexo, $email, $password, $username);
-
-        if ($registrado) {
-            header("Location: /login");
+        if ($emailEncontrado == "Hubo un error con la BDD."){
+            $msj = $emailEncontrado;
+            header("location: /acceso/registrar?msj=" . urldecode($msj));
             exit();
-        } else {
-            array_push($data["errores"], "Error en el registro del usuario.");
-            $this->presenter->show('register', $data);
         }
+
+        if (!empty($emailEncontrado)){
+            $msj = "El usuario con ese mail ya está registrado.";
+            header("location: /acceso/registrar?msj=" . urldecode($msj));
+            exit();
+        }
+
+        //echo $profile_pic;
+        if(!$this->model->registrarUsuario($nombre,$apellido,$nacimiento,$sexo, $ubicacion, $email, $password, $username, $profile_pic)){
+            $msj = "No se pudo registrar.";
+            header("location: /acceso/registrar?msj=" . urldecode($msj));
+            exit();
+        }
+
+        // aca ahora faltaria guardar la img del perfil ya que YA se registro correctamente si llego hasta aca
+
+        $msj = "Usuario registrado con éxito. Inicie sesión.";
+        header("location: /acceso/ingresar?exito=" . urldecode($msj));
+        exit();
     }
 }
