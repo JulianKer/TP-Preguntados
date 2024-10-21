@@ -25,4 +25,12 @@ class MysqlObjectDatabase
     {
         $this->conn->close();
     }
+    public  function getLastInsert(){
+        if ($this->conn) {
+            return mysqli_insert_id($this->conn);
+        } else {
+            return false;
+        }
+
+        }
 }

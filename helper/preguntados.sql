@@ -39,14 +39,15 @@ CREATE TABLE `usuario` (
   `fecharegistro` date NOT NULL,
   `fotoperfil` varchar(255) DEFAULT NULL,
   `sexo` varchar(50) DEFAULT NULL
+  `verificado` TINYINT(1) DEFAULT 0 NOT NULL;
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ciudad`, `fecharegistro`, `fotoperfil`, `sexo`) VALUES
-(1, 'julian', 'ker', 'julian', '123', 'julian@gmail.com', '1990-03-15', 'Buenos Aires', '2024-01-01', 'perfil.jpg', 'M');
+INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ciudad`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado` ) VALUES
+(1, 'julian', 'ker', 'julian', '123', 'julian@gmail.com', '1990-03-15', 'Buenos Aires', '2024-01-01', 'perfil.jpg', 'M',  1);
 
 --
 -- Índices para tablas volcadas

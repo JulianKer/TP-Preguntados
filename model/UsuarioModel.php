@@ -14,7 +14,8 @@ class UsuarioModel
         $sql = "SELECT 1 
                 FROM usuario 
                 WHERE nombreusuario = '" . $user. "' 
-                AND contrasenia = '" . $pass . "'";
+                AND contrasenia = '" . $pass . "'
+                AND verificado = 1 ";
 
         $usuario = $this->database->query($sql);
 
@@ -53,4 +54,14 @@ class UsuarioModel
          $sql = "INSERT INTO `usuario` (`nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ciudad`, `fecharegistro`, `fotoperfil`, `sexo`) VALUES ('" . $nombre . "', '" . $apellido . "', '" . $username . "', '" . $password . "', '" . $email . "', '" . $nacimiento . "', '" . $ubicacion . "', '" . $fechaRegistro . "', '" . $profile_pic . "', '" . $sexo . "')";
          return $this->database->insertar($sql);
     }
+    public function verificarEmail($usuario_id) {
+        $sql = "UPDATE usuario SET verificado = 1 WHERE id = " . intval($usuario_id);
+        $resultado = $this->database->execute($sql);
+        return $resultado === 1;
+        }
+        public function getLastInsert(){
+            return $this ->database -> getLastInsert();
+        }
+
+
 }
