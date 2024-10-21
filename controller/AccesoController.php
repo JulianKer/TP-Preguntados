@@ -31,10 +31,18 @@ class AccesoController
 
         if ($validation) {
             $_SESSION['user'] = $user;
-            header('location: /pokedex/list');
+            header('location: /principal/inicio');
             exit();
         }
         header('location: /acceso/ingresar?msj=' . urldecode("Usuario o contraseña incorrecta."));
+        exit();
+    }
+
+
+    public function cerrarSesion(){
+        session_unset();
+        session_destroy();
+        header("location: /");
         exit();
     }
 }

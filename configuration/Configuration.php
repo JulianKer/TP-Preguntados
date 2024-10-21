@@ -5,8 +5,8 @@ include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
 
-include_once("model/PokedexModel.php");
-include_once("controller/PokedexController.php");
+include_once("controller/HomeController.php");
+include_once("model/HomeModel.php");
 
 include_once("controller/AccesoController.php"); //este lo unifique para hacer el register y login en el mismo acceso q usa el model de usuario
 include_once("model/UsuarioModel.php");
@@ -19,8 +19,8 @@ class Configuration
     {
     }
 
-    public function getPokedexController(){
-        return new PokedexController($this->getPokedexModel(), $this->getPresenter());
+    public function getHomeController(){
+        return new HomeController($this->getHomeModel(), $this->getPresenter());
     }
 
     public function getUsuarioController(){
@@ -31,9 +31,9 @@ class Configuration
         return new AccesoController($this->getUsuarioModel(), $this->getPresenter());
     }
 
-    private function getPokedexModel()
+    private function getHomeModel()
     {
-        return new PokedexModel($this->getDatabase());
+        return new HomeModel($this->getDatabase());
     }
 
 
@@ -57,7 +57,9 @@ class Configuration
 
     public function getRouter()
     {
-        return new Router($this, "getAccesoController", "ingresar");
+        $controllerDef = isset($_SESSION['user']) ? "getHomeController" : "getAccesoController";
+        $methodDef = isset($_SESSION['user']) ? "inicio" : "ingresar";
+        return new Router($this, $controllerDef, $methodDef);
     }
 
     private function getUsuarioModel()
