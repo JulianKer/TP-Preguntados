@@ -2,7 +2,6 @@
 
 class HomeController
 {
-
     private $model;
     private $presenter;
 

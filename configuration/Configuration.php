@@ -31,6 +31,8 @@ class Configuration
         return new AccesoController($this->getUsuarioModel(), $this->getPresenter());
     }
 
+
+
     private function getHomeModel()
     {
         return new HomeModel($this->getDatabase());
