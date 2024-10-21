@@ -31,6 +31,10 @@ class Configuration
         return new AccesoController($this->getUsuarioModel(), $this->getPresenter());
     }
 
+    public function getHomeController(){
+        return new HomeController($this->getUsuarioModel(), $this->getPresenter());
+    }
+
     private function getPokedexModel()
     {
         return new PokedexModel($this->getDatabase());
