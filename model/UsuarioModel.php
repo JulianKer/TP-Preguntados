@@ -53,4 +53,17 @@ class UsuarioModel
          $sql = "INSERT INTO `usuario` (`nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ciudad`, `fecharegistro`, `fotoperfil`, `sexo`) VALUES ('" . $nombre . "', '" . $apellido . "', '" . $username . "', '" . $password . "', '" . $email . "', '" . $nacimiento . "', '" . $ubicacion . "', '" . $fechaRegistro . "', '" . $profile_pic . "', '" . $sexo . "')";
          return $this->database->insertar($sql);
     }
+
+
+    public function obtenerIdUserPorUserName($username){
+        $sql = "SELECT id FROM usuario WHERE nombreusuario = '" . $username . "'";
+        return $this->database->query($sql);
+    }
+
+    public function obtenerUsuarioPorId($id){
+        $sql = "SELECT * FROM usuario WHERE id = '" . $id . "'";
+        return $this->database->query($sql);
+    }
+
+
 }

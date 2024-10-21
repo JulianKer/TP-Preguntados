@@ -6,77 +6,9 @@
     <!-- Bootstrap y FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/register.css">
     <title>QuizMaster - Registro</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-        .navbar {
-            background-color: #1e3a8a;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-        .main-content {
-            padding: 1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .register-card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 1rem;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        label {
-            font-size: 1rem;
-            color: #1e3a8a;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        input[type="text"], input[type="email"], input[type="password"], select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        input[type="file"] {
-            display: block;
-            margin-top: 0.5rem;
-        }
-        .button {
-            background-color: #1e3a8a;
-            color: white;
-            border: none;
-            padding: 0.75rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            text-align: center;
-            text-decoration: none;
-            width: 100%;
-        }
-        .map-container {
-            margin: 1rem 0;
-        }
-        .register-link {
-            text-align: center;
-            margin-top: 1rem;
-        }
-        .mapa{
-            width: 100%;
-            height: 100px;
-            background-color: grey;
-        }
-    </style>
+
 </head>
 <body>
     <nav class="navbar">
@@ -109,7 +41,14 @@
                     <label for="ciudad">Ubicación (seleccionada desde el mapa)</label>
                     <div class="map-container">
                         <!-- Aquí iría la integración del mapa para seleccionar la ciudad -->
-                         <div class="mapa"></div>
+                         <div class="mapa">
+                             <iframe
+                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13236.61475155417!2d-58.58840681126785!3d-34.71723907827711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb18fdb2457b7%3A0xd42368c8aa053b60!2sUniversidad%20Nacional%20de%20La%20Matanza!5e0!3m2!1ses!2sar!4v1631976020445!5m2!1ses!2sar"
+                                     style="border:0;"
+                                     allowfullscreen=""
+                                     loading="lazy">
+                             </iframe>
+                         </div>
                         <input type="text" value="Argentina" name="ubicacion">
                     </div>
                 </div>

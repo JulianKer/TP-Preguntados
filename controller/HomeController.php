@@ -16,6 +16,7 @@ class HomeController
             header("location: /acceso/ingresar");
         }
         $data['user'] = $_SESSION['user'];
+        $data['idUsuario'] = isset($_SESSION['idUsuario']);
         $this->presenter->show('home', $data);
     }
 

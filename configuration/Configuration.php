@@ -11,6 +11,8 @@ include_once("model/HomeModel.php");
 include_once("controller/AccesoController.php"); //este lo unifique para hacer el register y login en el mismo acceso q usa el model de usuario
 include_once("model/UsuarioModel.php");
 
+include_once("controller/PerfilController.php");
+
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
@@ -29,6 +31,10 @@ class Configuration
 
     public function getAccesoController(){
         return new AccesoController($this->getUsuarioModel(), $this->getPresenter());
+    }
+
+    public function getPerfilController(){
+        return new PerfilController($this->getUsuarioModel(), $this->getPresenter());
     }
 
 

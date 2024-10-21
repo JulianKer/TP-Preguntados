@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/perfil.css">
+    <title>QuizMaster - Perfil de Usuario</title>
+
+</head>
+<body>
+
+    <div class="main-content">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="cont-avataryname">
+                    <div class="profile-avatar"></div>
+                    <div>
+                        <h1 class="profile-name">{{usuario.nombre}}</h1>
+                        <p class="profile-username">@{{usuario.nombreusuario}}</p>
+                    </div>
+                </div>
+                <div>
+                    <img class="qr" src="/public/images/icons/codigoQR.png">
+                </div>
+            </div>
+
+            <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13236.61475155417!2d-58.58840681126785!3d-34.71723907827711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb18fdb2457b7%3A0xd42368c8aa053b60!2sUniversidad%20Nacional%20de%20La%20Matanza!5e0!3m2!1ses!2sar!4v1631976020445!5m2!1ses!2sar"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy">
+            </iframe>
+
+
+
+
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <p class="stat-label">Ranking</p>
+                    <p class="stat-value">#42</p>
+                </div>
+                <div class="stat-item">
+                    <p class="stat-label">Puntaje</p>
+                    <p class="stat-value">1000</p>
+                </div>
+            </div>
+            <a href="ranking.html" class="button">Volver al ranking</a>
+        </div>
+        <div class="games-card">
+            <h2 class="recent-games-title">Partidas Recientes</h2>
+            <ul class="game-list">
+                <li class="game-item">
+                    <span>Partida 1 - Victoria</span>
+                    <span class="victory">+100 puntos</span>
+                </li>
+                <li class="game-item">
+                    <span>Partida 2 - Derrota</span>
+                    <span class="defeat">+30 puntos</span>
+                </li>
+                <li class="game-item">
+                    <span>Partida 3 - Victoria</span>
+                    <span class="victory">+100 puntos</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
