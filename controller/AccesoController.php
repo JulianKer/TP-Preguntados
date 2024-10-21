@@ -42,7 +42,7 @@ class AccesoController
             header('location: /principal/inicio');
             exit();
         }
-        header('location: /acceso/ingresar?msj=' . urldecode("Usuario o contraseña incorrecta."));
+        header('location: /acceso/ingresar?msj=' . urldecode("Usuario no verificado o sus credenciales no coinciden."));
         exit();
     }
 
@@ -103,8 +103,25 @@ class AccesoController
 
         // aca ahora faltaria guardar la img del perfil ya que YA se registro correctamente si llego hasta aca
 
-        $msj = "Usuario registrado con éxito. Inicie sesión.";
-        header("location: /acceso/ingresar?exito=" . urldecode($msj));
-        exit();
+        $data ["usuario_id"] = $this -> model -> getLastInsert("usuario");
+        $data ["registroExitoso"] = "Usuario registrado con éxito. Para terminar verifique su email.";
+
+        $this -> presenter -> show ("verificarEmail", $data);
+    }
+
+    public function verificarEmail(){
+        $data = [];
+        if (isset($_GET['usuario_id'])) {
+            $usuario_id = $_GET['usuario_id'];
+    }
+    $resultado = $this -> model -> verificarEmail($usuario_id);
+
+            if($resultado){
+            $data["verificacionExitosa"] = "Su email ah sido verificado exitosamente";
+            $this -> presenter -> show ("login", $data);
+            }
+            else{
+                $data ["verifacionNoExitosa"] = "ERRORR";
+            }
     }
 }

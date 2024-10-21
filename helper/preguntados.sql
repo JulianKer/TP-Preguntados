@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2024 a las 17:41:50
+-- Tiempo de generación: 21-10-2024 a las 23:41:57
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `preguntados`
 --
+CREATE DATABASE IF NOT EXISTS `preguntados` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `preguntados`;
 
 -- --------------------------------------------------------
 
@@ -38,15 +40,18 @@ CREATE TABLE `usuario` (
   `ciudad` varchar(255) DEFAULT NULL,
   `fecharegistro` date NOT NULL,
   `fotoperfil` varchar(255) DEFAULT NULL,
-  `sexo` varchar(50) DEFAULT NULL
+  `sexo` varchar(50) DEFAULT NULL,
+  `verificado` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ciudad`, `fecharegistro`, `fotoperfil`, `sexo`) VALUES
-(1, 'julian', 'ker', 'julian', '123', 'julian@gmail.com', '1990-03-15', 'Buenos Aires', '2024-01-01', 'perfil.jpg', 'M');
+INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ciudad`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`) VALUES
+(1, 'julian', 'ker', 'julian', '123', 'julian@gmail.com', '1990-03-15', 'Buenos Aires', '2024-01-01', 'perfil.jpg', 'M', 1),
+(2, 'lucas', 'lucas', 'german', '11', 'germanschmuker@gmail.com', '2024-10-09', 'Argentina', '2024-10-21', 'entradas.jpg', 'm', 0),
+(3, 'as', 'sd', 'ju', 'e', 'julianschker@gmail.com', '2024-10-03', 'Argentina', '2024-10-21', 'entradas.jpg', 'm', 1);
 
 --
 -- Índices para tablas volcadas
@@ -66,7 +71,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

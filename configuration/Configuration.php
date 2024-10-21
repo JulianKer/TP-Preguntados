@@ -39,6 +39,7 @@ class Configuration
 
 
 
+
     private function getHomeModel()
     {
         return new HomeModel($this->getDatabase());
