@@ -26,4 +26,8 @@ class MysqlDatabase
         mysqli_close($this->conn);
     }
 
+    public function last_insert(){
+        return mysqli_insert_id($this->connection);
+    }
+
 }
