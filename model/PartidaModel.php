@@ -17,7 +17,8 @@ class PartidaModel
 
     public function obtenerRespuestas($idPregunta){
         $sql = "SELECT * FROM respuesta WHERE id_pregunta = $idPregunta";
-        return $this->database->query($sql);
+        $resultado = $this->database->query($sql);
+        return $resultado;
     }
 
     public function obtenerCategoria($categoria){
@@ -40,9 +41,9 @@ class PartidaModel
         return $this->database->queryAssoc($sql);
     }
 
-    public function desordenarRespuestas($arrayOrdenadoDeRespuestas){
-        // preguntar al profe si desrodenarlo aca o hacer el insert con las resp desordenadas
-        return $arrayOrdenadoDeRespuestas; // esto cambiarlo pq deje el metodo pero devuelvo lo mimso pq no se como desordenarlo
+    public function desordenarRespuestas($arrayADesordenar){
+        shuffle($arrayADesordenar);
+        return $arrayADesordenar;
     }
 
 

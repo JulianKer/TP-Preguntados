@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/partida.css">
     <script src="/public/js/enviarRespuesta.js" defer></script>
-    <title>QuizMaster - Pregunta</title>
+    <title>Pregunta - QuizMaster</title>
 </head>
 <body>
 <div class="main-content">
@@ -35,9 +35,9 @@
                         <label class="option-button
                         {{#esDeCorreccion}}
                             {{#correcta}} option-correct {{/correcta}}
-                            {{^laSeleccionadaEsCorrecta}}
-                                {{^correcta}} option-incorrect {{/correcta}}
-                            {{/laSeleccionadaEsCorrecta}}
+                            {{^correcta}}
+                                {{#seleccionada}} option-incorrect {{/seleccionada}}
+                            {{/correcta}}
                         {{/esDeCorreccion}}">
                             <input type="radio" class="option-button" name="respuesta" value="{{id_respuesta}}" style="display: none">
                             {{descripcion}}
@@ -53,6 +53,7 @@
                 {{/laSeleccionadaEsCorrecta}}
                 {{^laSeleccionadaEsCorrecta}}
                     <button class="back-button start"><a href="/principal/home">Volver al inicio</a></button>
+                    <p>Puntaje obtenido: 100</p>
                 {{/laSeleccionadaEsCorrecta}}
             {{/esDeCorreccion}}
         </div>
