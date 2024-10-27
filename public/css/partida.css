@@ -1,0 +1,210 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+.main-content {
+    margin: 2em auto;
+}
+.question-card {
+    position: relative;
+    background-color: white;
+    border-radius: 1em;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    min-width: 700px;
+    max-width: 700px;
+}
+.question-title {
+    color: #1e3a8a;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+.options-list {
+    list-style-type: none;
+    padding: 0;
+}
+.option-item {
+    margin-bottom: 0.5rem;
+}
+.option-button {
+    width: 100%;
+    padding: 1rem 0;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #232323;
+    display: inline-block;
+}
+.option-button:hover {
+    background-color: #cacaca;
+    transform: scale(1.03);
+}
+.option-button:focus{
+    outline: none;
+}
+.option-correct {
+    background-color: #2fd133;
+    color: white;
+    border-color: #45a049;
+}
+.option-incorrect {
+    background-color: #f44336;
+    color: white;
+    border-color: #ae1910;
+}
+
+.next-button{
+    padding: .5em;
+    background-color: #1E3A8A;
+    color: #fff;
+}
+
+.back-button{
+    padding: .5em;
+    color: #fff;
+    background-color: #1E3A8A;
+
+}
+.report-button{
+    margin-top: 1.5rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+
+    & img{
+        cursor: pointer;
+        transition: all .2s;
+    }
+}
+.report-button img:hover{
+    transform: scale(1.4);
+}
+
+
+
+
+
+
+/*----------------CATEGORIAS-------------------*/
+.historia {
+    border-top: 10px solid #e57373; /* Red */
+}
+.entretenimiento {
+    border-top: 10px solid #ba68c8; /* Purple */
+}
+.geografia {
+    border-top: 10px solid #64b5f6; /* Blue */
+}
+.ciencia {
+    border-top: 10px solid #81c784; /* Green */
+}
+.deporte {
+    border-top: 10px solid #ffb74d; /* Orange */
+}
+.arte {
+    border-top: 10px solid #9575cd; /* Deep Purple */
+}
+.matematica {
+    border-top: 10px solid #4db6ac; /* Teal */
+}
+.cultura {
+    border-top: 10px solid #ff8a65; /* Deep Orange */
+}
+.programacion {
+    border-top: 10px solid #aed581; /* Light Green */
+}
+.juegos {
+    border-top: 10px solid #7986cb; /* Light Blue */
+}
+.gastronomia {
+    border-top: 10px solid #f06292; /* Pink */
+}
+.f1 {
+    border-top: 10px solid #ff0000; /* Pink */
+}
+
+.categoria{
+    font-size: 1.1em;
+    text-align: center;
+    margin: 0;
+    color: #9f9f9f;
+}
+/*--------------------------------------------*/
+
+/*----------------CATEGORIAS-------------------
+.historia {
+    background-color: #e57373; /* Red
+}
+.entretenimiento {
+    background-color: #ba68c8; /* Purple
+}
+.geografia {
+    background-color: #64b5f6; /* Blue
+}
+.ciencia {
+    background-color: #81c784; /* Green
+}
+.deporte {
+    background-color: #ffb74d; /* Orange
+}
+.arte {
+    background-color: #9575cd; /* Deep Purple
+}
+.matematica {
+    background-color: #4db6ac; /* Teal
+}
+.cultura {
+    background-color: #ff8a65; /* Deep Orange
+}
+.programacion {
+    background-color: #aed581; /* Light Green
+}
+.juegos {
+    background-color: #7986cb; /* Light Blue
+}
+.gastronomia {
+    background-color: #f06292; /* Pink
+}
+.f1 {
+    background-color: #ff0000; /* Pink
+}
+/*--------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*--------------------------------------------*/
+
+/*--------------------------------------------*/
+
+
+@media screen and (max-width: 750px){
+
+    .main-content{
+        margin: 2em .5em;
+    }
+    .question-card{
+        min-width: 100%;
+    }
+}

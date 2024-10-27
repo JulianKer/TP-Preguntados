@@ -85,6 +85,6 @@ class Configuration
 
     private function getPartidaModel()
     {
-        return new UsuarioModel($this->getDatabase());
+        return new PartidaModel($this->getDatabase());
     }
 }

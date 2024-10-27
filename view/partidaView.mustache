@@ -1,3 +1,62 @@
-<form action="">
-    <label for="name">nombre</label>
-</form>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/partida.css">
+    <script src="/public/js/enviarRespuesta.js" defer></script>
+    <title>QuizMaster - Pregunta</title>
+</head>
+<body>
+<div class="main-content">
+    <!--<div class="question-card {{categoria}}">
+        <h1 class="categoria">· {{pregunta.nombre}} ·</h1>
+        <h2 class="question-title">{{pregunta.pregunta}}</h2>
+        <ul class="options-list">
+            {{#opciones}}
+                <li class="option-item">
+                    <input type="text" class="option-button" name="{{opciones.id_respuesta}}" value="{{descripcion}}" readonly>
+                </li>
+            {{/opciones}}
+        </ul>
+        <button class="report-button">Reportar Pregunta</button>
+    </div>-->
+
+    <div class="question-card {{categoria}}">
+        <h1 class="categoria">· {{pregunta.nombre}} ·</h1>
+        <h2 class="question-title">{{pregunta.pregunta}}</h2>
+
+        <form action="/partida/pregunta" method="POST" class="options-form" id="form">
+            <input type="hidden" name="id_pregunta" value="{{pregunta.id_pregunta}}">
+
+            <ul class="options-list">
+                {{#opciones}}
+                    <li class="option-item">
+                        <label class="option-button
+                        {{#esDeCorreccion}}
+                            {{#correcta}} option-correct {{/correcta}}
+                            {{^laSeleccionadaEsCorrecta}}
+                                {{^correcta}} option-incorrect {{/correcta}}
+                            {{/laSeleccionadaEsCorrecta}}
+                        {{/esDeCorreccion}}">
+                            <input type="radio" class="option-button" name="respuesta" value="{{id_respuesta}}" style="display: none">
+                            {{descripcion}}
+                        </label>
+                    </li>
+                {{/opciones}}
+            </ul>
+        </form>
+
+        {{#esDeCorreccion}}
+            {{#laSeleccionadaEsCorrecta}}
+                <button class="next-button"><a href="/partida/pregunta">Siguiente</a></button>
+            {{/laSeleccionadaEsCorrecta}}
+            {{^laSeleccionadaEsCorrecta}}
+                <button class="back-button"><a href="/principal/home">Volver al inicio</a></button>
+            {{/laSeleccionadaEsCorrecta}}
+        {{/esDeCorreccion}}
+        <a class="report-button"><img src="/public/images/icons/flagReportIcon.svg"></a>
+    </div>
+</div>
+</body>
+</html>
