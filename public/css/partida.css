@@ -26,9 +26,12 @@ body {
 .options-list {
     list-style-type: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
 }
 .option-item {
-    margin-bottom: 0.5rem;
+    /*margin-bottom: 0.5rem;*/
 }
 .option-button {
     width: 100%;
@@ -54,24 +57,67 @@ body {
     color: white;
     border-color: #45a049;
 }
+.option-correct:hover{
+    background-color: #76fd78;
+}
 .option-incorrect {
     background-color: #f44336;
     color: white;
     border-color: #ae1910;
 }
 
-.next-button{
-    padding: .5em;
-    background-color: #1E3A8A;
-    color: #fff;
+.option-incorrect:hover{
+    background-color: #f6736b;
 }
 
+.contenedor-botones{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.end{
+    margin-left: auto;
+}
+.start{
+    margin-right: auto;
+}
+
+.next-button,
 .back-button{
-    padding: .5em;
-    color: #fff;
     background-color: #1E3A8A;
+    color: #fff;
+    border: none;
+    width: 30%;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    & >a{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .5em;
+        width: 100%;
+        padding: .5em;
+        text-decoration: none;
+
+        & >img{
+            width: 1.3em;
+        }
+    }
 }
+
+.next-button:hover,
+.back-button:hover{
+    background-color: #3556b5;
+    transform: scale(1.03);
+}
+
 .report-button{
     margin-top: 1.5rem;
     padding-right: 1rem;
@@ -206,5 +252,10 @@ body {
     }
     .question-card{
         min-width: 100%;
+    }
+
+    .next-button,
+    .back-button{
+        width: 40%;
     }
 }

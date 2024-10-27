@@ -46,16 +46,17 @@
                 {{/opciones}}
             </ul>
         </form>
-
-        {{#esDeCorreccion}}
-            {{#laSeleccionadaEsCorrecta}}
-                <button class="next-button"><a href="/partida/pregunta">Siguiente</a></button>
-            {{/laSeleccionadaEsCorrecta}}
-            {{^laSeleccionadaEsCorrecta}}
-                <button class="back-button"><a href="/principal/home">Volver al inicio</a></button>
-            {{/laSeleccionadaEsCorrecta}}
-        {{/esDeCorreccion}}
-        <a class="report-button"><img src="/public/images/icons/flagReportIcon.svg"></a>
+        <div class="contenedor-botones">
+            {{#esDeCorreccion}}
+                {{#laSeleccionadaEsCorrecta}}
+                    <button class="next-button end"><a href="/partida/pregunta">Siguiente <img src="/public/images/icons/arrowRightIcon.svg"></a></button>
+                {{/laSeleccionadaEsCorrecta}}
+                {{^laSeleccionadaEsCorrecta}}
+                    <button class="back-button start"><a href="/principal/home">Volver al inicio</a></button>
+                {{/laSeleccionadaEsCorrecta}}
+            {{/esDeCorreccion}}
+        </div>
+        <a class="report-button"><img src="/public/images/icons/flagReportIcon.svg" title="Reportar pregunta" alt="report"></a>
     </div>
 </div>
 </body>
