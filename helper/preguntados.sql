@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-10-2024 a las 18:12:51
+-- Tiempo de generación: 28-10-2024 a las 21:23:25
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -437,7 +437,7 @@ CREATE TABLE `usuario` (
   `contrasenia` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `añonacimiento` date NOT NULL,
-  `ciudad` varchar(255) DEFAULT NULL,
+  `ubicacion` varchar(255) NOT NULL,
   `fecharegistro` date NOT NULL,
   `fotoperfil` varchar(255) DEFAULT NULL,
   `sexo` varchar(50) DEFAULT NULL,
@@ -448,8 +448,9 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ciudad`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`) VALUES
-(6, 'Julián Gabriel', 'Schmuker', 'julian', '123', 'julianschker@gmail.com', '2002-01-30', 'Argentina', '2024-10-28', 'Captura de pantalla 2024-08-27 235244.png', 'm', 1);
+INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ubicacion`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`) VALUES
+(6, 'Julián Gabriel', 'Schmuker', 'julian', '123', 'julianschker@gmail.com', '2002-01-30', 'Argentina', '2024-10-28', 'Captura de pantalla 2024-08-27 235244.png', 'm', 1),
+(7, 'German', 'Schmuker', 'german', '123', 'german@gmail.com', '2000-01-01', '-34.66903569482507, -58.560749358166504', '2024-10-28', 'Captura de pantalla 2024-08-27 235244.png', 'm', 1);
 
 --
 -- Índices para tablas volcadas
@@ -534,7 +535,7 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
