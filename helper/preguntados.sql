@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-10-2024 a las 07:43:06
+-- Tiempo de generación: 28-10-2024 a las 18:12:51
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -53,6 +53,19 @@ INSERT INTO `categoria` (`id_categoria`, `nombre`, `estado`, `fecha_alta`) VALUE
 (10, 'Juegos', 1, '2024-10-27 04:10:21'),
 (11, 'Gastronomia', 1, '2024-10-27 04:10:21'),
 (12, 'Formula 1', 1, '2024-10-27 04:10:21');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `partida`
+--
+
+CREATE TABLE `partida` (
+  `id_partida` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `puntaje` int(11) NOT NULL,
+  `terminada` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -136,6 +149,20 @@ INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `id_categoria`, `id_dificulta
 (58, '¿Cuál es la escudería más ganadora de la F1?', 12, 2, 1, 0, 0, '2024-10-27 04:20:28'),
 (59, '¿Qué es el DRS en Fórmula 1?', 12, 3, 1, 0, 0, '2024-10-27 04:20:28'),
 (60, '¿Cuántas vueltas tiene el Gran Premio de Mónaco?', 12, 3, 1, 0, 0, '2024-10-27 04:20:28');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `preguntapartida`
+--
+
+CREATE TABLE `preguntapartida` (
+  `id_preguntaPartida` int(11) NOT NULL,
+  `id_partida` int(11) NOT NULL,
+  `id_pregunta` int(11) NOT NULL,
+  `respondida` tinyint(1) NOT NULL,
+  `acertoElUsuario` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -422,10 +449,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ciudad`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`) VALUES
-(1, 'julian', 'ker', 'julian', '123', 'julian@gmail.com', '1990-03-15', 'Buenos Aires', '2024-01-01', 'perfil.jpg', 'M', 1),
-(2, 'lucas', 'lucas', 'german', '11', 'germanschmuker@gmail.com', '2024-10-09', 'Argentina', '2024-10-21', 'entradas.jpg', 'm', 0),
-(3, 'as', 'sd', 'ju', 'e', 'julianschker@gmail.com', '2024-10-03', 'Argentina', '2024-10-21', 'entradas.jpg', 'm', 1),
-(4, 'julia', 'shc', 'julia', '1', 'zas@gmail.com', '2024-10-10', 'Argentina', '2024-10-21', 'entradas.jpg', 'm', 1);
+(6, 'Julián Gabriel', 'Schmuker', 'julian', '123', 'julianschker@gmail.com', '2002-01-30', 'Argentina', '2024-10-28', 'Captura de pantalla 2024-08-27 235244.png', 'm', 1);
 
 --
 -- Índices para tablas volcadas
@@ -438,11 +462,26 @@ ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
+-- Indices de la tabla `partida`
+--
+ALTER TABLE `partida`
+  ADD PRIMARY KEY (`id_partida`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
 -- Indices de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
   ADD PRIMARY KEY (`id_pregunta`),
   ADD KEY `id_categoria` (`id_categoria`);
+
+--
+-- Indices de la tabla `preguntapartida`
+--
+ALTER TABLE `preguntapartida`
+  ADD PRIMARY KEY (`id_preguntaPartida`),
+  ADD KEY `id_partida` (`id_partida`),
+  ADD KEY `id_pregunta` (`id_pregunta`);
 
 --
 -- Indices de la tabla `respuesta`
@@ -468,10 +507,22 @@ ALTER TABLE `categoria`
   MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT de la tabla `partida`
+--
+ALTER TABLE `partida`
+  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
 -- AUTO_INCREMENT de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
   MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- AUTO_INCREMENT de la tabla `preguntapartida`
+--
+ALTER TABLE `preguntapartida`
+  MODIFY `id_preguntaPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
@@ -483,17 +534,30 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
+-- Filtros para la tabla `partida`
+--
+ALTER TABLE `partida`
+  ADD CONSTRAINT `partida_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+
+--
 -- Filtros para la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
   ADD CONSTRAINT `pregunta_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `preguntapartida`
+--
+ALTER TABLE `preguntapartida`
+  ADD CONSTRAINT `preguntapartida_ibfk_1` FOREIGN KEY (`id_partida`) REFERENCES `partida` (`id_partida`),
+  ADD CONSTRAINT `preguntapartida_ibfk_2` FOREIGN KEY (`id_pregunta`) REFERENCES `pregunta` (`id_pregunta`);
 
 --
 -- Filtros para la tabla `respuesta`
