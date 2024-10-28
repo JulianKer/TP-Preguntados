@@ -12,12 +12,23 @@ class MysqlObjectDatabase
         return  $result->fetch_all( MYSQLI_ASSOC );
     }
 
+    public function queryAssoc($sql){
+        $result = $this->conn->query($sql);
+        return $result->fetch_assoc() ?:null;
+    }
+
     public function execute($sql){
         $this->conn->query($sql);
         return $this->conn->affected_rows;
     }
 
-    public function insertar($sql){
+    public function insertar($sql) {
+        if ($this->conn->query($sql) === TRUE) {
+            return $this->conn->insert_id;
+        }
+    }
+
+    public function actualizar($sql){
         return $this->conn->query($sql);
     }
 
@@ -31,6 +42,5 @@ class MysqlObjectDatabase
         } else {
             return false;
         }
-
-        }
+    }
 }

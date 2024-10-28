@@ -5,16 +5,16 @@ body {
     background-color: #f5f5f5;
 }
 .main-content {
-    padding: 1rem;
-    max-width: 600px;
-    margin: 0 auto;
+    margin: 2em auto;
 }
 .lobby-card {
     background-color: white;
     border-radius: 8px;
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 1rem;
+    margin: 1rem auto;
+    min-width: 700px;
+    max-width: 700px;
 }
 .welcome-title {
     color: #1e3a8a;
@@ -61,3 +61,55 @@ body {
 .game-item:last-child {
     border-bottom: none;
 }
+
+/*---------------POPUP-------------------*/
+.popupCompleto{
+    position: fixed;
+    z-index: 50;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: rgb(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.caja-popup{
+    background-color: white;
+    width: 400px;
+    max-width: 100dvw;
+
+    border-radius: 1em;
+    padding: 2em 1em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+
+    & img{
+        width: 5em;
+    }
+
+    h3, h6{
+        margin: 0;
+    }
+
+    >a{
+        padding: .5em 1em;
+        border-radius: .5em;
+        border: none;
+        text-decoration: none;
+        color: #fff;
+        background-color: #1E3A8A;
+        transition: all .2s;
+    }
+
+    >a:hover{
+        background-color: #3556b5;
+        transform: scale(1.03);
+        cursor: pointer;
+    }
+}
+/*--------------------------------------------*/

@@ -38,7 +38,8 @@ class AccesoController
 
         if ($validation) {
             $_SESSION['user'] = $user;
-            $_SESSION['idUser'] = $this->model->obtenerIdUserPorUserName($user)[0]["id"];
+;
+            $_SESSION['idUser'] = $this->model->obtenerIdUserPorUserName($user)["id"];
             header('location: /principal/inicio');
             exit();
         }

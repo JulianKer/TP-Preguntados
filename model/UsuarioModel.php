@@ -57,7 +57,7 @@ class UsuarioModel
 
     public function obtenerIdUserPorUserName($username){
         $sql = "SELECT id FROM usuario WHERE nombreusuario = '" . $username . "'";
-        return $this->database->query($sql);
+        return $this->database->queryAssoc($sql);
     }
 
     public function obtenerUsuarioPorId($id){
