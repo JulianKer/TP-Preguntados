@@ -3,11 +3,13 @@
 class HomeController
 {
     private $model;
+    private $modelPartida;
     private $presenter;
 
-    public function __construct($model, $presenter)
+    public function __construct($model, $modelPartida, $presenter)
     {
         $this->model = $model;
+        $this->modelPartida = $modelPartida;
         $this->presenter = $presenter;
     }
 
@@ -16,7 +18,9 @@ class HomeController
             header("location: /acceso/ingresar");
         }
         $data['user'] = $_SESSION['user'];
-        $data['idUsuario'] = isset($_SESSION['idUsuario']);
+        $data['idUsuario'] = $_SESSION['idUser'];
+        $data["partidaPendiente"] = (bool)$this->modelPartida->buscarSiHayUnaPartidaEnCursoParaEsteUser($_SESSION['idUser']);
+
         $this->presenter->show('home', $data);
     }
 
