@@ -26,7 +26,7 @@
         <h1 class="categoria">· {{pregunta.nombre}} ·</h1>
         <h2 class="question-title">{{pregunta.pregunta}}</h2>
 
-        <form action="/partida/pregunta" method="POST" class="options-form" id="form">
+        <form action="/partida/jugar" method="POST" class="options-form" id="form">
             <input type="hidden" name="id_pregunta" value="{{pregunta.id_pregunta}}">
 
             <ul class="options-list">
@@ -49,7 +49,7 @@
         <div class="contenedor-botones">
             {{#esDeCorreccion}}
                 {{#laSeleccionadaEsCorrecta}}
-                    <button class="next-button end"><a href="/partida/pregunta">Siguiente <img src="/public/images/icons/arrowRightIcon.svg"></a></button>
+                    <button class="next-button end"><a href="/partida/jugar">Siguiente <img src="/public/images/icons/arrowRightIcon.svg"></a></button>
                 {{/laSeleccionadaEsCorrecta}}
                 {{^laSeleccionadaEsCorrecta}}
                     <button class="back-button start"><a href="/principal/home">Volver al inicio</a></button>
