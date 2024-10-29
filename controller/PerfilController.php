@@ -10,16 +10,31 @@ class PerfilController{
     }
 
     public function usuario(){
-        $idDelUserDeLaSesion = isset($_SESSION['idUser']) ? $_SESSION['idUser'] : "";
-        $userEncontrado = $this->model->obtenerUsuarioPorId($idDelUserDeLaSesion)[0];
+        $idDelUser = null;
+        $data = null;
 
-        list($latitud, $longitud) = explode(", ", $userEncontrado["ubicacion"]);
-        $userEncontrado["lng"] = $longitud;
-        $userEncontrado["lat"] = $latitud;
+        if (!isset($_SESSION['user'])) {
+            header("location: /acceso/ingresar");
+            exit();
+        }
 
+        if (isset($_GET["var1"])){
+            $idDelUser = $_GET["var1"]; //este lo hago por si envió un user para ver /x (mustro el perfil de ese user)
+        }else{
+            $idDelUser = $_SESSION['idUser'];// sino lo envió, mustro el user de la sesion (osea su propio perfil)
+            $data["estoyEnMiPerfil"] = true;
+        }
+
+        $userEncontrado = $this->model->obtenerUsuarioPorId($idDelUser)[0];
+
+        if ($userEncontrado == null){
+            header("location: /principal/inicio");
+            exit();
+        }
+
+        $data["coordenadas"] = $this->model->obtenerCoordenadas($userEncontrado["ubicacion"]);
         $data['usuario'] = $userEncontrado;
         $data['user'] = $_SESSION['user'];
-        $data["estoyEnPerfilDelUsuario"] = true; // ver el tema de comparar ids del user segun sea si estoy en perfil del user de la sesion o si estoy en el perfil de algun user que toque del ranking
 
         $this->presenter->show("perfil", $data);
     }
