@@ -68,8 +68,15 @@ class UsuarioModel
         $sql = "UPDATE usuario SET verificado = 1 WHERE id = " . intval($usuario_id);
         $resultado = $this->database->execute($sql);
         return $resultado === 1;
-        }
-        public function getLastInsert(){
-            return $this ->database -> getLastInsert();
-        }
+    }
+    public function getLastInsert(){
+        return $this ->database -> getLastInsert();
+    }
+
+    public function obtenerCoordenadas($ubicacion){
+        list($latitud, $longitud) = explode(", ", $ubicacion);
+        $coordenadas["lng"] = $longitud;
+        $coordenadas["lat"] = $latitud;
+        return $coordenadas;
+    }
 }

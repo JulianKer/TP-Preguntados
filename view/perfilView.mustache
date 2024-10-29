@@ -38,14 +38,14 @@
                 </div>
             </div>
             <div id="mapaPerfil">
-                <input type="hidden" id="lat" value="{{usuario.lat}}">
-                <input type="hidden" id="lng" value="{{usuario.lng}}">
+                <input type="hidden" id="lat" value="{{coordenadas.lat}}">
+                <input type="hidden" id="lng" value="{{coordenadas.lng}}">
                 <iframe src="https://www.google.com/maps?q={{usuario.ubicacion}}&h1=es;z=14&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 <label><img src="/public/images/icons/locationIcon.svg" alt="locationIcon" title="Ubicación seleccionada" style="margin-bottom: .3em"> <span id="selectedLocation">Ninguna</span></label>
             </div>
-            {{^estoyEnPerfilDelUsuario}}
-                <a href="ranking.html" class="button">Volver al ranking</a>
-            {{/estoyEnPerfilDelUsuario}}
+            {{^estoyEnMiPerfil}}
+                <a href="/ranking" class="button">Volver al ranking</a>
+            {{/estoyEnMiPerfil}}
         </div>
         <div class="games-card">
             <h2 class="recent-games-title">Partidas Recientes</h2>

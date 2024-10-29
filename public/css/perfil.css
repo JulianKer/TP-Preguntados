@@ -83,7 +83,14 @@ body {
     display: block;
     width: 100%;
     box-sizing: border-box;
+    margin-top: 1em;
+    transition: all .2s;
 }
+
+.button:hover{
+    background-color: #3556b5;
+}
+
 .recent-games-title {
     color: #1e3a8a;
     font-size: 1.2rem;

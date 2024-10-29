@@ -16,6 +16,7 @@ class HomeController
     public function inicio(){
         if (!isset($_SESSION['user'])) {
             header("location: /acceso/ingresar");
+            exit();
         }
         $data['user'] = $_SESSION['user'];
         $data['idUsuario'] = $_SESSION['idUser'];
