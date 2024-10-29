@@ -1,8 +1,16 @@
 let mapa;
 let marcadorDeUbicacion;
+const mapaPerfil = document.getElementById("mapaPerfil");
+const latitud = document.getElementById("lat").value;
+const longitud = document.getElementById("lng").value;
 
 function initMap() {
-    const localizacionInicial = { lat: -34.6705534, lng: -58.5653413 };
+    let localizacionInicial = { lat: -34.6705534, lng: -58.5653413 }; //unlam
+
+    if (mapaPerfil){
+        localizacionInicial = {lat: latitud, lng: longitud};//ubi del user
+    }
+    console.log(localizacionInicial)
 
     mapa = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
@@ -12,7 +20,7 @@ function initMap() {
     marcadorDeUbicacion = new google.maps.Marker({
         position: localizacionInicial,
         map: mapa,
-        draggable: true, // con este dejo q se pueda arrastrar el marcador
+        draggable: mapaPerfil === null,
     });
 
     google.maps.event.addListener(marcadorDeUbicacion, 'dragend', function(event) {
@@ -21,7 +29,6 @@ function initMap() {
         let lng = event.latLng.lng();
         console.log(lat)
         console.log(lng)
-
 
         // checkear pq uso esta api para obtener la ubicacion pero puede q tenga limite de uso jajaj
         fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
@@ -41,16 +48,5 @@ function initMap() {
                 document.getElementById("locationInput").value = `${lat}, ${lng}`; // este es el q vamos a guardar en la bdd
             })
             .catch(error => console.error('Error:', error));
-
-
-
-
-
-
-
-
-
-        //document.getElementById("selectedLocation").innerText = location;
-        //document.getElementById("locationInput").value = location;
     });
 }
