@@ -19,7 +19,9 @@ class   PartidaController
 
         $data['user'] = $_SESSION['user'];
         $idUser = $this->userModel->obtenerIdUserPorUserName($_SESSION['user'])["id"];
+        $userEncontrado = $this->userModel->obtenerUsuarioPorId($idUser)[0];
         $data['idUsuario'] = $idUser;
+        $data['musicaActivada'] = $userEncontrado["musica"];
 
         $partida = $this->model->buscarSiHayUnaPartidaEnCursoParaEsteUser($idUser);
         if ($partida === null) {

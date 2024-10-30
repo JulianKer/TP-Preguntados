@@ -25,7 +25,7 @@ class Configuration
     }
 
     public function getHomeController(){
-        return new HomeController($this->getHomeModel(), $this->getPartidaModel(), $this->getPresenter());
+        return new HomeController($this->getHomeModel(), $this->getPartidaModel(), $this->getUsuarioModel(), $this->getPresenter());
     }
 
     public function getUsuarioController(){
