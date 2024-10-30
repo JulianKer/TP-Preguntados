@@ -104,7 +104,8 @@ class AccesoController
 
         // aca ahora faltaria guardar la img del perfil ya que YA se registro correctamente si llego hasta aca
 
-        $data ["usuario_id"] = $this -> model -> getLastInsert("usuario");
+//        $data ["usuario_id"] = $this->model->getLastInsert("usuario");
+        $data ["usuario_id"] = $this->model->obtenerIdUserPorUserName($username)["id"];
         $data ["registroExitoso"] = "Usuario registrado con éxito. Para terminar verifique su email.";
 
         $this -> presenter -> show ("verificarEmail", $data);

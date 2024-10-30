@@ -1,6 +1,5 @@
 <?php
-include_once("helper/MysqlDatabase.php");
-include_once("helper/MysqlObjectDatabase.php");
+include_once("helper/Database.php"); // esta es la nueva clase para usar stmt
 include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
@@ -62,7 +61,7 @@ class Configuration
     private function getDatabase()
     {
         $config = parse_ini_file('configuration/config.ini');
-        return new MysqlObjectDatabase(
+        return new Database(
             $config['host'],
             $config['port'],
             $config['user'],
