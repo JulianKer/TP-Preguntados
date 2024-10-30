@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/public/css/header.css">
-
+    <script src="/public/js/musica.js" defer></script>
 </head>
 <body>
 
@@ -23,10 +23,15 @@
                 <a href="/acceso/cerrarSesion" class="cerrarSesion">CERRAR SESION</a>
             </div>
             <a href="/perfil/usuario">
-                <img class="user-icon" src="/public/images/icons/userIcon.png">
+                <img class="user-icon" src="/public/images/icons/userIcon.png" title="Perfil" alt="perfil">
             </a>
         </div>
     </nav>
+    <input type="hidden" value="{{musicaActivada}}" id="valueMusica"> <!--este lo ponog aca asi esta en todas las pags al igual q el audio-->
+    <audio id="fondo-musica" loop {{#musicaActivada}}autoplay{{/musicaActivada}} style="display: none;">
+        <source src="/public/audio/musicFondoCortada.mp3" type="audio/mpeg">
+        Tu navegador no soporta la etiqueta de audio.
+    </audio>
 </header>
 
 

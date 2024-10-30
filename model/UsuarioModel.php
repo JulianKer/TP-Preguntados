@@ -79,4 +79,9 @@ class UsuarioModel
         $coordenadas["lat"] = $latitud;
         return $coordenadas;
     }
+
+    public function setearMusicaActivadaDelUsuario($activacionDeMusica, $idUsuario){
+        $sql = "UPDATE usuario SET musica = $activacionDeMusica WHERE id = $idUsuario";
+        $this->database->execute($sql);
+    }
 }

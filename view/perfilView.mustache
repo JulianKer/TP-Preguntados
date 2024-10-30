@@ -7,8 +7,8 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZyPvOL6RNuAFLAp4fRzDauddjtpNtU0Q&callback=initMap"></script>
     <script src="/public/js/googleMaps.js" defer></script>
     <script src="/public/js/ubicacionDelPerfil.js" defer></script>
-    <title>Perfil de Usuario - QuizMaster</title>
 
+    <title>Perfil de Usuario - QuizMaster</title>
 </head>
 <body>
 
@@ -43,10 +43,26 @@
                 <iframe src="https://www.google.com/maps?q={{usuario.ubicacion}}&h1=es;z=14&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 <label><img src="/public/images/icons/locationIcon.svg" alt="locationIcon" title="Ubicación seleccionada" style="margin-bottom: .3em"> <span id="selectedLocation">Ninguna</span></label>
             </div>
+
             {{^estoyEnMiPerfil}}
                 <a href="/ranking" class="button">Volver al ranking</a>
             {{/estoyEnMiPerfil}}
         </div>
+
+        <div class="preferencias">
+            <h2 class="recent-games-title">Ajustes</h2>
+            <form id="musicaForm" method="POST">
+                <p>Música:</p>
+                <div class="radio-container">
+                    <input type="radio" name="musica" value="SI" id="musicaSi" {{#musicaActivada}}checked{{/musicaActivada}}>
+                    <label for="musicaSi">Activada</label>
+
+                    <input type="radio" name="musica" value="NO" id="musicaNo" {{^musicaActivada}}checked{{/musicaActivada}}>
+                    <label for="musicaNo">Desactivada</label>
+                </div>
+            </form>
+        </div>
+
         <div class="games-card">
             <h2 class="recent-games-title">Partidas Recientes</h2>
             <ul class="game-list">

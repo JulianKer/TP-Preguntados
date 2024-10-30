@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-10-2024 a las 21:23:25
+-- Tiempo de generación: 30-10-2024 a las 17:11:27
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -441,16 +441,17 @@ CREATE TABLE `usuario` (
   `fecharegistro` date NOT NULL,
   `fotoperfil` varchar(255) DEFAULT NULL,
   `sexo` varchar(50) DEFAULT NULL,
-  `verificado` tinyint(1) NOT NULL DEFAULT 0
+  `verificado` tinyint(1) NOT NULL DEFAULT 0,
+  `musica` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ubicacion`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`) VALUES
-(6, 'Julián Gabriel', 'Schmuker', 'julian', '123', 'julianschker@gmail.com', '2002-01-30', 'Argentina', '2024-10-28', 'Captura de pantalla 2024-08-27 235244.png', 'm', 1),
-(7, 'German', 'Schmuker', 'german', '123', 'german@gmail.com', '2000-01-01', '-34.66903569482507, -58.560749358166504', '2024-10-28', 'Captura de pantalla 2024-08-27 235244.png', 'm', 1);
+INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ubicacion`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`, `musica`) VALUES
+(7, 'German', 'Schmuker', 'german', '123', 'german@gmail.com', '2000-01-01', '-34.66903569482507, -58.560749358166504', '2024-10-28', 'Captura de pantalla 2024-08-27 235244.png', 'm', 1, 0),
+(9, 'Julián Gabriel', 'Schmuker', 'juli', '123', 'test@unlam.edu.ar', '0000-00-00', '-34.689328289275, -58.63649494074707', '2024-10-29', 'MicrosoftTeams-image-47-removebg-preview.png', 'm', 1, 0);
 
 --
 -- Índices para tablas volcadas
@@ -511,7 +512,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
@@ -523,7 +524,7 @@ ALTER TABLE `pregunta`
 -- AUTO_INCREMENT de la tabla `preguntapartida`
 --
 ALTER TABLE `preguntapartida`
-  MODIFY `id_preguntaPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_preguntaPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
@@ -535,7 +536,7 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas
