@@ -251,6 +251,18 @@ class Database{
 
 
 
+
+    public function actualizarPregunta($pregunta){
+        $apariciones = $pregunta['apariciones'];
+        $aciertos = $pregunta['aciertos'];
+        $idPregunta = $pregunta['id_pregunta'];
+
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `apariciones`= ?,`aciertos`= ?  WHERE `id_partida`= ?");
+        $stmt->bind_param("iii", $apariciones, $aciertos, $idPregunta);
+        $stmt->execute();
+    }
+
+
     public function getError(){
         return $this->error;
     }

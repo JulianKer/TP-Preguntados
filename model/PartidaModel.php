@@ -9,14 +9,6 @@ class PartidaModel
         $this->database = $database;
     }
 
-    public function obtenerPregunta($numPreguntaRandom){
-        return $this->database->obtenerPregunta($numPreguntaRandom);
-    }
-
-    public function obtenerRespuestas($idPregunta){
-        return $this->database->obtenerRespuestas($idPregunta);
-    }
-
     public function obtenerCategoria($categoria){
         // hago este para q me coincidan las clases con el css pq algunas categorias
         // estan separadas por 2 palabras, tonces asi la hago minuscula y las q son 2, las dejo en 1
@@ -30,15 +22,6 @@ class PartidaModel
             $categoriaADevolver = "f1";
         }
         return $categoriaADevolver;
-    }
-
-    public function obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta){
-        return $this->database->obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta);
-    }
-
-    public function desordenarRespuestas($arrayADesordenar){
-        shuffle($arrayADesordenar);
-        return $arrayADesordenar;
     }
 
     public  function crearPartidaEnCursoParaEsteUser($idUser){
@@ -61,7 +44,6 @@ class PartidaModel
         return $this->database->crearNuevaPreguntaPartida($idPartida, $idPregunta);
     }
 
-
     /*public function buscarUltimaPartidaPreguntaDeEstaPartida($idPartida){ este metodo CREO que nunca lo uso, nose pq esta pq en el partida controler ni en ningun lado lo uso, lo habre creado y no lo borre pero por las dudas lo dejo y desp lo chekeo bien
         $ultimoIdInsertado = $this->database->getLastInsert();
         $sql = "SELECT * FROM preguntapartida where id_preguntaPartida = $ultimoIdInsertado AND id_partida = $ultimoIdInsertado";
@@ -71,7 +53,6 @@ class PartidaModel
     public function actualizaPreguntaPartida($preguntaPartida){
         return $this->database->actualizaPreguntaPartida($preguntaPartida);
     }
-
 
     public function buscarLaUltimaPartidaInsertada($idPartidaABuscar){
         return $this->database->buscarLaUltimaPartidaInsertada($idPartidaABuscar);
