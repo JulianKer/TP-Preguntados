@@ -1,3 +1,13 @@
+body {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en una columna */
+    height: 100dvh;
+}
+.main-content {
+    flex: 1; /* Hace que el main-content ocupe el espacio restante */
+    background-color: #f1f1f1; /* Color de fondo del main-content */
+}
+
 .navbar {
     background-color: #1e3a8a;
     color: white;

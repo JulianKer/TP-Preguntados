@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/perfil.css">
-    <title>QuizMaster - Perfil de Usuario</title>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZyPvOL6RNuAFLAp4fRzDauddjtpNtU0Q&callback=initMap"></script>
+    <script src="/public/js/googleMaps.js" defer></script>
+    <script src="/public/js/ubicacionDelPerfil.js" defer></script>
 
+    <title>Perfil de Usuario - QuizMaster</title>
 </head>
 <body>
 
@@ -24,16 +27,6 @@
                 </div>
             </div>
 
-            <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13236.61475155417!2d-58.58840681126785!3d-34.71723907827711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb18fdb2457b7%3A0xd42368c8aa053b60!2sUniversidad%20Nacional%20de%20La%20Matanza!5e0!3m2!1ses!2sar!4v1631976020445!5m2!1ses!2sar"
-                    style="border:0;"
-                    allowfullscreen=""
-                    loading="lazy">
-            </iframe>
-
-
-
-
             <div class="profile-stats">
                 <div class="stat-item">
                     <p class="stat-label">Ranking</p>
@@ -44,8 +37,32 @@
                     <p class="stat-value">1000</p>
                 </div>
             </div>
-            <a href="ranking.html" class="button">Volver al ranking</a>
+            <div id="mapaPerfil">
+                <input type="hidden" id="lat" value="{{coordenadas.lat}}">
+                <input type="hidden" id="lng" value="{{coordenadas.lng}}">
+                <iframe src="https://www.google.com/maps?q={{usuario.ubicacion}}&h1=es;z=14&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <label><img src="/public/images/icons/locationIcon.svg" alt="locationIcon" title="Ubicación seleccionada" style="margin-bottom: .3em"> <span id="selectedLocation">Ninguna</span></label>
+            </div>
+
+            {{^estoyEnMiPerfil}}
+                <a href="/ranking" class="button">Volver al ranking</a>
+            {{/estoyEnMiPerfil}}
         </div>
+
+        <div class="preferencias">
+            <h2 class="recent-games-title">Ajustes</h2>
+            <form id="musicaForm" method="POST">
+                <p>Música:</p>
+                <div class="radio-container">
+                    <input type="radio" name="musica" value="SI" id="musicaSi" {{#musicaActivada}}checked{{/musicaActivada}}>
+                    <label for="musicaSi">Activada</label>
+
+                    <input type="radio" name="musica" value="NO" id="musicaNo" {{^musicaActivada}}checked{{/musicaActivada}}>
+                    <label for="musicaNo">Desactivada</label>
+                </div>
+            </form>
+        </div>
+
         <div class="games-card">
             <h2 class="recent-games-title">Partidas Recientes</h2>
             <ul class="game-list">

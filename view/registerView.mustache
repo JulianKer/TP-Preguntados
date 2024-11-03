@@ -7,7 +7,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/public/css/register.css">
-    <title>QuizMaster - Registro</title>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZyPvOL6RNuAFLAp4fRzDauddjtpNtU0Q&callback=initMap"></script>
+    <script src="/public/js/googleMaps.js" defer></script>
+    <title>Registro - QuizMaster</title>
 
 </head>
 <body>
@@ -16,68 +18,74 @@
     </nav>
     <div class="main-content">
         <div class="register-card">
+            {{#msj}} <p style="margin-top: 1em" class="alert alert-danger"> {{msj}}</p> {{/msj}}
+
             <form action="/acceso/nuevoUsuario" method="POST">
-                <div class="form-group">
-                    <label for="nombre">Nombre completo</label>
-                    <input type="text" id="nombre" name="nombre" >
-                </div>
-                <div class="form-group">
-                    <label for="apellido">Nombre completo</label>
-                    <input type="text" id="apellido" name="apellido" >
-                </div>
-                <div class="form-group">
-                    <label for="nacimiento">Año de nacimiento</label>
-                    <input type="date" id="nacimiento" name="nacimiento" required>
-                </div>
-                <div class="form-group">
-                    <label for="sexo">Sexo</label>
-                    <select id="sexo" name="sexo" required>
-                        <option value="m">Masculino</option>
-                        <option value="f">Femenino</option>
-                        <option value="x">Prefiero no cargarlo</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="ciudad">Ubicación (seleccionada desde el mapa)</label>
-                    <div class="map-container">
-                        <!-- Aquí iría la integración del mapa para seleccionar la ciudad -->
-                         <div class="mapa">
-                             <iframe
-                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13236.61475155417!2d-58.58840681126785!3d-34.71723907827711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb18fdb2457b7%3A0xd42368c8aa053b60!2sUniversidad%20Nacional%20de%20La%20Matanza!5e0!3m2!1ses!2sar!4v1631976020445!5m2!1ses!2sar"
-                                     style="border:0;"
-                                     allowfullscreen=""
-                                     loading="lazy">
-                             </iframe>
-                         </div>
-                        <input type="text" value="Argentina" name="ubicacion">
+                <div class="parte1">
+                    <div class="form-group">
+                        <label for="nombre">Nombre completo</label>
+                        <input type="text" id="nombre" name="nombre" >
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" id="apellido" name="apellido" >
+                    </div>
+                    <div class="form-group">
+                        <label for="nacimiento">Año de nacimiento</label>
+                        <input type="date" id="nacimiento" name="nacimiento" >
+                    </div>
+                    <div class="form-group">
+                        <label for="sexo">Sexo</label>
+                        <select id="sexo" name="sexo" >
+                            <option value="m">Masculino</option>
+                            <option value="f">Femenino</option>
+                            <option value="x">Prefiero no cargarlo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" >
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Nombre de usuario</label>
+                        <input type="text" id="username" name="username">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Correo electrónico</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password">
-                </div>
-                <div class="form-group">
-                    <label for="confirm_password">Repetir contraseña</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required>
-                </div>
-                <div class="form-group">
-                    <label for="username">Nombre de usuario</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="profile_pic">Foto de perfil</label>
-                    <input type="file" id="profile_pic" name="profile_pic" accept="image/*" required>
+
+                <div class="parte2">
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Repetir contraseña</label>
+                        <input type="password" id="confirm_password" name="confirm_password">
+                    </div>
+                    <div class="form-group">
+                        <label for="ciudad">Ubicación (arrastra el icono para elegirla )</label>
+                        <div class="map-container">
+                            <div class="mapa" id="map">
+                                <!--<iframe
+                                src="https://www.google.com/maps?q={{latitud}},{{longitud}}&h1=es;z=14&output=embed"
+                        width="600"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy">
+                        </iframe>-->
+                            </div>
+                            <label><img src="/public/images/icons/locationIcon.svg" alt="locationIcon" title="Ubicación seleccionada" style="margin-bottom: .3em"> <span id="selectedLocation">Ninguna</span></label>
+                            <input type="hidden" name="ubicacion" id="locationInput">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile_pic">Foto de perfil</label>
+                        <input type="file" id="profile_pic" name="profile_pic" accept="image/*" >
+                    </div>
                 </div>
                 <button type="submit" class="button">Registrarse</button>
             </form>
-
-            {{#msj}} <p style="margin-top: 1em" class="alert alert-danger"> {{msj}}</p> {{/msj}}
-
-            <div class="register-link"></div>
+            <div class="register-link">
                 <p>¿Ya tienes una cuenta? <a href="/acceso/ingresar">Inicia sesión aquí</a></p>
             </div>
         </div>

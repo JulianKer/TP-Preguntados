@@ -38,7 +38,8 @@ class AccesoController
 
         if ($validation) {
             $_SESSION['user'] = $user;
-            $_SESSION['idUser'] = $this->model->obtenerIdUserPorUserName($user)[0]["id"];
+;
+            $_SESSION['idUser'] = $this->model->obtenerIdUserPorUserName($user)["id"];
             header('location: /principal/inicio');
             exit();
         }
@@ -103,7 +104,8 @@ class AccesoController
 
         // aca ahora faltaria guardar la img del perfil ya que YA se registro correctamente si llego hasta aca
 
-        $data ["usuario_id"] = $this -> model -> getLastInsert("usuario");
+//        $data ["usuario_id"] = $this->model->getLastInsert("usuario");
+        $data ["usuario_id"] = $this->model->obtenerIdUserPorUserName($username)["id"];
         $data ["registroExitoso"] = "Usuario registrado con éxito. Para terminar verifique su email.";
 
         $this -> presenter -> show ("verificarEmail", $data);

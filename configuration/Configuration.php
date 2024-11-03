@@ -1,6 +1,5 @@
 <?php
-include_once("helper/MysqlDatabase.php");
-include_once("helper/MysqlObjectDatabase.php");
+include_once("helper/Database.php"); // esta es la nueva clase para usar stmt
 include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
@@ -16,6 +15,8 @@ include_once("controller/PerfilController.php");
 include_once ("controller/PartidaController.php");
 include_once ("model/PartidaModel.php");
 
+include_once ("model/PreguntaModel.php");
+
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
@@ -25,7 +26,7 @@ class Configuration
     }
 
     public function getHomeController(){
-        return new HomeController($this->getHomeModel(), $this->getPresenter());
+        return new HomeController($this->getHomeModel(), $this->getPartidaModel(), $this->getUsuarioModel(), $this->getPresenter());
     }
 
     public function getUsuarioController(){
@@ -41,7 +42,7 @@ class Configuration
     }
 
     public function getPartidaController(){
-        return new PartidaController($this -> getPartidaModel(), $this -> getPresenter());
+        return new PartidaController($this -> getPartidaModel(),$this->getUsuarioModel(), $this->getPreguntaModel(), $this -> getPresenter());
     }
 
 
@@ -62,7 +63,7 @@ class Configuration
     private function getDatabase()
     {
         $config = parse_ini_file('configuration/config.ini');
-        return new MysqlObjectDatabase(
+        return new Database(
             $config['host'],
             $config['port'],
             $config['user'],
@@ -85,6 +86,11 @@ class Configuration
 
     private function getPartidaModel()
     {
-        return new UsuarioModel($this->getDatabase());
+        return new PartidaModel($this->getDatabase());
+    }
+
+    private function getPreguntaModel()
+    {
+        return new PreguntaModel($this->getDatabase());
     }
 }
