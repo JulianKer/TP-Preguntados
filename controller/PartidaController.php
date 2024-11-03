@@ -5,11 +5,13 @@ class   PartidaController
     private $presenter;
     private $model;
     private $userModel;
-    public function __construct($model, $userModel, $presenter)
+    private $preguntaModel;
+    public function __construct($model, $userModel, $preguntaModel, $presenter)
     {
         $this->presenter = $presenter;
         $this->model = $model;
         $this->userModel = $userModel;
+        $this->preguntaModel = $preguntaModel;
     }
     public function jugar() {
         if (!isset($_SESSION['user'])) {
@@ -33,16 +35,33 @@ class   PartidaController
             $preguntaPartida = $this->model->buscarUltimaPreguntaNoResponididaDeLaPartida($partida["id_partida"]);
 
             if ($preguntaPartida === null) {
-                $numPregunta = random_int(1, 60); // Reemplazar por método que elija la próxima pregunta válida
-                $pregunta = $this->model->obtenerPregunta($numPregunta);
-                $this->model->crearNuevaPreguntaPartida($partida["id_partida"], $pregunta["id_pregunta"]);
-                $preguntaPartida = $this->model->buscarUltimaPreguntaNoResponididaDeLaPartida($partida["id_partida"]);
+                $idsPreguntasRespondidas = $this->model->buscarPreguntasResponidasPorElUsuario($idUser);
+                $idsPreguntasTotales = $this->preguntaModel->obtenerIdsDeTodasLasPreguntasQueExisten();
+                $idsPreguntasNoRespondidas = array_values(array_diff($idsPreguntasTotales, $idsPreguntasRespondidas)); // con el array values lo reindexo x si me quedaron huecos entre meidio del array
+                $numPregunta = $this->model->seleccionarPreguntaAleatoriaQueElUserNoHayaRespondido($idsPreguntasNoRespondidas);
+
+                if ($numPregunta === 0){
+                    $this->model->resetearPreguntaPartidaDeLasPreguntasRespondidasPorEsteUsuario($idUser); //elimino todas las preguntas que respondio tal usuario y vuelvo a pedir un numPregunta random
+                    $idsPreguntasRespondidas = $this->model->buscarPreguntasResponidasPorElUsuario($idUser);
+                    $idsPreguntasNoRespondidas = array_values(array_diff($idsPreguntasTotales, $idsPreguntasRespondidas)); // con el array values lo reindexo x si me quedaron huecos entre meidio del array
+                    $numPregunta = $this->model->seleccionarPreguntaAleatoriaQueElUserNoHayaRespondido($idsPreguntasNoRespondidas);
+                }
+
+
+
+                 //hay q agregar lo de la dificultad y lo de si la preg esta habilitada (un campo mas en la pregunta)
+
+
+
+
+                $pregunta = $this->preguntaModel->obtenerPregunta($numPregunta);
+                $this->model->crearNuevaPreguntaPartida($partida["id_partida"], $pregunta["id_pregunta"], $idUser);
             } else {
-                $pregunta = $this->model->obtenerPregunta($preguntaPartida["id_pregunta"]);
+                $pregunta = $this->preguntaModel->obtenerPregunta($preguntaPartida["id_pregunta"]);
             }
 
             $categoria = $this->model->obtenerCategoria($pregunta["nombre"]);
-            $respuestas = $this->model->desordenarRespuestas($this->model->obtenerRespuestas($pregunta["id_pregunta"]));
+            $respuestas = $this->preguntaModel->desordenarRespuestas($this->preguntaModel->obtenerRespuestas($pregunta["id_pregunta"]));
             $_SESSION['respuestas_desordenadas'] = $respuestas;
 
             $data["pregunta"] = $pregunta;
@@ -52,9 +71,9 @@ class   PartidaController
         } else {
             $id_pregunta = $_POST["id_pregunta"];
             $id_respuestaSeleccionada = $_POST["respuesta"];
-            $id_respuestaCorrecta = $this->model->obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta)["id_respuesta"];
+            $id_respuestaCorrecta = $this->preguntaModel->obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta)["id_respuesta"];
 
-            $pregunta = $this->model->obtenerPregunta($id_pregunta);
+            $pregunta = $this->preguntaModel->obtenerPregunta($id_pregunta);
             $data["pregunta"] = $pregunta;
 
             $respuestas = $_SESSION['respuestas_desordenadas'];
@@ -79,9 +98,10 @@ class   PartidaController
                 $preguntaPartida["acertoElUsuario"] = false;
                 $partida["terminada"] = true;
             }
-            // aca faltaria actualizar la pregunta para que se le actualice el aciertos y apariciones
-            // pero no lo hice pq como probaba, iba a tener q modificar todas las preguntas jaj, pero bueno
-            // faltaria eso de actualizar la pregunta
+            // aca deje comentado el actualizarPregunta, lo hice pq como probaba, iba a tener q modificar todas las preguntas jaj,
+            // pero bueno, lo descomentamos y ya anda
+
+            //$this->preguntaModel->actualizarPregunta($pregunta);
             $this->model->actualizaPartida($partida);
             $this->model->actualizaPreguntaPartida($preguntaPartida);
         }

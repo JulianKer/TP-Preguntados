@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-10-2024 a las 17:11:27
+-- Tiempo de generación: 02-11-2024 a las 23:49:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -160,6 +160,7 @@ CREATE TABLE `preguntapartida` (
   `id_preguntaPartida` int(11) NOT NULL,
   `id_partida` int(11) NOT NULL,
   `id_pregunta` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `respondida` tinyint(1) NOT NULL,
   `acertoElUsuario` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -451,7 +452,11 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ubicacion`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`, `musica`) VALUES
 (7, 'German', 'Schmuker', 'german', '123', 'german@gmail.com', '2000-01-01', '-34.66903569482507, -58.560749358166504', '2024-10-28', 'Captura de pantalla 2024-08-27 235244.png', 'm', 1, 0),
-(9, 'Julián Gabriel', 'Schmuker', 'juli', '123', 'test@unlam.edu.ar', '0000-00-00', '-34.689328289275, -58.63649494074707', '2024-10-29', 'MicrosoftTeams-image-47-removebg-preview.png', 'm', 1, 0);
+(9, 'Julián Gabriel', 'Schmuker', 'juli', '123', 'test@unlam.edu.ar', '0000-00-00', '-34.689328289275, -58.63649494074707', '2024-10-29', 'MicrosoftTeams-image-47-removebg-preview.png', 'm', 1, 0),
+(10, 'Lucas', 'Rios', 'lucon', '123', 'lucas@gmail.com', '2000-01-01', '-34.657316662962344, -58.58199245356445', '2024-10-30', 'location_on_24dp_FF0000_FILL1_wght300_GRAD-25_opsz24.svg', 'm', 0, 1),
+(11, 'Telma', 'Alan', 'tel', '123', 'telma@gmail.com', '2001-01-01', '-34.67503576224236, -58.57559806727295', '2024-10-30', 'warning_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg', 'm', 0, 1),
+(12, 'Pepe', 'argento', 'pepe', '123', 'pepe@gmail.com', '2001-01-01', '-34.67012985716695, -58.55791694544678', '2024-10-30', 'flag_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg', 'm', 0, 1),
+(13, 'jose', 'JOOOSE', 'jose', '123', 'jose@gmail.com', '2001-01-01', '-34.665329553714095, -58.578215903271484', '2024-10-30', 'flag_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg', 'm', 1, 0);
 
 --
 -- Índices para tablas volcadas
@@ -512,7 +517,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
@@ -524,7 +529,7 @@ ALTER TABLE `pregunta`
 -- AUTO_INCREMENT de la tabla `preguntapartida`
 --
 ALTER TABLE `preguntapartida`
-  MODIFY `id_preguntaPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id_preguntaPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
@@ -536,7 +541,7 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas

@@ -15,6 +15,8 @@ include_once("controller/PerfilController.php");
 include_once ("controller/PartidaController.php");
 include_once ("model/PartidaModel.php");
 
+include_once ("model/PreguntaModel.php");
+
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
@@ -40,7 +42,7 @@ class Configuration
     }
 
     public function getPartidaController(){
-        return new PartidaController($this -> getPartidaModel(),$this->getUsuarioModel(), $this -> getPresenter());
+        return new PartidaController($this -> getPartidaModel(),$this->getUsuarioModel(), $this->getPreguntaModel(), $this -> getPresenter());
     }
 
 
@@ -85,5 +87,10 @@ class Configuration
     private function getPartidaModel()
     {
         return new PartidaModel($this->getDatabase());
+    }
+
+    private function getPreguntaModel()
+    {
+        return new PreguntaModel($this->getDatabase());
     }
 }
