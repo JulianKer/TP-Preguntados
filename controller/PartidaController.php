@@ -35,10 +35,27 @@ class   PartidaController
             $preguntaPartida = $this->model->buscarUltimaPreguntaNoResponididaDeLaPartida($partida["id_partida"]);
 
             if ($preguntaPartida === null) {
-                $numPregunta = random_int(1, 60); // Reemplazar por método que elija la próxima pregunta válida
+                $idsPreguntasRespondidas = $this->model->buscarPreguntasResponidasPorElUsuario($idUser);
+                $idsPreguntasTotales = $this->preguntaModel->obtenerIdsDeTodasLasPreguntasQueExisten();
+                $idsPreguntasNoRespondidas = array_values(array_diff($idsPreguntasTotales, $idsPreguntasRespondidas)); // con el array values lo reindexo x si me quedaron huecos entre meidio del array
+                $numPregunta = $this->model->seleccionarPreguntaAleatoriaQueElUserNoHayaRespondido($idsPreguntasNoRespondidas);
+
+                if ($numPregunta === 0){
+                    $this->model->resetearPreguntaPartidaDeLasPreguntasRespondidasPorEsteUsuario($idUser); //elimino todas las preguntas que respondio tal usuario y vuelvo a pedir un numPregunta random
+                    $idsPreguntasRespondidas = $this->model->buscarPreguntasResponidasPorElUsuario($idUser);
+                    $idsPreguntasNoRespondidas = array_values(array_diff($idsPreguntasTotales, $idsPreguntasRespondidas)); // con el array values lo reindexo x si me quedaron huecos entre meidio del array
+                    $numPregunta = $this->model->seleccionarPreguntaAleatoriaQueElUserNoHayaRespondido($idsPreguntasNoRespondidas);
+                }
+
+
+
+                 //hay q agregar lo de la dificultad y lo de si la preg esta habilitada (un campo mas en la pregunta)
+
+
+
+
                 $pregunta = $this->preguntaModel->obtenerPregunta($numPregunta);
-                $this->model->crearNuevaPreguntaPartida($partida["id_partida"], $pregunta["id_pregunta"]);
-                $preguntaPartida = $this->model->buscarUltimaPreguntaNoResponididaDeLaPartida($partida["id_partida"]);
+                $this->model->crearNuevaPreguntaPartida($partida["id_partida"], $pregunta["id_pregunta"], $idUser);
             } else {
                 $pregunta = $this->preguntaModel->obtenerPregunta($preguntaPartida["id_pregunta"]);
             }

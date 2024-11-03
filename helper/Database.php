@@ -201,12 +201,12 @@ class Database{
             $stmt->execute();
         }
 
-        public function crearNuevaPreguntaPartida($idPartida, $idPregunta) {
+        public function crearNuevaPreguntaPartida($idPartida, $idPregunta, $idUser) {
     //        $sql = "INSERT INTO preguntapartida (id_pregunta, id_partida, respondida, acertoElUsuario) VALUES ($idPregunta,$idPartida, 0, 0)";
     //        $this->conn->actualizar($sql);
 
-            $stmt = $this->conn->prepare("INSERT INTO preguntapartida (id_pregunta, id_partida, respondida, acertoElUsuario) VALUES (?,?, 0, 0)");
-            $stmt->bind_param("ii", $idPregunta, $idPartida);
+            $stmt = $this->conn->prepare("INSERT INTO preguntapartida (id_pregunta, id_partida, id_usuario, respondida, acertoElUsuario) VALUES (?,?,?, 0, 0)");
+            $stmt->bind_param("iii", $idPregunta, $idPartida, $idUser);
             $stmt->execute();
         }
 
@@ -247,11 +247,22 @@ class Database{
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+
+    public function resetearPreguntaPartidaDeLasPreguntasRespondidasPorEsteUsuario($idUser){
+        $stmt = $this->conn->prepare("DELETE FROM preguntapartida WHERE `id_usuario` = ?");
+        $stmt->bind_param("i", $idUser);
+        $stmt->execute();
+    }
+
+
+
+
     /* --------------------- FIN PARTIDAS------------------------------------------------------------------*/
 
 
 
 
+    /*-------------------- PREGUNTAS ----------------------------------------------------------------------*/
     public function actualizarPregunta($pregunta){
         $apariciones = $pregunta['apariciones'];
         $aciertos = $pregunta['aciertos'];
@@ -261,6 +272,36 @@ class Database{
         $stmt->bind_param("iii", $apariciones, $aciertos, $idPregunta);
         $stmt->execute();
     }
+
+    public function obtenerCantidadTotalDePreguntasQueExisten(){
+        $stmt = $this->conn->prepare("SELECT COUNT(*) AS total_preguntas FROM `pregunta`");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc()['total_preguntas'];
+    }
+    public function obtenerIdsDeTodasLasPreguntasQueExisten(){
+        $stmt = $this->conn->prepare("SELECT id_pregunta FROM `pregunta`");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $ids = $result->fetch_all(MYSQLI_ASSOC);
+        return array_column($ids, 'id_pregunta');
+    }
+
+
+
+    public function buscarPreguntasResponidasPorElUsuario($idUser){
+        $stmt = $this->conn->prepare("SELECT pp.id_pregunta FROM preguntapartida pp JOIN usuario u ON pp.id_usuario = u.id WHERE u.id = $idUser");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $ids = [];
+        while ($row = $result->fetch_assoc()) {
+            $ids[] = $row['id_pregunta'];
+        }
+
+        return $ids;
+    }
+    /*------------------------------------- fin PREGUNTAS ---------------------------------------------------*/
 
 
     public function getError(){

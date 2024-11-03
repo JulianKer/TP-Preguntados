@@ -25,4 +25,12 @@ class PreguntaModel
     public function actualizarPregunta($pregunta){
         return $this->database->actualizarPregunta($pregunta);
     }
+
+    public  function obtenerCantidadTotalDePreguntasQueExisten(){
+        return $this->database->obtenerCantidadTotalDePreguntasQueExisten();
+    }
+
+    public function obtenerIdsDeTodasLasPreguntasQueExisten(){
+        return $this->database->obtenerIdsDeTodasLasPreguntasQueExisten();
+    }
 }

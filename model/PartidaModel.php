@@ -40,8 +40,8 @@ class PartidaModel
         return $this->database->actualizaPartida($partida);
     }
 
-    public function crearNuevaPreguntaPartida($idPartida, $idPregunta) {
-        return $this->database->crearNuevaPreguntaPartida($idPartida, $idPregunta);
+    public function crearNuevaPreguntaPartida($idPartida, $idPregunta, $idUser) {
+        return $this->database->crearNuevaPreguntaPartida($idPartida, $idPregunta, $idUser);
     }
 
     /*public function buscarUltimaPartidaPreguntaDeEstaPartida($idPartida){ este metodo CREO que nunca lo uso, nose pq esta pq en el partida controler ni en ningun lado lo uso, lo habre creado y no lo borre pero por las dudas lo dejo y desp lo chekeo bien
@@ -57,4 +57,23 @@ class PartidaModel
     public function buscarLaUltimaPartidaInsertada($idPartidaABuscar){
         return $this->database->buscarLaUltimaPartidaInsertada($idPartidaABuscar);
     }
+
+    public function buscarPreguntasResponidasPorElUsuario($idUser){
+        return $this->database->buscarPreguntasResponidasPorElUsuario($idUser);
+    }
+
+    public function seleccionarPreguntaAleatoriaQueElUserNoHayaRespondido($idsPreguntasNoRespondidas){
+        if (!empty($idsPreguntasNoRespondidas)) {
+            $randomIndex = array_rand($idsPreguntasNoRespondidas);
+            return $idsPreguntasNoRespondidas[$randomIndex];
+        }
+        return 0;
+    }
+
+    public function resetearPreguntaPartidaDeLasPreguntasRespondidasPorEsteUsuario($idUser){
+        return $this->database->resetearPreguntaPartidaDeLasPreguntasRespondidasPorEsteUsuario($idUser);
+    }
+
+
+
 }
