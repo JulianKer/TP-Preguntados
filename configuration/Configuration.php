@@ -41,7 +41,7 @@ class Configuration
     }
 
     public function getPerfilController(){
-        return new PerfilController($this->getUsuarioModel(), $this->getRankingModel(), $this->getPresenter());
+        return new PerfilController($this->getUsuarioModel(), $this->getPartidaModel(), $this->getRankingModel(), $this->getPresenter());
     }
 
     public function getPartidaController(){

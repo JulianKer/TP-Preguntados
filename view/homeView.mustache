@@ -34,18 +34,12 @@
         <div class="lobby-card">
             <h2 class="recent-games-title">Partidas Recientes</h2>
             <ul class="game-list">
-                <li class="game-item">
-                    <span>Partida 1 - Victoria</span>
-                    <span>+100 puntos</span>
-                </li>
-                <li class="game-item">
-                    <span>Partida 2 - Derrota</span>
-                    <span>+30 puntos</span>
-                </li>
-                <li class="game-item">
-                    <span>Partida 3 - Victoria</span>
-                    <span>+100 puntos</span>
-                </li>
+                {{#partidasDelUsuario}}
+                    <li class="game-item">
+                        <span>Partida {{id_partida}}</span>
+                        <span class="puntaje">+{{puntaje}} puntos</span>
+                    </li>
+                {{/partidasDelUsuario}}
             </ul>
         </div>
     </div>

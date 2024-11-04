@@ -7,7 +7,8 @@ body {
 
 .main-content {
     padding: 1rem;
-    max-width: 600px;
+    max-width: 700px;
+    min-width: 700px;
     margin: 0 auto;
 }
 .ranking-card {
@@ -23,7 +24,7 @@ body {
     color: #1e3a8a;
 }
 .ranking-table {
-    width: 100%;
+    min-width: 100%;
     border-collapse: collapse;
 }
 .ranking-table th, .ranking-table td {
@@ -82,6 +83,16 @@ body {
 .ranking-table .fila:hover{
     cursor: pointer;
     background-color: #dadada;
+}
+
+@media screen and (max-width: 750px){
+    .main-content{
+        min-width: 100dvw;
+    }
+    .ranking-card{
+        min-width: 100%;
+        min-height: 200px;
+    }
 }
 
 
