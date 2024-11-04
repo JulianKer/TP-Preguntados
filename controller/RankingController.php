@@ -1,37 +1,37 @@
 <?php
 
-class HomeController
-{
+class RankingController{
+
     private $model;
+    private $modelUsuario;
     private $modelPartida;
     private $presenter;
 
-    public function __construct($model, $modelPartida, $modelUsuario, $presenter)
-    {
+    public function __construct($model,$modelUsuario,$modelPartida, $presenter){
         $this->model = $model;
-        $this->modelPartida = $modelPartida;
         $this->modelUsuario = $modelUsuario;
+        $this->modelPartida = $modelPartida;
         $this->presenter = $presenter;
     }
 
     public function inicio(){
+        header('location: /ranking/posiciones');
+        exit();
+    }
+
+    public function posiciones(){
         if (!isset($_SESSION['user'])) {
             header("location: /acceso/ingresar");
             exit();
         }
         $userEncontrado = $this->modelUsuario->obtenerUsuarioPorId($_SESSION['idUser'])[0];
-
         $data["musicaActivada"] = $userEncontrado["musica"];
         $data['user'] = $_SESSION['user'];
-        $data['idUsuario'] = $_SESSION['idUser'];
         $data["partidaPendiente"] = (bool)$this->modelPartida->buscarSiHayUnaPartidaEnCursoParaEsteUser($_SESSION['idUser']);
 
-        $this->presenter->show('home', $data);
-    }
+        $partidasDelRanking = $this->model->dameElRanking();
+        $data["ranking"] = $partidasDelRanking;
 
-    public function redirectHome()
-    {
-        header('location: /principal/inicio');
-        exit();
+        $this->presenter->show('ranking', $data);
     }
 }

@@ -54,4 +54,13 @@ class UsuarioModel
     public function setearMusicaActivadaDelUsuario($activacionDeMusica, $idUsuario){
         $this->database->setearMusicaActivadaDelUsuario($activacionDeMusica, $idUsuario);
     }
+
+
+    public function obtenerTodosLosUsuarios(){
+        return $this->database->obtenerTodosLosUsuarios();
+    }
+
+    public function actualizarPuntaje($puntaje, $idUsuario){
+        $this->database->actualizarPuntaje($puntaje, $idUsuario);
+    }
 }

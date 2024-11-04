@@ -117,6 +117,12 @@ class Database{
         $stmt->bind_param("ii", $activacionDeMusica, $idUsuario);
         $stmt->execute();
     }
+
+    public function actualizarPuntaje($puntaje, $idUsuario){
+        $stmt = $this->conn->prepare("UPDATE usuario SET puntaje_usuario = puntaje_usuario + ? WHERE id = ?");
+        $stmt->bind_param("ii", $puntaje, $idUsuario);
+        $stmt->execute();
+    }
     /* --------------------- FIN user------------------------------------------------------------------*/
 
 
@@ -302,6 +308,39 @@ class Database{
         return $ids;
     }
     /*------------------------------------- fin PREGUNTAS ---------------------------------------------------*/
+
+    /*----------------------------------- RANKING -------------------------------------------------------------*/
+    public function obtenerTodosLosUsuarios(){
+        $stmt = $this->conn->prepare("SELECT * FROM `usuario`");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerMejorPartidadelUsuario($idUsuario){
+        $stmt = $this->conn->prepare("SELECT * FROM partida p JOIN usuario u ON p.id_usuario = u.id WHERE p.id_usuario = ? AND p.terminada = true ORDER BY p.puntaje DESC LIMIT 1");
+        $stmt->bind_param("i", $idUsuario);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+
+
+
+
+
+
+    /*----------------------------------- FIN RANKING ---------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
 
 
     public function getError(){

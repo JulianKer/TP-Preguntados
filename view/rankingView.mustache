@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/ranking.css">
+    <script src="/public/js/ranking.js" defer></script>
+    <title>QuizMaster - Ranking</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="ranking-card">
+            <h2 class="ranking-title">#RANKING</h2>
+            <table class="ranking-table">
+                <thead>
+                    <tr>
+                        <th>PUESTO</th>
+                        <th>USUARIO</th>
+                        <th>PUNTAJE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#ranking}}
+                    <tr class="fila" id="{{id_usuario}}">
+                        <td class="ranking-position">{{posicion}}</td>
+                        <td>
+                            <div class="user-row">
+                                <div class="user-avatar">
+                                    <img src="/public/images/profiles/{{fotoperfil}}" alt="foto usuario" title="@{{nombreusuario}}">
+                                </div>
+                                @{{nombreusuario}}
+                            </div>
+                        </td>
+                        <td>{{puntaje}}</td>
+                    </tr>
+                {{/ranking}}
+                </tbody>
+            </table>
+            <a href="/principal/inicio" class="button">Volver al inicio</a>
+        </div>
+    </div>
+</body>
+</html>

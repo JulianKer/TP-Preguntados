@@ -1,6 +1,6 @@
 <?php
 
-class HomeModel
+class PrincipalModel
 {
     private $database;
 
