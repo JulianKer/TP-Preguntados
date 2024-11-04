@@ -19,7 +19,7 @@ class MustachePresenter{
 
     public function generateHtml($contentFile, $data = array()) {
         $contentAsString = "";
-        if ($contentFile != "./view/loginView.mustache" && $contentFile != "./view/registerView.mustache") {
+        if ($contentFile != "./view/loginView.mustache" && $contentFile != "./view/registerView.mustache" && $contentFile != "./view/verificarEmailView.mustache") {
             $contentAsString = file_get_contents(  $this->partialsPathLoader .'/header.mustache');
         }
         $contentAsString .= file_get_contents( $contentFile );
