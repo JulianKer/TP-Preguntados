@@ -89,6 +89,7 @@ class AccesoController
             exit();
         }
 
+        echo $emailEncontrado;
         if (!empty($emailEncontrado)){
             $msj = "El usuario con ese mail ya está registrado.";
             header("location: /acceso/registrar?msj=" . urldecode($msj));
@@ -104,22 +105,25 @@ class AccesoController
 
         // aca ahora faltaria guardar la img del perfil ya que YA se registro correctamente si llego hasta aca
 
-//        $data ["usuario_id"] = $this->model->getLastInsert("usuario");
-        $data ["usuario_id"] = $this->model->obtenerIdUserPorUserName($username)["id"];
+//      $data ["usuario_id"] = $this->model->getLastInsert("usuario");
+        $idUsuario = $this->model->obtenerIdUserPorUserName($username)["id"];
+        $data ["usuario_id"] = $idUsuario;
         $data ["registroExitoso"] = "Usuario registrado con éxito. Para terminar verifique su email.";
+        $this -> model -> enviarMail($idUsuario);
 
         $this -> presenter -> show ("verificarEmail", $data);
     }
 
     public function verificarEmail(){
         $data = [];
-        if (isset($_GET['usuario_id'])) {
-            $usuario_id = $_GET['usuario_id'];
+        if (isset($_POST['id_usuario'])) {
+            $usuario_id = $_POST['id_usuario'];
     }
+
     $resultado = $this -> model -> verificarEmail($usuario_id);
 
             if($resultado){
-            $data["verificacionExitosa"] = "Su email ah sido verificado exitosamente";
+            $data["exito"] = "Su email ha sido verificado exitosamente";
             $this -> presenter -> show ("login", $data);
             }
             else{

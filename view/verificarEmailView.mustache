@@ -15,11 +15,12 @@
 </nav>
 <div class="main-content">
     <div class="confirmation-card">
-        <p class="confirmation-text">Para confirmar tu email, haz clic en el botón a continuación.</p>
-        <a href="/acceso/verificarEmail?usuario_id={{usuario_id}} " class="button">VERIFICAR</a>
+        <p class="confirmation-text">Una vez confirmado tu mail, presiona este boton y seras redirigido al login para ingresar</p>
+        <!-- <a href="/acceso/verificarEmail?usuario_id={{usuario_id}} " class="button">VERIFICAR</a>-->
         {{#msj}}
             <p class="text-danger">{{msj}}</p>
         {{/msj}}
+        <a href="/acceso/ingresar" class="button">IR AL LOGIN</a>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
