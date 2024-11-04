@@ -20,6 +20,8 @@ include_once ("model/PreguntaModel.php");
 include_once ("controller/RankingController.php");
 include_once ("model/RankingModel.php");
 
+include_once ("helper/Mail.php");
+
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
@@ -37,7 +39,7 @@ class Configuration
     }
 
     public function getAccesoController(){
-        return new AccesoController($this->getUsuarioModel(), $this->getPresenter());
+        return new AccesoController($this->getUsuarioModel(), $this->getMail(), $this->getPresenter());
     }
 
     public function getPerfilController(){
@@ -103,5 +105,8 @@ class Configuration
 
     public function getRankingModel(){
         return new RankingModel($this->getDatabase(), $this->getUsuarioModel());
+    }
+    public function getMail(){
+        return new Mail();
     }
 }

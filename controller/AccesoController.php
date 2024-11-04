@@ -4,11 +4,13 @@ class AccesoController
 {
     private $presenter;
     private $model;
+    private $mail;
 
-    public function __construct($model, $presenter) // ver pq deberia recibir tmb el model ya q necesito logica je
+    public function __construct($model, $mail, $presenter) // ver pq deberia recibir tmb el model ya q necesito logica je
     {
         $this->presenter = $presenter;
         $this->model = $model;
+        $this->mail = $mail;
     }
 
     public function ingresar(){
@@ -103,22 +105,28 @@ class AccesoController
             exit();
         }
 
+
+
         // aca ahora faltaria guardar la img del perfil ya que YA se registro correctamente si llego hasta aca
+
+
+
 
 //      $data ["usuario_id"] = $this->model->getLastInsert("usuario");
         $idUsuario = $this->model->obtenerIdUserPorUserName($username)["id"];
         $data ["usuario_id"] = $idUsuario;
         $data ["registroExitoso"] = "Usuario registrado con éxito. Para terminar verifique su email.";
-        $this -> model -> enviarMail($idUsuario);
+        $userRecienRegistrado = $this->model->obtenerUsuarioPorId($idUsuario)[0];
+        $this->mail->enviarMail($userRecienRegistrado);
 
-        $this -> presenter -> show ("verificarEmail", $data);
+        $this->presenter->show("verificarEmail", $data);
     }
 
     public function verificarEmail(){
         $data = [];
         if (isset($_POST['id_usuario'])) {
             $usuario_id = $_POST['id_usuario'];
-    }
+        }
 
     $resultado = $this -> model -> verificarEmail($usuario_id);
 
