@@ -29,6 +29,7 @@ class PrincipalController
         $data['idUsuario'] = $_SESSION['idUser'];
         $data["partidaPendiente"] = (bool)$this->modelPartida->buscarSiHayUnaPartidaEnCursoParaEsteUser($_SESSION['idUser']);
         $data["posicionEnElRanking"] = $this->modelRanking->dameLaPosicionEnElRankingDeEsteUsuario($userEncontrado["id"]);
+        $data["partidasDelUsuario"] = $this->modelPartida->obtenerPartidasDelUsuario($userEncontrado["id"]);
         $this->presenter->show('home', $data);
     }
 

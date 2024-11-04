@@ -74,6 +74,9 @@ class PartidaModel
         return $this->database->resetearPreguntaPartidaDeLasPreguntasRespondidasPorEsteUsuario($idUser);
     }
 
+    public function obtenerPartidasDelUsuario($idUser){
+        return $this->database->obtenerPartidasDelUsuario($idUser);
+    }
 
 
 }

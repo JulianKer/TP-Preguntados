@@ -4,10 +4,12 @@ class PerfilController{
 
     private $model;
     private $rankingModel;
+    private $partidasModel;
     private $presenter;
-    public function __construct($model, $rankingModel, $presenter){
+    public function __construct($model, $partidasModel, $rankingModel, $presenter){
         $this->model = $model;
         $this->rankingModel = $rankingModel;
+        $this->partidasModel = $partidasModel;
         $this->presenter = $presenter;
     }
 
@@ -51,7 +53,7 @@ class PerfilController{
         $data["coordenadas"] = $this->model->obtenerCoordenadas($userEncontrado["ubicacion"]);
         $data['usuario'] = $userEncontrado;
         $data['user'] = $_SESSION['user'];
-
+        $data["partidasDelUsuario"] = $this->partidasModel->obtenerPartidasDelUsuario($userEncontrado["id"]);
         $this->presenter->show("perfil", $data);
     }
 }

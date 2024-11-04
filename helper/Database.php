@@ -263,6 +263,12 @@ class Database{
 
 
 
+    public function obtenerPartidasDelUsuario($idUser){
+        $stmt = $this->conn->prepare("SELECT * FROM partida WHERE id_usuario = ? ORDER BY id_partida DESC");
+        $stmt->bind_param("i", $idUser);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
     /* --------------------- FIN PARTIDAS------------------------------------------------------------------*/
 
 
