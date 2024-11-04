@@ -30,11 +30,11 @@
             <div class="profile-stats">
                 <div class="stat-item">
                     <p class="stat-label">Ranking</p>
-                    <p class="stat-value">#42</p>
+                    <p class="stat-value">#{{usuario.posicionEnElRanking}}</p>
                 </div>
                 <div class="stat-item">
                     <p class="stat-label">Puntaje</p>
-                    <p class="stat-value">1000</p>
+                    <p class="stat-value">{{usuario.puntaje_usuario}}</p>
                 </div>
             </div>
             <div id="mapaPerfil">
@@ -49,19 +49,21 @@
             {{/estoyEnMiPerfil}}
         </div>
 
-        <div class="preferencias">
-            <h2 class="recent-games-title">Ajustes</h2>
-            <form id="musicaForm" method="POST">
-                <p>Música:</p>
-                <div class="radio-container">
-                    <input type="radio" name="musica" value="SI" id="musicaSi" {{#musicaActivada}}checked{{/musicaActivada}}>
-                    <label for="musicaSi">Activada</label>
+        {{#estoyEnMiPerfil}}
+            <div class="preferencias">
+                <h2 class="recent-games-title">Ajustes</h2>
+                <form id="musicaForm" method="POST">
+                    <p>Música:</p>
+                    <div class="radio-container">
+                        <input type="radio" name="musica" value="SI" id="musicaSi" {{#musicaActivada}}checked{{/musicaActivada}}>
+                        <label for="musicaSi">Activada</label>
 
-                    <input type="radio" name="musica" value="NO" id="musicaNo" {{^musicaActivada}}checked{{/musicaActivada}}>
-                    <label for="musicaNo">Desactivada</label>
-                </div>
-            </form>
-        </div>
+                        <input type="radio" name="musica" value="NO" id="musicaNo" {{^musicaActivada}}checked{{/musicaActivada}}>
+                        <label for="musicaNo">Desactivada</label>
+                    </div>
+                </form>
+            </div>
+        {{/estoyEnMiPerfil}}
 
         <div class="games-card">
             <h2 class="recent-games-title">Partidas Recientes</h2>

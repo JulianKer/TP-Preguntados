@@ -3,12 +3,19 @@
 class PerfilController{
 
     private $model;
+    private $rankingModel;
     private $presenter;
-    public function __construct($model,$presenter){
+    public function __construct($model, $rankingModel, $presenter){
         $this->model = $model;
+        $this->rankingModel = $rankingModel;
         $this->presenter = $presenter;
     }
 
+    public function inicio()
+    {
+        header('location: /perfil/usuario');
+        exit();
+    }
     public function usuario(){
         $idDelUser = null;
         $data = null;
@@ -31,6 +38,7 @@ class PerfilController{
             header("location: /principal/inicio");
             exit();
         }
+        $userEncontrado["posicionEnElRanking"] = $this->rankingModel->dameLaPosicionEnElRankingDeEsteUsuario($userEncontrado["id"]);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["musica"])) {
             $activacion = $_POST["musica"] == "SI" ? 1 : 0;

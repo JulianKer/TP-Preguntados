@@ -13,6 +13,13 @@ class   PartidaController
         $this->userModel = $userModel;
         $this->preguntaModel = $preguntaModel;
     }
+
+    public function inicio()
+    {
+        header('location: /partida/jugar');
+        exit();
+    }
+
     public function jugar() {
         if (!isset($_SESSION['user'])) {
             header("location: /acceso/ingresar");
@@ -97,6 +104,7 @@ class   PartidaController
             } else {
                 $preguntaPartida["acertoElUsuario"] = false;
                 $partida["terminada"] = true;
+                $this->userModel->actualizarPuntaje($partida["puntaje"], $partida["id_usuario"]);
             }
             // aca deje comentado el actualizarPregunta, lo hice pq como probaba, iba a tener q modificar todas las preguntas jaj,
             // pero bueno, lo descomentamos y ya anda
