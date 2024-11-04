@@ -101,5 +101,13 @@ class UsuarioModel
         } catch (Exception $e) {
             echo "El mail no pudo ser enviado {$mail->ErrorInfo}";
         }
+}
+
+    public function obtenerTodosLosUsuarios(){
+        return $this->database->obtenerTodosLosUsuarios();
+    }
+
+    public function actualizarPuntaje($puntaje, $idUsuario){
+        $this->database->actualizarPuntaje($puntaje, $idUsuario);
     }
 }

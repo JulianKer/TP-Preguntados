@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.main-content {
+    padding: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.ranking-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.ranking-title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #1e3a8a;
+}
+.ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.ranking-table th, .ranking-table td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+.ranking-table th {
+    font-weight: bold;
+    color: #1e3a8a;
+}
+.ranking-table tr:nth-child(even) {
+    background-color: #f0f0f0;
+}
+.ranking-table tr:last-child {
+    background-color: #e6f3ff;
+}
+.user-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.user-avatar {
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    background-color: #1e3a8a;
+    border-radius: 50%;
+
+    & img{
+        width: 100%;
+        object-fit: cover;
+    }
+}
+.ranking-position {
+    font-weight: bold;
+    color: #1e3a8a;
+}
+.button {
+    margin-top: 1em;
+    background-color: #1e3a8a;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.ranking-table .fila:hover{
+    cursor: pointer;
+    background-color: #dadada;
+}
+
+
