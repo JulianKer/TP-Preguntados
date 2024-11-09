@@ -20,7 +20,7 @@
         <div class="register-card">
             {{#msj}} <p style="margin-top: 1em" class="alert alert-danger"> {{msj}}</p> {{/msj}}
 
-            <form action="/acceso/nuevoUsuario" method="POST">
+            <form action="/acceso/nuevoUsuario" method="POST" enctype="multipart/form-data">
                 <div class="parte1">
                     <div class="form-group">
                         <label for="nombre">Nombre completo</label>

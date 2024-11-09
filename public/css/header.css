@@ -33,6 +33,13 @@ body {
 .cont-user-icon{
     display: flex;
     gap: 1em;
+
+    & a{
+        overflow: hidden;
+        & img{
+            object-fit: cover;
+        }
+    }
 }
 
 .cerrarSesion{

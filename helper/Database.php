@@ -40,6 +40,12 @@ class Database{
         return $resultado->num_rows === 1;
     }
 
+    public function obtenerUltimoIdInsertadoDeTablaUsuario(){
+        $stmt = $this->conn->prepare("SELECT id FROM usuario ORDER BY id DESC LIMIT 1");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
     public function buscarEmail($email){
         /*$sql = "SELECT email FROM usuario WHERE email = $email";
         $result = $this->database->query($sql);

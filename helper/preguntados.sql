@@ -452,9 +452,10 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ubicacion`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`, `musica`, `puntaje_usuario`) VALUES
-(7, 'Victoria', 'Schmuker', 'vicky', '123', 'vicky@gmail.com', '2000-01-01', '-34.66903569482507, -58.560749358166504', '2024-10-28', 'vicky.jpg', 'f', 1, 0, 0),
-(9, 'Julián Gabriel', 'Schmuker', 'juli', '123', 'test@unlam.edu.ar', '0000-00-00', '-34.689328289275, -58.63649494074707', '2024-10-29', 'juli.jpg', 'm', 1, 0, 0),
-(10, 'Lucas', 'Rios', 'lucon', '123', 'lucas@gmail.com', '2000-01-01', '-34.657316662962344, -58.58199245356445', '2024-10-30', 'lucas.jpg', 'm', 1, 1, 0);
+(7, 'Victoria', 'Schmuker', 'vicky', '123', 'vicky@gmail.com', '2000-01-01', '-34.66903569482507, -58.560749358166504', '2024-10-28', '7.jpg', 'f', 1, 0, 0),
+(9, 'Julián Gabriel', 'Schmuker', 'juli', '123', 'test@unlam.edu.ar', '0000-00-00', '-34.689328289275, -58.63649494074707', '2024-10-29', '9.jpg', 'm', 1, 0, 0),
+(10, 'Lucas', 'Rios', 'lucon', '123', 'lucas@gmail.com', '2000-01-01', '-34.657316662962344, -58.58199245356445', '2024-10-30', '10.jpeg', 'm', 1, 0, 0),
+(31, 'Facundo', 'Darano', 'facu', '123', 'facu@gmail.com', '2000-01-01', '-34.66988278951427, -58.56958991907959', '2024-11-09', '31.jpeg', 'm', 1, 1, 0);
 
 --
 -- Índices para tablas volcadas
