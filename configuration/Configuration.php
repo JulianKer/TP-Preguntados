@@ -21,6 +21,7 @@ include_once ("controller/RankingController.php");
 include_once ("model/RankingModel.php");
 
 include_once ("helper/Mail.php");
+include_once ("helper/SubirImagen.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -39,7 +40,7 @@ class Configuration
     }
 
     public function getAccesoController(){
-        return new AccesoController($this->getUsuarioModel(), $this->getMail(), $this->getPresenter());
+        return new AccesoController($this->getUsuarioModel(), $this->getMail(), $this->getSubirImagen(), $this->getPresenter());
     }
 
     public function getPerfilController(){
@@ -108,5 +109,9 @@ class Configuration
     }
     public function getMail(){
         return new Mail();
+    }
+
+    public function getSubirImagen(){
+        return new SubirImagen();
     }
 }

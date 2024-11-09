@@ -52,6 +52,7 @@ class PerfilController{
 
         $data["coordenadas"] = $this->model->obtenerCoordenadas($userEncontrado["ubicacion"]);
         $data['usuario'] = $userEncontrado;
+        $data['objUsuario'] = $userEncontrado;
         $data['user'] = $_SESSION['user'];
         $data["partidasDelUsuario"] = $this->partidasModel->obtenerPartidasDelUsuario($userEncontrado["id"]);
         $this->presenter->show("perfil", $data);

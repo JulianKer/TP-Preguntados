@@ -5,12 +5,14 @@ class AccesoController
     private $presenter;
     private $model;
     private $mail;
+    private $subirImg;
 
-    public function __construct($model, $mail, $presenter) // ver pq deberia recibir tmb el model ya q necesito logica je
+    public function __construct($model, $mail, $subirImg, $presenter) // ver pq deberia recibir tmb el model ya q necesito logica je
     {
         $this->presenter = $presenter;
         $this->model = $model;
         $this->mail = $mail;
+        $this->subirImg = $subirImg;
     }
 
     public function ingresar(){
@@ -68,7 +70,7 @@ class AccesoController
         $password = $_POST['password'];
         $confirm_password = $_POST['confirm_password'];
         $username = $_POST['username'];
-        $profile_pic = $_POST['profile_pic']; // aca ver lo de la img pq tenemos q recibirlo por $_FILE, pero bueno, ese post te da el nombre del archivo + extension
+        //$profile_pic = $_POST['profile_pic']; // este ya no lo uso pq abajo ya reemplazo el nombre del archivo por como se guardo con el id del user
 
         $vacios = $this->model->sinCamposVacios($_POST);
 
@@ -98,27 +100,27 @@ class AccesoController
             exit();
         }
 
-        //echo $profile_pic;
-        if(!$this->model->registrarUsuario($nombre,$apellido,$nacimiento,$sexo, $ubicacion, $email, $password, $username, $profile_pic)){
+        // con este subo la img del user que tenga d nombre el id del user para q no hayan lios
+        $siguienteId = $this->model->obtenerUltimoIdInsertadoMasUno();
+        $msjsDevueltosPorSubirImg = $this->subirImg->subir($_FILES['profile_pic'], $siguienteId);
+
+        if (isset($msjsDevueltosPorSubirImg['error'])){
+            header("location: /acceso/registrar?msj=" . urldecode($msjsDevueltosPorSubirImg['error']));
+            exit();
+        }
+
+        $nombreDeLaImgGuardadaConExtencion = $msjsDevueltosPorSubirImg['nombreDelArchivoGuardado'];
+        if(!$this->model->registrarUsuario($nombre,$apellido,$nacimiento,$sexo, $ubicacion, $email, $password, $username, $nombreDeLaImgGuardadaConExtencion)){
             $msj = "No se pudo registrar.";
             header("location: /acceso/registrar?msj=" . urldecode($msj));
             exit();
         }
-
-
-
-        // aca ahora faltaria guardar la img del perfil ya que YA se registro correctamente si llego hasta aca
-
-
-
-
-//      $data ["usuario_id"] = $this->model->getLastInsert("usuario");
         $idUsuario = $this->model->obtenerIdUserPorUserName($username)["id"];
-        $data ["usuario_id"] = $idUsuario;
-        $data ["registroExitoso"] = "Usuario registrado con éxito. Para terminar verifique su email.";
         $userRecienRegistrado = $this->model->obtenerUsuarioPorId($idUsuario)[0];
         $this->mail->enviarMail($userRecienRegistrado);
 
+        $data ["usuario_id"] = $idUsuario;
+        $data ["registroExitoso"] = "Usuario registrado con éxito. Para terminar verifique su email.";
         $this->presenter->show("verificarEmail", $data);
     }
 

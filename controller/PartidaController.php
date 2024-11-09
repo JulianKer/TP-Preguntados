@@ -31,6 +31,7 @@ class   PartidaController
         $userEncontrado = $this->userModel->obtenerUsuarioPorId($idUser)[0];
         $data['idUsuario'] = $idUser;
         $data['musicaActivada'] = $userEncontrado["musica"];
+        $data['objUsuario'] = $userEncontrado;
 
         $partida = $this->model->buscarSiHayUnaPartidaEnCursoParaEsteUser($idUser);
         if ($partida === null) {

@@ -33,6 +33,10 @@ class UsuarioModel
         return $this->database->buscarEmail($email);
     }
 
+    public function obtenerUltimoIdInsertadoMasUno(){
+        return $this->database->obtenerUltimoIdInsertadoDeTablaUsuario()['id']+1;
+    }
+
     public function registrarUsuario($nombre,$apellido,$nacimiento,$sexo, $ubicacion, $email, $password, $username, $profile_pic){
         return $this->database->registrarUsuario($nombre,$apellido,$nacimiento,$sexo, $ubicacion, $email, $password, $username, $profile_pic);
     }

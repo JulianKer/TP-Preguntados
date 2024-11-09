@@ -26,6 +26,7 @@ class RankingController{
         }
         $userEncontrado = $this->modelUsuario->obtenerUsuarioPorId($_SESSION['idUser'])[0];
         $data["musicaActivada"] = $userEncontrado["musica"];
+        $data["objUsuario"] = $userEncontrado;
         $data['user'] = $_SESSION['user'];
         $data["partidaPendiente"] = (bool)$this->modelPartida->buscarSiHayUnaPartidaEnCursoParaEsteUser($_SESSION['idUser']);
 
