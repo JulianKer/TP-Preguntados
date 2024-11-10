@@ -33,4 +33,15 @@ class PreguntaModel
     public function obtenerIdsDeTodasLasPreguntasQueExisten(){
         return $this->database->obtenerIdsDeTodasLasPreguntasQueExisten();
     }
+
+    public function actualizarEstadoPregunta($id_pregunta, $id_estado){
+        return $this->database->actualizarEstadoPregunta($id_pregunta, $id_estado);
+    }
+
+    public function crearReporte($id_pregunta, $id_usuario, $descripcion){
+        $this -> database -> crearReporte($id_pregunta, $id_usuario, $descripcion);
+        // faltaria guardar la descripcion del reporte en la base de datos pero despues lo agrego.
+    }
+
 }
+

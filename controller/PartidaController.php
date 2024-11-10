@@ -117,4 +117,56 @@ class   PartidaController
 
         $this->presenter->show("partida", $data);
     }
+
+    public function mostrarVistaReporte()
+    {
+
+        if (!isset($_GET['id_pregunta'])) {
+            header("Location: /partida/jugar");
+            exit;
+        }
+        $idPregunta = $_GET['id_pregunta'];
+
+
+        if (!isset($_SESSION['user'])) {
+            header("Location: /acceso/ingresar");
+            exit;
+        }
+        $pregunta = $this->preguntaModel->obtenerPregunta($idPregunta);
+        if (!$pregunta) {
+            header("Location: /partida/jugar");
+            exit;
+        }
+        $data['idPreguntaReportar'] = $idPregunta;
+        $data['hola'] = "hola";
+        $data['idUser'] = $_SESSION['idUser'];
+        $this->presenter->show("reportarPregunta", $data);
+
+    }
+
+    public function reportarPregunta(){
+        $id_pregunta = "";
+        $descripcion = "";
+        $id_usuario = "";
+
+        if (!isset($_SESSION['user'])) {
+            header("location: /acceso/ingresar");
+            exit;
+        }
+        if(!isset($_POST['id_pregunta' ]) || !isset($_POST['descripcion' ])){
+         header( "location : /principal/inicio");
+        }
+        $id_pregunta = $_POST['id_pregunta'];
+        $descripcion = $_POST['descripcion'];
+        $id_usuario = $this -> userModel -> obtenerIdUserPorUserName($_SESSION['user'])["id"];
+        $estadoRevision = 2;
+        $this->preguntaModel->actualizarEstadoPregunta($id_pregunta, $estadoRevision);
+        $this ->preguntaModel->crearReporte($id_pregunta, $id_usuario, $descripcion);
+        header("location: /principal/home");
+        exit();
+
+    }
+
+
+
 }

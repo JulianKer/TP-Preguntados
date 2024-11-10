@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-11-2024 a las 03:27:16
+-- Tiempo de generación: 11-11-2024 a las 00:32:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `preguntados`
 --
-CREATE DATABASE IF NOT EXISTS `preguntados` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `preguntados`;
 
 -- --------------------------------------------------------
 
@@ -57,6 +55,25 @@ INSERT INTO `categoria` (`id_categoria`, `nombre`, `estado`, `fecha_alta`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `estado`
+--
+
+CREATE TABLE `estado` (
+  `id_estado` int(11) NOT NULL,
+  `descripcion` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `estado`
+--
+
+INSERT INTO `estado` (`id_estado`, `descripcion`) VALUES
+(1, 'Habilitada'),
+(2, 'Revision');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `partida`
 --
 
@@ -66,6 +83,79 @@ CREATE TABLE `partida` (
   `puntaje` int(11) NOT NULL,
   `terminada` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `partida`
+--
+
+INSERT INTO `partida` (`id_partida`, `id_usuario`, `puntaje`, `terminada`) VALUES
+(112, 10, 20, 1),
+(113, 10, 10, 1),
+(114, 10, 0, 1),
+(115, 10, 0, 1),
+(116, 10, 0, 1),
+(117, 10, 0, 1),
+(118, 10, 0, 1),
+(119, 10, 0, 1),
+(120, 10, 0, 1),
+(121, 10, 0, 1),
+(122, 10, 10, 1),
+(123, 10, 0, 1),
+(124, 10, 0, 1),
+(125, 10, 0, 1),
+(126, 10, 10, 1),
+(127, 10, 0, 1),
+(128, 10, 0, 1),
+(129, 10, 0, 1),
+(130, 10, 10, 1),
+(131, 10, 0, 1),
+(132, 10, 0, 1),
+(133, 10, 30, 1),
+(134, 10, 0, 1),
+(135, 10, 0, 1),
+(136, 10, 0, 1),
+(137, 10, 10, 1),
+(138, 10, 0, 1),
+(139, 10, 10, 1),
+(140, 10, 20, 1),
+(141, 10, 0, 1),
+(142, 10, 10, 1),
+(143, 10, 0, 1),
+(144, 10, 0, 1),
+(145, 10, 0, 1),
+(146, 10, 0, 1),
+(147, 10, 0, 1),
+(148, 10, 10, 1),
+(149, 10, 0, 1),
+(150, 10, 0, 1),
+(151, 10, 10, 1),
+(152, 10, 0, 1),
+(153, 10, 0, 1),
+(154, 10, 0, 1),
+(155, 10, 0, 1),
+(156, 10, 0, 1),
+(157, 10, 10, 1),
+(158, 10, 0, 1),
+(159, 10, 30, 1),
+(160, 10, 0, 1),
+(161, 10, 0, 1),
+(162, 10, 0, 1),
+(163, 10, 0, 1),
+(164, 10, 0, 1),
+(165, 10, 0, 1),
+(166, 10, 0, 1),
+(167, 10, 0, 1),
+(168, 10, 0, 1),
+(169, 10, 0, 1),
+(170, 10, 10, 1),
+(171, 10, 10, 1),
+(172, 10, 0, 1),
+(173, 10, 0, 1),
+(174, 10, 0, 1),
+(175, 10, 10, 1),
+(176, 10, 0, 1),
+(177, 10, 10, 1),
+(178, 10, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -90,19 +180,19 @@ CREATE TABLE `pregunta` (
 
 INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `id_categoria`, `id_dificultad`, `estado`, `apariciones`, `aciertos`, `fecha_alta`) VALUES
 (1, '¿Quién fue el primer presidente de los Estados Unidos?', 1, 1, 1, 0, 0, '2024-10-27 04:13:33'),
-(2, '¿En qué año comenzó la Primera Guerra Mundial?', 1, 1, 1, 0, 0, '2024-10-27 04:13:33'),
+(2, '¿En qué año comenzó la Primera Guerra Mundial?', 1, 1, 2, 0, 0, '2024-10-27 04:13:33'),
 (3, '¿Cuál fue la civilización que construyó las pirámides de Egipto?', 1, 1, 1, 0, 0, '2024-10-27 04:13:33'),
-(4, '¿Qué famoso explorador descubrió América en 1492?', 1, 1, 1, 0, 0, '2024-10-27 04:13:33'),
+(4, '¿Qué famoso explorador descubrió América en 1492?', 1, 1, 2, 0, 0, '2024-10-27 04:13:33'),
 (5, '¿Cuál fue el evento que marcó el inicio de la Revolución Francesa?', 1, 1, 1, 0, 0, '2024-10-27 04:13:33'),
 (6, '¿Cuál es el nombre de la serie de televisión que sigue las aventuras de un grupo de amigos en Nueva York?', 2, 1, 1, 0, 0, '2024-10-27 04:13:33'),
 (7, '¿Quién ganó el premio Óscar a la Mejor Película en 2020?', 2, 1, 1, 0, 0, '2024-10-27 04:13:33'),
-(8, '¿Qué película de animación presenta a un joven que se convierte en héroe de su pueblo tras descubrir su linaje?', 2, 1, 1, 0, 0, '2024-10-27 04:13:33'),
-(9, '¿Cuál es el nombre de la canción que se considera el himno de la libertad en varios países?', 2, 1, 1, 0, 0, '2024-10-27 04:13:33'),
+(8, '¿Qué película de animación presenta a un joven que se convierte en héroe de su pueblo tras descubrir su linaje?', 2, 1, 2, 0, 0, '2024-10-27 04:13:33'),
+(9, '¿Cuál es el nombre de la canción que se considera el himno de la libertad en varios países?', 2, 1, 2, 0, 0, '2024-10-27 04:13:33'),
 (10, '¿Qué famoso superhéroe es conocido como el Hombre Araña?', 2, 1, 1, 0, 0, '2024-10-27 04:13:33'),
 (11, '¿Cuál es el río más largo del mundo?', 3, 1, 1, 0, 0, '2024-10-27 04:13:34'),
 (12, '¿En qué continente se encuentra el desierto del Sahara?', 3, 1, 1, 0, 0, '2024-10-27 04:13:34'),
-(13, '¿Cuál es la capital de Japón?', 3, 1, 1, 0, 0, '2024-10-27 04:13:34'),
-(14, '¿Qué país tiene la mayor cantidad de islas del mundo?', 3, 1, 1, 0, 0, '2024-10-27 04:13:34'),
+(13, '¿Cuál es la capital de Japón?', 3, 1, 2, 0, 0, '2024-10-27 04:13:34'),
+(14, '¿Qué país tiene la mayor cantidad de islas del mundo?', 3, 1, 2, 0, 0, '2024-10-27 04:13:34'),
 (15, '¿Cuál es la montaña más alta del mundo?', 3, 1, 1, 0, 0, '2024-10-27 04:13:34'),
 (16, '¿Cuál es la fórmula del agua?', 4, 2, 1, 0, 0, '2024-10-27 04:15:56'),
 (17, '¿Qué planeta es conocido como el planeta rojo?', 4, 2, 1, 0, 0, '2024-10-27 04:15:56'),
@@ -111,31 +201,31 @@ INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `id_categoria`, `id_dificulta
 (20, '¿Cuál es la teoría que explica el origen del universo?', 4, 3, 1, 0, 0, '2024-10-27 04:15:56'),
 (21, '¿Cuántos jugadores hay en un equipo de fútbol?', 5, 2, 1, 0, 0, '2024-10-27 04:15:56'),
 (22, '¿Cuál es el evento deportivo más visto del mundo?', 5, 2, 1, 0, 0, '2024-10-27 04:15:56'),
-(23, '¿Qué país ganó la Copa del Mundo de Fútbol en 2018?', 5, 2, 1, 0, 0, '2024-10-27 04:15:56'),
+(23, '¿Qué país ganó la Copa del Mundo de Fútbol en 2018?', 5, 2, 2, 0, 0, '2024-10-27 04:15:56'),
 (24, '¿Cuál es el deporte más practicado del mundo?', 5, 3, 1, 0, 0, '2024-10-27 04:15:56'),
 (25, '¿En qué deporte se utiliza una raqueta?', 5, 3, 1, 0, 0, '2024-10-27 04:15:56'),
 (26, '¿Quién pintó la Mona Lisa?', 6, 2, 1, 0, 0, '2024-10-27 04:15:56'),
 (27, '¿Qué movimiento artístico es Van Gogh asociado?', 6, 2, 1, 0, 0, '2024-10-27 04:15:56'),
 (28, '¿Cuál es el famoso monumento de piedra en Perú?', 6, 2, 1, 0, 0, '2024-10-27 04:15:56'),
-(29, '¿Qué técnica se utiliza para hacer esculturas en mármol?', 6, 3, 1, 0, 0, '2024-10-27 04:15:56'),
-(30, '¿Qué museo alberga la estatua de David de Miguel Ángel?', 6, 3, 1, 0, 0, '2024-10-27 04:15:56'),
+(29, '¿Qué técnica se utiliza para hacer esculturas en mármol?', 6, 3, 2, 0, 0, '2024-10-27 04:15:56'),
+(30, '¿Qué museo alberga la estatua de David de Miguel Ángel?', 6, 3, 2, 0, 0, '2024-10-27 04:15:56'),
 (31, '¿Cuál es la raíz cuadrada de 16?', 7, 2, 1, 0, 0, '2024-10-27 04:19:26'),
-(32, '¿Qué es π (pi)?', 7, 2, 1, 0, 0, '2024-10-27 04:19:26'),
-(33, '¿Cuál es la fórmula del área de un círculo?', 7, 3, 1, 0, 0, '2024-10-27 04:19:26'),
+(32, '¿Qué es π (pi)?', 7, 2, 2, 0, 0, '2024-10-27 04:19:26'),
+(33, '¿Cuál es la fórmula del área de un círculo?', 7, 3, 2, 0, 0, '2024-10-27 04:19:26'),
 (34, '¿Cuántos lados tiene un hexágono?', 7, 3, 1, 0, 0, '2024-10-27 04:19:26'),
 (35, '¿Qué es un número primo?', 7, 3, 1, 0, 0, '2024-10-27 04:19:26'),
 (36, '¿Cuál es la capital de Francia?', 8, 2, 1, 0, 0, '2024-10-27 04:19:27'),
 (37, '¿Quién escribió \"Cien años de soledad\"?', 8, 2, 1, 0, 0, '2024-10-27 04:19:27'),
 (38, '¿Cuál es el río más largo del mundo?', 8, 2, 1, 0, 0, '2024-10-27 04:19:27'),
 (39, '¿Qué país tiene la mayor población del mundo?', 8, 3, 1, 0, 0, '2024-10-27 04:19:27'),
-(40, '¿En qué año llegó el hombre a la Luna?', 8, 3, 1, 0, 0, '2024-10-27 04:19:27'),
+(40, '¿En qué año llegó el hombre a la Luna?', 8, 3, 2, 0, 0, '2024-10-27 04:19:27'),
 (41, '¿Qué significa HTML?', 9, 2, 1, 0, 0, '2024-10-27 04:19:27'),
 (42, '¿Cuál es el lenguaje de programación más popular en 2024?', 9, 2, 1, 0, 0, '2024-10-27 04:19:27'),
 (43, '¿Qué es una función en programación?', 9, 3, 1, 0, 0, '2024-10-27 04:19:27'),
-(44, '¿Qué es un bucle en programación?', 9, 3, 1, 0, 0, '2024-10-27 04:19:27'),
+(44, '¿Qué es un bucle en programación?', 9, 3, 2, 0, 0, '2024-10-27 04:19:27'),
 (45, '¿Qué herramienta se utiliza para el control de versiones?', 9, 3, 1, 0, 0, '2024-10-27 04:19:27'),
 (46, '¿Cuál es el objetivo del juego de ajedrez?', 10, 2, 1, 0, 0, '2024-10-27 04:20:28'),
-(47, '¿Qué videojuego se lanzó en 1980 y es conocido por su personaje principal, un ladrón de frutas?', 10, 2, 1, 0, 0, '2024-10-27 04:20:28'),
+(47, '¿Qué videojuego se lanzó en 1980 y es conocido por su personaje principal, un ladrón de frutas?', 10, 2, 2, 0, 0, '2024-10-27 04:20:28'),
 (48, '¿Qué tipo de juego es \"The Legend of Zelda\"?', 10, 3, 1, 0, 0, '2024-10-27 04:20:28'),
 (49, '¿Qué se necesita para ganar en \"Monopoly\"?', 10, 3, 1, 0, 0, '2024-10-27 04:20:28'),
 (50, '¿Qué es un \"speedrun\"?', 10, 3, 1, 0, 0, '2024-10-27 04:20:28'),
@@ -165,6 +255,58 @@ CREATE TABLE `preguntapartida` (
   `acertoElUsuario` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `preguntapartida`
+--
+
+INSERT INTO `preguntapartida` (`id_preguntaPartida`, `id_partida`, `id_pregunta`, `id_usuario`, `respondida`, `acertoElUsuario`) VALUES
+(304, 156, 45, 10, 1, 0),
+(305, 157, 52, 10, 1, 1),
+(306, 157, 19, 10, 1, 0),
+(307, 158, 31, 10, 1, 0),
+(308, 159, 12, 10, 1, 1),
+(309, 159, 15, 10, 1, 1),
+(310, 159, 53, 10, 1, 1),
+(311, 159, 18, 10, 1, 0),
+(312, 160, 46, 10, 1, 0),
+(313, 161, 9, 10, 1, 0),
+(314, 162, 57, 10, 1, 0),
+(315, 165, 21, 10, 1, 0),
+(316, 169, 22, 10, 1, 0),
+(317, 170, 7, 10, 1, 1),
+(318, 170, 13, 10, 1, 0),
+(319, 171, 48, 10, 1, 1),
+(320, 171, 5, 10, 1, 0),
+(321, 172, 50, 10, 1, 0),
+(322, 173, 47, 10, 1, 0),
+(323, 175, 2, 10, 1, 1),
+(324, 175, 54, 10, 1, 0),
+(325, 176, 59, 10, 1, 0),
+(326, 177, 32, 10, 1, 1),
+(327, 177, 28, 10, 1, 0),
+(328, 178, 4, 10, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reporte`
+--
+
+CREATE TABLE `reporte` (
+  `id_reporte` int(11) NOT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
+  `id_pregunta` int(11) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `fecha_reporte` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `reporte`
+--
+
+INSERT INTO `reporte` (`id_reporte`, `id_usuario`, `id_pregunta`, `descripcion`, `fecha_reporte`) VALUES
+(3, 10, 23, 'Pregunta incorrecta', '2024-11-10 23:25:57');
+
 -- --------------------------------------------------------
 
 --
@@ -177,15 +319,6 @@ CREATE TABLE `respuesta` (
   `descripcion` varchar(255) NOT NULL,
   `correcta` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Estructura de tabla para `estado`
---
-CREATE TABLE `estado` (
-                          `id_estado` int(11) NOT NULL AUTO_INCREMENT,
-                          `descripcion` varchar(50) NOT NULL,
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 
 --
 -- Volcado de datos para la tabla `respuesta`
@@ -463,17 +596,8 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ubicacion`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`, `musica`, `puntaje_usuario`) VALUES
 (7, 'Victoria', 'Schmuker', 'vicky', '123', 'vicky@gmail.com', '2000-01-01', '-34.66903569482507, -58.560749358166504', '2024-10-28', '7.jpg', 'f', 1, 0, 0),
 (9, 'Julián Gabriel', 'Schmuker', 'juli', '123', 'test@unlam.edu.ar', '0000-00-00', '-34.689328289275, -58.63649494074707', '2024-10-29', '9.jpg', 'm', 1, 0, 0),
-(10, 'Lucas', 'Rios', 'lucon', '123', 'lucas@gmail.com', '2000-01-01', '-34.657316662962344, -58.58199245356445', '2024-10-30', '10.jpeg', 'm', 1, 0, 0),
+(10, 'Lucas', 'Rios', 'lucon', '123', 'lucas@gmail.com', '2000-01-01', '-34.657316662962344, -58.58199245356445', '2024-10-30', '10.jpeg', 'm', 1, 0, 240),
 (31, 'Facundo', 'Darano', 'facu', '123', 'facu@gmail.com', '2000-01-01', '-34.66988278951427, -58.56958991907959', '2024-11-09', '31.jpeg', 'm', 1, 1, 0);
-
---
--- Volcado de datos para la tabla `estado`
---
-INSERT INTO `estado` (`descripcion`) VALUES
-('Revisión'),
-('Habilitada'),
-('Deshabilitada');
-
 
 --
 -- Índices para tablas volcadas
@@ -484,6 +608,12 @@ INSERT INTO `estado` (`descripcion`) VALUES
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id_categoria`);
+
+--
+-- Indices de la tabla `estado`
+--
+ALTER TABLE `estado`
+  ADD PRIMARY KEY (`id_estado`);
 
 --
 -- Indices de la tabla `partida`
@@ -497,7 +627,8 @@ ALTER TABLE `partida`
 --
 ALTER TABLE `pregunta`
   ADD PRIMARY KEY (`id_pregunta`),
-  ADD KEY `id_categoria` (`id_categoria`);
+  ADD KEY `id_categoria` (`id_categoria`),
+  ADD KEY `fk_estado` (`estado`);
 
 --
 -- Indices de la tabla `preguntapartida`
@@ -505,6 +636,14 @@ ALTER TABLE `pregunta`
 ALTER TABLE `preguntapartida`
   ADD PRIMARY KEY (`id_preguntaPartida`),
   ADD KEY `id_partida` (`id_partida`),
+  ADD KEY `id_pregunta` (`id_pregunta`);
+
+--
+-- Indices de la tabla `reporte`
+--
+ALTER TABLE `reporte`
+  ADD PRIMARY KEY (`id_reporte`),
+  ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_pregunta` (`id_pregunta`);
 
 --
@@ -520,13 +659,6 @@ ALTER TABLE `respuesta`
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`);
 
-
---
--- Indices de la tabla `estado`
---
-ALTER TABLE `estado`
-    ADD PRIMARY KEY (`id`)
-
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
@@ -538,10 +670,16 @@ ALTER TABLE `categoria`
   MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT de la tabla `estado`
+--
+ALTER TABLE `estado`
+  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
@@ -553,7 +691,13 @@ ALTER TABLE `pregunta`
 -- AUTO_INCREMENT de la tabla `preguntapartida`
 --
 ALTER TABLE `preguntapartida`
-  MODIFY `id_preguntaPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
+  MODIFY `id_preguntaPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=329;
+
+--
+-- AUTO_INCREMENT de la tabla `reporte`
+--
+ALTER TABLE `reporte`
+  MODIFY `id_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
@@ -565,7 +709,7 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Restricciones para tablas volcadas
@@ -581,6 +725,7 @@ ALTER TABLE `partida`
 -- Filtros para la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
+  ADD CONSTRAINT `fk_estado` FOREIGN KEY (`estado`) REFERENCES `estado` (`id_estado`),
   ADD CONSTRAINT `pregunta_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`) ON DELETE CASCADE;
 
 --
@@ -591,10 +736,11 @@ ALTER TABLE `preguntapartida`
   ADD CONSTRAINT `preguntapartida_ibfk_2` FOREIGN KEY (`id_pregunta`) REFERENCES `pregunta` (`id_pregunta`);
 
 --
--- Filtros para la tabla `estado`
+-- Filtros para la tabla `reporte`
 --
-ALTER TABLE `pregunta`
-    ADD CONSTRAINT `fk_estado`  FOREIGN KEY (`estado`) REFERENCES `estado`(`id_estado`);
+ALTER TABLE `reporte`
+  ADD CONSTRAINT `reporte_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `reporte_ibfk_2` FOREIGN KEY (`id_pregunta`) REFERENCES `pregunta` (`id_pregunta`);
 
 --
 -- Filtros para la tabla `respuesta`
@@ -606,160 +752,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
-CREATE TABLE `categoria` (
-                             `id` tinyint(4) NOT NULL,
-                             `nombre` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `categoria`
---
-
-INSERT INTO `categoria` (`id`, `nombre`) VALUES
-                                             (1, 'Historia'),
-                                             (2, 'Entretenimiento'),
-                                             (3, 'Geografia'),
-                                             (4, 'Ciencia'),
-                                             (5, 'Deporte'),
-                                             (6, 'Arte'),
-                                             (7, 'Matematica'),
-                                             (8, 'Cultura general'),
-                                             (9, 'Programacion'),
-                                             (10, 'Juegos'),
-                                             (11, 'Gastronomia');
-
-CREATE TABLE `partida` (
-                           `id` int(11) NOT NULL,
-                           `id_jugador_1` int(11) NOT NULL,
-
-    --
-    --  FUTUROS VALORES DE LAS PARTIDAS JUGADAS QUE TENGAMOS, FALTAN AGREGAR DATOS A PARTIDA PERO ES PARA EMPEZAR A MODELAR
-    --
-
-CREATE TABLE `pregunta` (
-  `id` int(11) NOT NULL,
-  `pregunta` varchar(255) NOT NULL,
-  `id_categoria` tinyint(4) NOT NULL,
-  `id_dificultad` tinyint(1) NOT NULL DEFAULT 1,
-  `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `apariciones` int(11) NOT NULL DEFAULT 0,
-  `aciertos` int(11) NOT NULL DEFAULT 0,
-  `fecha_alta` date NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-
-
-    --
-    -- Volcado de datos tabla pregunta
-    --
-
-INSERT INTO `pregunta` (`id`, `pregunta`, `id_categoria`, `id_dificultad`, `estado`, `apariciones`, `aciertos`, `fecha_alta`) VALUES
-(8, 'Quién es el autor de Mafalda?', 2, 1, 1, 10, 5, '2023-11-14'),
-(9, 'Cómo se llama el perro de Casados con Hijos?', 2, 1, 1, 10, 6, '2023-11-14'),
-(10, 'Quién es el vocalista de Soda Stereo?', 2, 1, 1, 10, 5, '2023-11-14'),
-(11, 'Cómo se llaman los vecinos de Casados con Hijos?', 2, 1, 1, 10, 5, '2023-11-14'),
-(12, 'Quién fue el conductor del Muro Infernal?', 2, 2, 0, 12, 8, '2023-11-14'),
-(13, 'Cuál película fue protagonizada por Darin que a su vez fue premiada por un Oscar?', 2, 1, 1, 10, 5, '2023-11-14'),
-(14, 'Cuál de estas bandas no es de Argentina?', 2, 1, 1, 10, 6, '2023-11-14'),
-(15, 'Quién era el enemigo principal de Hijitus?', 2, 1, 1, 10, 5, '2023-11-14'),
-(16, 'En qué provincia Argentina se encuentra principalmente Vaca Muerta?', 3, 1, 1, 10, 5, '2023-11-14'),
-
-CREATE TABLE `respuesta` (
-`id` int(11) NOT NULL,
-`id_pregunta` int(11) NOT NULL,
-`descripcion` varchar(255) NOT NULL,
-`correcta` tinyint(1) NOT NULL DEFAULT 0,
-`name_respuesta` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-    --
-    -- Volcado de datos tabla respuesta
-    --
-
-INSERT INTO `respuesta` (`id`, `id_pregunta`, `descripcion`, `correcta`, `name_respuesta`) VALUES
-(509, 8, 'Pepo', 0, 'invalida-1'),
-(510, 8, 'Quintero', 0, 'invalida-2'),
-(511, 8, 'Nik', 0, 'invalida-3'),
-(512, 8, 'Quino', 1, 'valida'),
-(513, 9, 'Pluto', 0, 'invalida-1'),
-(514, 9, 'Betun', 0, 'invalida-2'),
-(515, 9, 'Fatiga', 1, 'valida'),
-(516, 9, 'Chicho', 0, 'invalida-3'),
-(517, 10, 'Roberto Musso.', 0, 'invalida-1'),
-(518, 10, 'Adrian Dargelos.', 0, 'invalida-2'),
-(519, 10, 'Carlos Alberto Solari', 0, 'invalida-3'),
-(520, 10, 'Gustavo Cerati', 1, 'valida'),
-(521, 11, 'Dardo y Maria Elena', 1, 'valida'),
-(522, 11, 'Julian y Barbara', 0, 'invalida-1'),
-(523, 11, 'Cacho y Beatriz', 0, 'invalida-2'),
-(524, 11, 'Diego y Mariana', 0, 'invalida-3'),
-(525, 12, 'Ivan de Pineda', 0, 'invalida-1'),
-(526, 12, 'Marley', 1, 'valida'),
-(527, 12, 'Santiago del Moro', 0, 'invalida-2'),
-(528, 12, 'Guido Kaczka', 0, 'invalida-3'),
-(529, 13, 'Un cuento Chino', 0, 'invalida-1'),
-(530, 13, 'El Secreto de sus Ojos', 1, 'valida'),
-(531, 13, 'El hijo de la Novia.', 0, 'invalida-2'),
-(532, 13, 'La Odisea de los Giles', 0, 'invalida-3'),
-(533, 14, 'Los Piojos', 0, 'invalida-1'),
-(534, 14, 'Babasonicos', 0, 'invalida-2'),
-(535, 14, 'El Cuarteto de Nos', 1, 'valida'),
-(536, 14, 'Los Redondos', 0, 'invalida-3'),
-(537, 15, 'Doctor Doofenshmirtz', 0, 'invalida-1'),
-(538, 15, 'Doctor Nefario', 0, 'invalida-2'),
-(539, 15, 'Doctor Muerte', 0, 'invalida-3'),
-(540, 15, 'Doctor Neurus', 1, 'valida'),
-(541, 16, 'Neuquen', 1, 'valida'),
-(542, 16, 'Mendoza', 0, 'invalida-1'),
-(543, 16, 'La Rioja', 0, 'invalida-2'),
-(544, 16, 'Cordoba', 0, 'invalida-3')
-
-CREATE TABLE `respuestas_partida` (
-                                      `id_partida` int(11) NOT NULL,
-                                      `id_respuesta` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- FUTUROS VALORES DE LAS RESPUESTAS ACERTADAS EN UNA PARTIDA PARA DESPUES CREAR EL PUNTAJE
---
-
-
---
--- INDICES
---
-
-ALTER TABLE `categoria`
-    ADD PRIMARY KEY (`id`);
-
-
-ALTER TABLE `partida`
-    ADD PRIMARY KEY (`id`),
-  ADD KEY `id_jugador_1` (`id_jugador_1`),
-
-ALTER TABLE `pregunta`
-    ADD PRIMARY KEY (`id`),
-  ADD KEY `id_categoria` (`id_categoria`),
-
-ALTER TABLE `respuesta`
-    ADD PRIMARY KEY (`id`),
-  ADD KEY `respuesta_ibfk_1` (`id_pregunta`);
-
-ALTER TABLE `respuestas_partida`
-    ADD PRIMARY KEY (`id_partida`,`id_respuesta`),
-  ADD KEY `respuestas_partida_ibfk_2` (`id_respuesta`);
-
-
---
--- Auto Increment
---
-ALTER TABLE `partida`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
-
-ALTER TABLE `pregunta`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
-ALTER TABLE `respuesta`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;

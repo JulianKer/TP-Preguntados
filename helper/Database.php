@@ -319,6 +319,14 @@ class Database{
 
         return $ids;
     }
+
+    public function actualizarEstadoPregunta($id_pregunta, $id_estado)
+    {
+        $sql = "UPDATE pregunta SET estado = ? WHERE id_pregunta = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $id_estado, $id_pregunta); // 'ii' indica dos enteros
+        $stmt->execute();
+    }
     /*------------------------------------- fin PREGUNTAS ---------------------------------------------------*/
 
     /*----------------------------------- RANKING -------------------------------------------------------------*/
@@ -333,6 +341,13 @@ class Database{
         $stmt->bind_param("i", $idUsuario);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function crearReporte($id_pregunta, $id_usuario, $descripcion) {
+        $sql = "INSERT INTO reporte (id_pregunta, id_usuario, descripcion) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("iis", $id_pregunta, $id_usuario, $descripcion);
+        $stmt->execute();
     }
 
 
