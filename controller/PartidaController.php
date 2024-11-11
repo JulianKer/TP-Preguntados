@@ -140,6 +140,15 @@ class   PartidaController
         $data['idPreguntaReportar'] = $idPregunta;
         $data['hola'] = "hola";
         $data['idUser'] = $_SESSION['idUser'];
+
+
+        $data['user'] = $_SESSION['user'];
+        $idUser = $this->userModel->obtenerIdUserPorUserName($_SESSION['user'])["id"];
+        $userEncontrado = $this->userModel->obtenerUsuarioPorId($idUser)[0];
+        $data['musicaActivada'] = $userEncontrado["musica"];
+        $data['objUsuario'] = $userEncontrado;
+
+
         $this->presenter->show("reportarPregunta", $data);
 
     }

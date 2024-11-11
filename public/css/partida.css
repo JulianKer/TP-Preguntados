@@ -121,6 +121,28 @@ body {
     background-color: #3556b5;
     transform: scale(1.03);
 }
+
+
+
+.report-button{
+    margin-top: 1.5rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    & img{
+        cursor: pointer;
+        transition: all .2s;
+    }
+}
+.report-button img:hover{
+    transform: scale(1.4);
+}
+
+
 /*----------------CATEGORIAS-------------------*/
 .historia {
     border-top: 10px solid #e57373; /* Red */
@@ -206,6 +228,72 @@ body {
 }
 /*--------------------------------------------*/
 
+
+
+
+
+/*---------------POPUP-------------------*/
+.popupCompleto{
+    position: fixed;
+    z-index: 50;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: rgb(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.caja-popup{
+    background-color: white;
+    width: 400px;
+    max-width: 100dvw;
+
+    border-radius: 1em;
+    padding: 2em;
+    margin: 0 1em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+
+    & h3, h6{
+        margin: 0;
+        text-align: center;
+    }
+
+    a, p{
+        padding: .5em 1em;
+        border-radius: .5em;
+        border: none;
+        text-decoration: none;
+        color: #fff;
+        background-color: #1E3A8A;
+        transition: all .2s;
+        cursor: pointer;
+    }
+
+    p:hover{
+        background-color: #3556b5;
+        transform: scale(1.03);
+        cursor: pointer;
+    }
+
+    .cont-btn-popup-reporte{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 2em;
+
+        & >p {
+            width: 50%;
+            text-align: center;
+        }
+    }
+}
+/*--------------------------------------------*/
 
 
 
