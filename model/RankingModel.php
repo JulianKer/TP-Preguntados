@@ -23,16 +23,21 @@ class RankingModel{
                 }
             }
         }
+
+        /* este antes SOLO los ordenaba por puntaje pero como le agregué lo del empate, lo comento pero lo dejo x las dudas
         $rankingADebolver = array_filter($rankingADebolver, function($item) {return is_array($item);});
         $puntajes = array_column($rankingADebolver, 'puntaje');
-        array_multisort($puntajes, SORT_DESC, $rankingADebolver);
-        //print_r($rankingADebolver);
+        array_multisort($puntajes, SORT_DESC, $rankingADebolver);*/
+
+        usort($rankingADebolver, function($a, $b) {
+            if ($a['puntaje'] != $b['puntaje']) {
+                return $b['puntaje'] - $a['puntaje'];
+            }
+            return $a['id_partida'] - $b['id_partida'];
+        });
 
         foreach ($rankingADebolver as $index => &$partida) {
-            // PREGUNTAR: para diferenciar si hay empates en puntajes, podemos ordenarlo por quien consiguio primero ese puntaje,
-            // es decir, por el id de la partida enotneces, el de id_partida menor, es el que queda arriba pq consiguio antes
-            // el puntaje. VER LO DEL INDEX como lo ponemos si hay empate
-            $partida['posicion'] = $index + 1; // con este le agrego un atributo posicion para poder mostrala en el mustahce
+            $partida['posicion'] = $index + 1; // con este le pongo un atributo posicion para poder mostralo en el mustahce
         }
         return $rankingADebolver;
     }
