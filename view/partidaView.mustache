@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/partida.css">
-    <script src="/public/js/enviarRespuesta.js" defer></script>
     <title>Pregunta - QuizMaster</title>
 </head>
 <body>
@@ -33,6 +32,7 @@
                 {{/opciones}}
             </ul>
         </form>
+
         <div class="contenedor-botones">
             {{#esDeCorreccion}}
                 {{#laSeleccionadaEsCorrecta}}
@@ -43,9 +43,18 @@
                     <p>Puntaje obtenido: 100</p>
                 {{/laSeleccionadaEsCorrecta}}
             {{/esDeCorreccion}}
+
         </div>
-        <a class="report-button"><img src="/public/images/icons/flagReportIcon.svg" title="Reportar pregunta" alt="report"></a>
+        <!-- Formulario para reportar pregunta -->
+
+        <form action="/partida/reportarPregunta" method="GET" id="reportarPreguntaForm">
+            <p> {{pregunta.id_pregunta}}</p>
+            <input type="hidden" name="id_pregunta" value="{{pregunta.id_pregunta}}">
+            <input type="submit" class="boton-reporte" id="btn-reportar">
+        </form>
+
     </div>
 </div>
+<script src="/public/js/enviarRespuesta.js" defer></script>
 </body>
 </html>
