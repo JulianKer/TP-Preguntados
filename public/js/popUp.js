@@ -6,3 +6,11 @@ if (btnReanudar){
         popup.style.display = "none";
     })
 }
+
+let qr = document.querySelector(".qr");
+
+if (qr){
+    qr.addEventListener("click", ()=>{
+        popup.style.display = "flex";
+    })
+}

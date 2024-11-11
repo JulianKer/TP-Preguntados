@@ -20,27 +20,34 @@ class PerfilController{
     }
     public function usuario(){
         $idDelUser = null;
+        $idDelUserAMostrar = null;
         $data = null;
 
-        if (!isset($_SESSION['user'])) {
+        /*if (!isset($_SESSION['user'])) {
             header("location: /acceso/ingresar");
             exit();
-        }
+        }*/
+
 
         if (isset($_GET["var1"])){
-            $idDelUser = $_GET["var1"]; //este lo hago por si recibo un user para ver /x (mustro el perfil de ese user)
+            $idDelUserAMostrar = $_GET["var1"]; //este lo hago por si recibo un user para ver /x (mustro el perfil de ese user)
+            QrGenerador::generarYguardarQr("http://192.168.1.48/perfil/usuario/" . $idDelUserAMostrar);
         }else{
-            $idDelUser = $_SESSION['idUser'];// sino lo recibo, mustro el user de la sesion (osea su propio perfil)
+            $idDelUserAMostrar = $_SESSION['idUser']; //este lo hago por si recibo un user para ver /x (mustro el perfil de ese user)
             $data["estoyEnMiPerfil"] = true;
+            QrGenerador::generarYguardarQr("http://192.168.1.48/perfil/usuario/" . $_SESSION["idUser"]);
         }
 
-        $userEncontrado = $this->model->obtenerUsuarioPorId($idDelUser)[0];
+        $idDelUser = $_SESSION['idUser'] ?? null;
 
-        if ($userEncontrado == null){
+        $userEncontrado = isset($_SESSION['user']) ? $this->model->obtenerUsuarioPorId($idDelUser)[0] : null;
+        $userAMostrar = $this->model->obtenerUsuarioPorId($idDelUserAMostrar)[0];
+
+        if ($userAMostrar == null){
             header("location: /principal/inicio");
             exit();
         }
-        $userEncontrado["posicionEnElRanking"] = $this->rankingModel->dameLaPosicionEnElRankingDeEsteUsuario($userEncontrado["id"]);
+        $userAMostrar["posicionEnElRanking"] = $this->rankingModel->dameLaPosicionEnElRankingDeEsteUsuario($userAMostrar["id"]);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["musica"])) {
             $activacion = $_POST["musica"] == "SI" ? 1 : 0;
@@ -48,13 +55,13 @@ class PerfilController{
             header("location: /perfil/usuario");
             exit(); // lo habia intentado hacer por ajax pero tenia problemas con el .play del audio x eso directamente redirijo para q cargue tod y listo
         }
-        $data["musicaActivada"] = $userEncontrado["musica"];
+        $data["musicaActivada"] = $userEncontrado ? $userEncontrado["musica"] : "";
+        $data['user'] = $userEncontrado ? $_SESSION['user'] : "";
+        $data['objUsuario'] = $userEncontrado ?? null;
 
-        $data["coordenadas"] = $this->model->obtenerCoordenadas($userEncontrado["ubicacion"]);
-        $data['usuario'] = $userEncontrado;
-        $data['objUsuario'] = $userEncontrado;
-        $data['user'] = $_SESSION['user'];
-        $data["partidasDelUsuario"] = $this->partidasModel->obtenerPartidasDelUsuario($userEncontrado["id"]);
+        $data['usuarioAMostrar'] = $userAMostrar;
+        $data["coordenadas"] = $this->model->obtenerCoordenadas($userAMostrar["ubicacion"]);
+        $data["partidasDelUsuario"] = $this->partidasModel->obtenerPartidasDelUsuario($userAMostrar["id"]);
         $this->presenter->show("perfil", $data);
     }
 }

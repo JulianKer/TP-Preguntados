@@ -15,6 +15,7 @@
 <header>
     <nav class="navbar">
         <a href="/principal/inicio" class="logo">QuizMaster</a>
+        {{#user}}
         <div class="cont-user-icon">
             <div style="display: flex; flex-direction: column">
                 {{#user}}
@@ -26,6 +27,8 @@
                 <img class="user-icon" src="/public/images/profiles/{{objUsuario.fotoperfil}}" title="Perfil" alt="perfil">
             </a>
         </div>
+        {{/user}}
+
     </nav>
     <input type="hidden" value="{{musicaActivada}}" id="valueMusica"> <!--este lo ponog aca asi esta en todas las pags al igual q el audio-->
     <audio id="fondo-musica" loop {{#musicaActivada}}autoplay{{/musicaActivada}} style="display: none;">

@@ -22,8 +22,10 @@ include_once ("model/RankingModel.php");
 
 include_once ("helper/Mail.php");
 include_once ("helper/SubirImagen.php");
+include_once ("helper/QrGenerador.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
+include_once('vendor/qrLib/barcode.php');
 
 class Configuration
 {
