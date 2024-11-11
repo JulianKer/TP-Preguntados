@@ -11,16 +11,16 @@
     <div class="main-content">
         <h1>Reportar Pregunta</h1>
         <form action="/partida/reportarPregunta" method="POST">
-            <label for="razon">Selecciona una razón para el reporte:</label>
+            <label for="razon">Selecciona una razón:</label>
             <input type="hidden"  name="id_pregunta" value="{{idPreguntaReportar}}">
-            <select name="descripcion" required>
-                <option value="Contenido inapropiado">Contenido inapropiado</option>
-                <option value="Pregunta incorrecta">Pregunta incorrecta</option>
+            <select name="descripcion" id="razon" required>
+                <option value="Formulación incorrecta">Formulación incorrecta</option>
+                <option value="Respuestas equivocadas">Respuestas equivocadas</option>
+                <option value="Pertenece a otra categoría">Pertenece a otra categoría</option>
                 <option value="Otro">Otro</option>
             </select>
-
             <label for="opinion">Tu opinión:</label>
-            <textarea name="opinion" required></textarea>
+            <textarea name="opinion" id="opinion" placeholder="Detalle su opinión..." maxlength="200"></textarea>
             <input type="submit"  value="Enviar Reporte">
         </form>
     </div>

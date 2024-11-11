@@ -4,9 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/partida.css">
+    <script src="/public/js/popUp.js" defer></script>
+
     <title>Pregunta - QuizMaster</title>
 </head>
 <body>
+
+<div class="popupCompleto" style="display: none">
+    <div class="caja-popup">
+        <h3>¿Desea reportar esta pregunta?</h3>
+        <h6>Deberá rellenar un formulario de reporte.</h6>
+        <div class="cont-btn-popup-reporte">
+            <p id="btnReanudar">No</p>
+            <p id="btnIrAlFormDeReporte">Sí</p>
+        </div>
+    </div>
+</div>
+
 <div class="main-content">
     <div class="question-card {{categoria}}">
         <h1 class="categoria">· {{pregunta.nombre}} ·</h1>
@@ -45,12 +59,12 @@
             {{/esDeCorreccion}}
 
         </div>
-        <!-- Formulario para reportar pregunta -->
 
-        <form action="/partida/reportarPregunta" method="GET" id="reportarPreguntaForm">
-            <p> {{pregunta.id_pregunta}}</p>
+        <form action="/partida/mostrarVistaReporte" method="GET" id="reportarPreguntaForm">
             <input type="hidden" name="id_pregunta" value="{{pregunta.id_pregunta}}">
-            <input type="submit" class="boton-reporte" id="btn-reportar">
+            {{#esDeCorreccion}}
+                <a class="report-button"><img src="/public/images/icons/flagReportIcon.svg" alt="Reportar" title="Reportar pregunta: {{pregunta.id_pregunta}}"></a>
+            {{/esDeCorreccion}}
         </form>
 
     </div>

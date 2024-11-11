@@ -27,3 +27,20 @@ if (infoIcon){
     })
 }
 // --------------------------------------------
+
+// ----------- para REPORTAR ----------------------
+let flagIcon = document.querySelector(".report-button");
+
+if (flagIcon){
+    let btnIrAlFormDeReporte = document.getElementById("btnIrAlFormDeReporte");
+    let formIrAlReporte = document.getElementById("reportarPreguntaForm");
+
+    flagIcon.addEventListener("click", ()=>{
+        popup.style.display = "flex";
+
+        btnIrAlFormDeReporte.addEventListener("click", ()=>{
+            formIrAlReporte.submit();
+        })
+    })
+}
+// --------------------------------------------

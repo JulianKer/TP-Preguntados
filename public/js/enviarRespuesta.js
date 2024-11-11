@@ -1,5 +1,5 @@
 let form = document.getElementById("form");
-let labels = document.querySelectorAll("form");
+let labels = document.querySelectorAll(".option-button");
 
 let btnNext = document.querySelector(".next-button");
 let btnVolver = document.querySelector(".back-button");
