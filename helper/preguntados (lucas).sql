@@ -21,6 +21,9 @@ SET time_zone = "+00:00";
 -- Base de datos: `preguntados`
 --
 
+CREATE DATABASE IF NOT EXISTS `preguntados` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `preguntados`;
+
 -- --------------------------------------------------------
 
 --
@@ -68,8 +71,12 @@ CREATE TABLE `estado` (
 --
 
 INSERT INTO `estado` (`id_estado`, `descripcion`) VALUES
-(1, 'Habilitada'),
-(2, 'Revision');
+(1, 'desactivada'),
+(2, 'reportada'),
+(3, 'rechazada'),
+(4, 'aprobada'),
+(5, 'pendiente');
+
 
 -- --------------------------------------------------------
 
@@ -299,13 +306,6 @@ CREATE TABLE `reporte` (
   `descripcion` varchar(255) DEFAULT NULL,
   `fecha_reporte` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `reporte`
---
-
-INSERT INTO `reporte` (`id_reporte`, `id_usuario`, `id_pregunta`, `descripcion`, `fecha_reporte`) VALUES
-(3, 10, 23, 'Pregunta incorrecta', '2024-11-10 23:25:57');
 
 -- --------------------------------------------------------
 
