@@ -85,6 +85,100 @@ body {
     background-color: #dadada;
 }
 
+
+
+.titleRanking_iconInfo{
+    display: flex;
+    justify-content: space-between;
+
+    & img{
+        width: 2em;
+        transition: all .5s;
+    }
+
+    img:hover{
+        cursor: pointer;
+        transform: rotate(-360deg) scale(1.2);
+    }
+}
+
+
+
+
+/*---------------POPUP-------------------*/
+.popupCompleto{
+    position: fixed;
+    z-index: 50;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: rgb(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.caja-popup{
+    background-color: white;
+    width: 400px;
+    max-width: 100dvw;
+
+    border-radius: 1em;
+    padding: 2em 1em;
+    margin: 0 1em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & h4{
+        margin: 0;
+    }
+
+    >a, >p{
+        padding: .5em 1em;
+        border-radius: .5em;
+        border: none;
+        text-decoration: none;
+        color: #fff;
+        background-color: #1E3A8A;
+        transition: all .2s;
+        cursor: pointer;
+    }
+
+    >a:hover{
+        background-color: #3556b5;
+        transform: scale(1.03);
+        cursor: pointer;
+    }
+
+    img{
+        width: 5em;
+    }
+}
+
+.divContenedorDeInformacion{
+    padding: 1em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & h3{
+        margin-bottom: 1em;
+    }
+
+    h6{
+        text-align: center;
+    }
+}
+/*--------------------------------------------*/
+
+
+
+
+
 @media screen and (max-width: 750px){
     .main-content{
         min-width: 100dvw;

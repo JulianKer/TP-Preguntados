@@ -5,12 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/ranking.css">
     <script src="/public/js/ranking.js" defer></script>
+    <script src="/public/js/popUp.js" defer></script>
     <title>QuizMaster - Ranking</title>
 </head>
 <body>
+
+<div class="popupCompleto" style="display: none">
+    <div class="caja-popup">
+        <img src="/public/images/icons/infoIcon.svg" alt="Info icon" title="¿Cómo funciona?">
+        <div class="divContenedorDeInformacion">
+            <h3>¿Cómo funciona?</h3>
+            <h6>El posicionamiento de ranking se basa en el puntaje de la <strong>mejor partida</strong> del cada usuario.</h6>
+            <h6>En caso de empate, se definirá el puesto según quién ha conseguido <strong>antes</strong> el puntaje.</h6>
+        </div>
+        <p id="btnReanudar">Cerrar</p>
+    </div>
+</div>
+
     <div class="main-content">
         <div class="ranking-card">
-            <h2 class="ranking-title">#RANKING</h2>
+            <div class="titleRanking_iconInfo">
+                <h2 class="ranking-title">#RANKING</h2>
+                <img src="/public/images/icons/infoIcon.svg" alt="Info icon" title="¿Cómo funciona?" id="infoIcon">
+            </div>
             <table class="ranking-table">
                 <thead>
                     <tr>
