@@ -281,6 +281,15 @@ class Database{
 
 
     /*-------------------- PREGUNTAS ----------------------------------------------------------------------*/
+
+    public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta){ // este inserta la pregunta con estado (5) "pendiente" (para q el admin la apruebe o la rechace)
+        $stmt = $this->conn->prepare("INSERT INTO `pregunta` (`pregunta`, `id_categoria`, `id_dificultad`, `estado`, `apariciones`, `aciertos`) 
+                                                            VALUES (?, ? , 1, 5, 0, 0)");
+        $stmt->bind_param("si", $pregunta, $categoria);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
+
     public function actualizarPregunta($pregunta){
         $apariciones = $pregunta['apariciones'];
         $aciertos = $pregunta['aciertos'];
@@ -329,6 +338,31 @@ class Database{
     }
     /*------------------------------------- fin PREGUNTAS ---------------------------------------------------*/
 
+
+
+
+    /*-------------------- INICIO RESPUESTA ----------------------------------------------------------------------*/
+    public function crearEInsertarRespuestasParaPreguntaCreada($idDePreguntaInsertada, $opcion1, $opcion2, $opcion3, $opcion4, $respuesta_correcta){
+        $stmt = $this->conn->prepare("INSERT INTO `respuesta` (`id_pregunta`, `descripcion`, `correcta`)  
+                                                            VALUES (?, ?, 0),
+                                                                    (?, ?, 0),
+                                                                    (?, ?, 0),
+                                                                    (?, ?, 0);");
+        $stmt->bind_param("isisisis", $idDePreguntaInsertada, $opcion1, $idDePreguntaInsertada, $opcion2, $idDePreguntaInsertada, $opcion3, $idDePreguntaInsertada, $opcion4);
+        $stmt->execute();
+    }
+
+    public function setearEstaRespuestaComoCorrectaParaEstaPregunta($idDePreguntaInsertada, $descripcionDeLaRespuestaCorrecta) {
+        $descripcionConLike = "%" . $descripcionDeLaRespuestaCorrecta . "%";
+
+        $stmt = $this->conn->prepare("UPDATE `respuesta` SET `correcta` = 1 WHERE `id_pregunta` = ? AND `descripcion` LIKE ?");
+        $stmt->bind_param("is", $idDePreguntaInsertada, $descripcionConLike);
+        $stmt->execute();
+    }
+    /*-------------------- FIN RESPUESTA ----------------------------------------------------------------------*/
+
+
+
     /*----------------------------------- RANKING -------------------------------------------------------------*/
     public function obtenerTodosLosUsuarios(){
         $stmt = $this->conn->prepare("SELECT * FROM `usuario`");
@@ -349,16 +383,20 @@ class Database{
         $stmt->bind_param("iis", $id_pregunta, $id_usuario, $descripcion);
         $stmt->execute();
     }
-
-
-
-
-
-
-
     /*----------------------------------- FIN RANKING ---------------------------------------------------------*/
 
 
+
+
+    /*----------------------------------- INICIO CATEGORIAS ---------------------------------------------------------*/
+
+    public function obtenerTodasCategorias(){
+        $stmt = $this->conn->prepare("SELECT * FROM `categoria`");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /*----------------------------------- FIN RANKING ---------------------------------------------------------*/
 
 
 

@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+a, a:hover{
+    text-decoration: none;
+    color: #fff;
+}
+
+.navbar{
+    padding: 1rem;
+}
+
+.main-content {
+    max-width: 100%;
+    width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+}
+
+select, input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.option-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 10px;
+}
+
+.option-group input[type="text"] {
+    flex-grow: 1;
+}
+
+.option-group input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+}
+
+.cont_btns{
+    display: flex;
+    gap: 4em;
+}
+
+button, .boton-volver {
+    background-color: #1a237e;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover, .boton-volver:hover{
+    background-color: #283593;
+}
+
+
+.boton-volver{
+    text-align: center;
+    text-decoration: none;
+}
+
+
+@media screen and (max-width: 1000px){
+    .main-content{
+        margin: 0;
+        padding: 4em 1em 0 1em;
+    }
+
+    .cont_btns{
+        gap: 1em;
+    }
+}

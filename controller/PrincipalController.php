@@ -21,6 +21,9 @@ class PrincipalController
             header("location: /acceso/ingresar");
             exit();
         }
+
+        $_SESSION["errorCrear"] = null;
+        $_SESSION["exitoCrear"] = null;
         $userEncontrado = $this->modelUsuario->obtenerUsuarioPorId($_SESSION['idUser'])[0];
 
         $data["musicaActivada"] = $userEncontrado["musica"];
