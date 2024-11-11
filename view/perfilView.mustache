@@ -7,42 +7,50 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZyPvOL6RNuAFLAp4fRzDauddjtpNtU0Q&callback=initMap"></script>
     <script src="/public/js/googleMaps.js" defer></script>
     <script src="/public/js/ubicacionDelPerfil.js" defer></script>
+    <script src="/public/js/popUp.js" defer></script>
 
     <title>Perfil de Usuario - QuizMaster</title>
 </head>
 <body>
+<div class="popupCompleto" style="display: none">
+    <div class="caja-popup">
+        <h3>@{{usuarioAMostrar.nombreusuario}}</h3>
+        <img class="qr-popup" src="/public/images/qr/qr.svg" alt="QR - Perfil" title="QR">
+        <p id="btnReanudar">Cerrar</p>
+    </div>
+</div>
 
     <div class="main-content">
         <div class="profile-card">
             <div class="profile-header">
                 <div class="cont-avataryname">
                     <div class="profile-avatar">
-                        <img src="/public/images/profiles/{{usuario.fotoperfil}}">
+                        <img src="/public/images/profiles/{{usuarioAMostrar.fotoperfil}}">
                     </div>
                     <div>
-                        <h1 class="profile-name">{{usuario.nombre}} {{usuario.apellido}}</h1>
-                        <p class="profile-username">@{{usuario.nombreusuario}}</p>
+                        <h1 class="profile-name">{{usuarioAMostrar.nombre}} {{usuarioAMostrar.apellido}}</h1>
+                        <p class="profile-username">@{{usuarioAMostrar.nombreusuario}}</p>
                     </div>
                 </div>
                 <div>
-                    <img class="qr" src="/public/images/icons/codigoQR.png">
+                    <img class="qr" src="/public/images/qr/qr.svg" alt="QR - Perfil" title="QR">
                 </div>
             </div>
 
             <div class="profile-stats">
                 <div class="stat-item">
                     <p class="stat-label">Ranking</p>
-                    <p class="stat-value">#{{usuario.posicionEnElRanking}}</p>
+                    <p class="stat-value">#{{usuarioAMostrar.posicionEnElRanking}}</p>
                 </div>
                 <div class="stat-item">
                     <p class="stat-label">Puntaje</p>
-                    <p class="stat-value">{{usuario.puntaje_usuario}}</p>
+                    <p class="stat-value">{{usuarioAMostrar.puntaje_usuario}}</p>
                 </div>
             </div>
             <div id="mapaPerfil">
                 <input type="hidden" id="lat" value="{{coordenadas.lat}}">
                 <input type="hidden" id="lng" value="{{coordenadas.lng}}">
-                <iframe src="https://www.google.com/maps?q={{usuario.ubicacion}}&h1=es;z=14&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps?q={{usuarioAMostrar.ubicacion}}&h1=es;z=14&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 <label class="direccion"><img src="/public/images/icons/locationIcon.svg" alt="locationIcon" title="Ubicación seleccionada" style="margin-bottom: .3em"> <span id="selectedLocation">Ninguna</span></label>
             </div>
 
