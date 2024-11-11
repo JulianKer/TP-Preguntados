@@ -18,6 +18,28 @@ class PreguntaModel
     public function obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta){
         return $this->database->obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta);
     }
+
+    public function crearEInsertarRespuestasParaPreguntaCreada($idDePreguntaInsertada, $opcion1, $opcion2, $opcion3, $opcion4, $respuesta_correcta){
+        $this->database->crearEInsertarRespuestasParaPreguntaCreada($idDePreguntaInsertada, $opcion1, $opcion2, $opcion3, $opcion4, $respuesta_correcta);
+    }
+
+    public function dameLaDescripcionDeLaRespuestaCorrectaSegunEstasOpciones($respuesta_correcta, $opcion1, $opcion2, $opcion3, $opcion4){
+        switch ($respuesta_correcta) {
+            case "opcion1":
+                return $opcion1;
+                case "opcion2":
+                    return $opcion2;
+                    case "opcion3":
+                        return $opcion3;
+            default:
+                return $opcion4;
+        }
+    }
+
+    public function setearEstaRespuestaComoCorrectaParaEstaPregunta($idDePreguntaInsertada, $descripcionDeLaRespuestaCorrecta){
+        $this->database->setearEstaRespuestaComoCorrectaParaEstaPregunta($idDePreguntaInsertada, $descripcionDeLaRespuestaCorrecta);
+    }
+
     public function desordenarRespuestas($arrayADesordenar){
         shuffle($arrayADesordenar);
         return $arrayADesordenar;
@@ -43,5 +65,8 @@ class PreguntaModel
         // faltaria guardar la descripcion del reporte en la base de datos pero despues lo agrego.
     }
 
+    public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta){
+        return $this->database->crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta);
+    }
 }
 

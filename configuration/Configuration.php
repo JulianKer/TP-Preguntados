@@ -20,6 +20,10 @@ include_once ("model/PreguntaModel.php");
 include_once ("controller/RankingController.php");
 include_once ("model/RankingModel.php");
 
+include_once ("controller/CrearController.php");
+
+include_once ("model/CategoriaModel.php");
+
 include_once ("helper/Mail.php");
 include_once ("helper/SubirImagen.php");
 include_once ("helper/QrGenerador.php");
@@ -55,6 +59,10 @@ class Configuration
 
     public function getRankingController(){
         return new RankingController($this->getRankingModel(),$this->getUsuarioModel(),$this->getPartidaModel(), $this->getPresenter());
+    }
+
+    public function getCrearController(){
+        return new CrearController($this->getPreguntaModel(), $this->getUsuarioModel(), $this->getCategoriaModel(), $this->getPresenter());
     }
 
 
@@ -109,6 +117,11 @@ class Configuration
     public function getRankingModel(){
         return new RankingModel($this->getDatabase(), $this->getUsuarioModel());
     }
+
+    public function getCategoriaModel(){
+        return new CategoriaModel($this->getDatabase());
+    }
+
     public function getMail(){
         return new Mail();
     }
