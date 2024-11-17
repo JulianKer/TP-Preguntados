@@ -41,7 +41,10 @@ class PartidaModel
     }
 
     public function crearNuevaPreguntaPartida($idPartida, $idPregunta, $idUser) {
-        return $this->database->crearNuevaPreguntaPartida($idPartida, $idPregunta, $idUser);
+        $fechaActual = new DateTime();
+        $fechaParaGuardar = $fechaActual->format('Y-m-d H:i:s');
+
+        return $this->database->crearNuevaPreguntaPartida($idPartida, $idPregunta, $idUser, $fechaParaGuardar);
     }
 
     /*public function buscarUltimaPartidaPreguntaDeEstaPartida($idPartida){ este metodo CREO que nunca lo uso, nose pq esta pq en el partida controler ni en ningun lado lo uso, lo habre creado y no lo borre pero por las dudas lo dejo y desp lo chekeo bien
@@ -78,5 +81,17 @@ class PartidaModel
         return $this->database->obtenerPartidasDelUsuario($idUser);
     }
 
+    public function contestoEnTiempoYForma($preguntaPartida){
+        $fechaEntregada = new DateTime($preguntaPartida["fechaEntregada"]);
+        $fechaActual = new DateTime();
+
+        $diferencia = $fechaActual->getTimestamp() - $fechaEntregada->getTimestamp();
+
+        if (abs($diferencia) <= 10) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }
