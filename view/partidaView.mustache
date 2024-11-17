@@ -23,7 +23,21 @@
 
 <div class="main-content">
     <div class="question-card {{categoria}}">
-        <h1 class="categoria">· {{pregunta.nombre}} ·</h1>
+        <!--<input type="range" id="rango" name="rango" min="0" max="10" step="1" value="10">-->
+        {{^esDeCorreccion}}
+            <div id="barra-carga">
+                <div class="progreso"></div>
+            </div>
+        {{/esDeCorreccion}}
+        <div class="categoria-reloj">
+            <h5 class="categoria">· {{pregunta.nombre}} ·</h5>
+            {{#mostrarReloj}}
+                <h5 class="contador" id="contador">00:10</h5>
+            {{/mostrarReloj}}
+            {{^mostrarReloj}}
+                <h5 class="contador animacion-tiempo-completo" id="contador">¡Tiempo terminado!</h5>
+            {{/mostrarReloj}}
+        </div>
         <h2 class="question-title">{{pregunta.pregunta}}</h2>
 
         <form action="/partida/jugar" method="POST" class="options-form" id="form">
@@ -44,6 +58,7 @@
                         </label>
                     </li>
                 {{/opciones}}
+                <input type="radio" class="option-button" name="respuesta" value="noTime" style="display: none" checked>
             </ul>
         </form>
 
@@ -70,5 +85,8 @@
     </div>
 </div>
 <script src="/public/js/enviarRespuesta.js" defer></script>
+{{#mostrarReloj}}
+    <script src="/public/js/reloj.js" defer></script>
+{{/mostrarReloj}}
 </body>
 </html>

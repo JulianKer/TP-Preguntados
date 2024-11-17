@@ -40,6 +40,7 @@ class   PartidaController
         }
 
         if (!isset($_POST["respuesta"])) {
+            $data["mostrarReloj"] = true;
             $preguntaPartida = $this->model->buscarUltimaPreguntaNoResponididaDeLaPartida($partida["id_partida"]);
 
             if ($preguntaPartida === null) {
