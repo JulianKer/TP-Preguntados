@@ -28,14 +28,15 @@ class PerfilController{
             exit();
         }*/
 
+        $ip = getHostByName(getHostName());
 
         if (isset($_GET["var1"])){
             $idDelUserAMostrar = $_GET["var1"]; //este lo hago por si recibo un user para ver /x (mustro el perfil de ese user)
-            QrGenerador::generarYguardarQr("http://192.168.1.48/perfil/usuario/" . $idDelUserAMostrar);
+            QrGenerador::generarYguardarQr("http://".$ip."/perfil/usuario/" . $idDelUserAMostrar);
         }else{
             $idDelUserAMostrar = $_SESSION['idUser']; //este lo hago por si recibo un user para ver /x (mustro el perfil de ese user)
             $data["estoyEnMiPerfil"] = true;
-            QrGenerador::generarYguardarQr("http://192.168.1.48/perfil/usuario/" . $_SESSION["idUser"]);
+            QrGenerador::generarYguardarQr("http://".$ip."/perfil/usuario/" . $_SESSION["idUser"]);
         }
 
         $idDelUser = $_SESSION['idUser'] ?? null;
