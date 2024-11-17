@@ -1,27 +1,5 @@
-let form = document.getElementById("form");
-let labels = document.querySelectorAll(".option-button");
-
-let btnNext = document.querySelector(".next-button");
-let btnVolver = document.querySelector(".back-button");
-
-labels.forEach((label)=>{
-    label.addEventListener("click", (e)=>{
-        if (!e.target.closest("label")) {
-            e.stopPropagation();
-            e.preventDefault();
-        }else{
-            if (btnNext || btnVolver){
-                e.preventDefault();
-            }else{
-                form.submit();
-            }
-        }
-    })
-})
-
-
-
-/*---------------- reloj ----------------
+//---------------- reloj ----------------
+//let form = document.getElementById("form");
 
 let tiempo = 10;
 let contador = document.getElementById("contador");
@@ -32,7 +10,7 @@ const intervalo = setInterval(() => {
     contador.textContent = `00:0${tiempo}`;
 
     if (tiempo === 6){
-      contador.classList.add("tiempo-naranja");
+        contador.classList.add("tiempo-naranja");
     }
 
     if (tiempo === 3){
@@ -51,7 +29,8 @@ const intervalo = setInterval(() => {
         });
 
         setTimeout(() => {
+            /*aca hacer el submit del form con el input hidden incorrecto*/
             form.submit()
         }, 4000);
     }
-}, 1000);*/
+}, 1000);
