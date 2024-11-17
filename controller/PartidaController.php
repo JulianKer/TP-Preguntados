@@ -99,6 +99,7 @@ class   PartidaController
             $preguntaPartida["id_preguntaPartida"] = $preguntaPartida["id_preguntaPartida"];
             $preguntaPartida["respondida"] = true;
 
+            /* esto q esta comentado es lo que andaba antes, por las dudas lo comentemos
             if ($data["laSeleccionadaEsCorrecta"]) {
                 $pregunta["aciertos"] += 1;
                 $preguntaPartida["acertoElUsuario"] = true;
@@ -107,7 +108,29 @@ class   PartidaController
                 $preguntaPartida["acertoElUsuario"] = false;
                 $partida["terminada"] = true;
                 $this->userModel->actualizarPuntaje($partida["puntaje"], $partida["id_usuario"]);
+            }*/
+
+            $contestoDentroDelTiempo = $this->model->contestoEnTiempoYForma($preguntaPartida) === true;
+            $data["contestoDentroDelTiempo"] = $contestoDentroDelTiempo;
+
+            if ($contestoDentroDelTiempo){
+                if ($data["laSeleccionadaEsCorrecta"]) {
+                    $pregunta["aciertos"] += 1;
+                    $preguntaPartida["acertoElUsuario"] = true;
+                    $partida["puntaje"] = isset($partida["puntaje"]) ? $partida["puntaje"] + 10 : 10;
+                }else{
+                    $preguntaPartida["acertoElUsuario"] = false;
+                    $partida["terminada"] = true;
+                    $this->userModel->actualizarPuntaje($partida["puntaje"], $partida["id_usuario"]);
+                }
+            }else{
+                $preguntaPartida["acertoElUsuario"] = false;
+                $partida["terminada"] = true;
+                $this->userModel->actualizarPuntaje($partida["puntaje"], $partida["id_usuario"]);
             }
+
+            $data["puntaje"] = $partida["puntaje"];
+
             // aca deje comentado el actualizarPregunta, lo hice pq como probaba, iba a tener q modificar todas las preguntas jaj,
             // pero bueno, lo descomentamos y ya anda
 

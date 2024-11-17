@@ -51,7 +51,20 @@ body {
 .game-list {
     list-style-type: none;
     padding: 0;
+    min-height: 162px;
+    max-height: 383px;
+    overflow: auto;
 }
+
+.sin-partidas{
+    font-size: 1em;
+    background-color: #fbbebe;
+    color: #a60000;
+    border-radius: .3em;
+    text-align: center;
+    padding: .1em 0;
+}
+
 .game-item {
     display: flex;
     justify-content: space-between;
@@ -135,4 +148,9 @@ body {
         width: 100%;
         min-width: 100%;
     }
+
+    .game-list {
+        min-height: 217px;
+    }
+
 }

@@ -1,6 +1,4 @@
 //---------------- reloj ----------------
-//let form = document.getElementById("form");
-
 let tiempo = 10;
 let contador = document.getElementById("contador");
 
@@ -18,7 +16,7 @@ const intervalo = setInterval(() => {
         contador.classList.add("tiempo-rojo")
     }
 
-    if (tiempo < 0) {
+    if (tiempo <= 0) {
         clearInterval(intervalo);
         contador.textContent = "¡Tiempo terminado!";
         contador.classList.remove("tiempo-rojo")
@@ -31,6 +29,6 @@ const intervalo = setInterval(() => {
         setTimeout(() => {
             /*aca hacer el submit del form con el input hidden incorrecto*/
             form.submit()
-        }, 4000);
+        }, 2000);
     }
 }, 1000);

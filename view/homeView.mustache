@@ -40,6 +40,11 @@
                         <span class="puntaje">+{{puntaje}} puntos</span>
                     </li>
                 {{/partidasDelUsuario}}
+                {{^partidasDelUsuario}}
+                    <li class="sin-partidas">
+                        <p>¡Aún no tiene partidas jugadas!</p>
+                    </li>
+                {{/partidasDelUsuario}}
             </ul>
         </div>
     </div>

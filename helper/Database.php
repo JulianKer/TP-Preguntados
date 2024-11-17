@@ -213,12 +213,12 @@ class Database{
             $stmt->execute();
         }
 
-        public function crearNuevaPreguntaPartida($idPartida, $idPregunta, $idUser) {
+        public function crearNuevaPreguntaPartida($idPartida, $idPregunta, $idUser, $fechaParaGuardar) {
     //        $sql = "INSERT INTO preguntapartida (id_pregunta, id_partida, respondida, acertoElUsuario) VALUES ($idPregunta,$idPartida, 0, 0)";
     //        $this->conn->actualizar($sql);
 
-            $stmt = $this->conn->prepare("INSERT INTO preguntapartida (id_pregunta, id_partida, id_usuario, respondida, acertoElUsuario) VALUES (?,?,?, 0, 0)");
-            $stmt->bind_param("iii", $idPregunta, $idPartida, $idUser);
+            $stmt = $this->conn->prepare("INSERT INTO preguntapartida (id_pregunta, id_partida, id_usuario, respondida, acertoElUsuario, fechaEntregada) VALUES (?,?,?, 0, 0,?)");
+            $stmt->bind_param("iiis", $idPregunta, $idPartida, $idUser, $fechaParaGuardar);
             $stmt->execute();
         }
 
@@ -270,7 +270,7 @@ class Database{
 
 
     public function obtenerPartidasDelUsuario($idUser){
-        $stmt = $this->conn->prepare("SELECT * FROM partida WHERE id_usuario = ? ORDER BY id_partida DESC");
+        $stmt = $this->conn->prepare("SELECT * FROM partida WHERE id_usuario = ? ORDER BY id_partida DESC LIMIT 50");
         $stmt->bind_param("i", $idUser);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

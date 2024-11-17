@@ -259,39 +259,16 @@ CREATE TABLE `preguntapartida` (
   `id_pregunta` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `respondida` tinyint(1) NOT NULL,
-  `acertoElUsuario` tinyint(1) NOT NULL
+  `acertoElUsuario` tinyint(1) NOT NULL,
+  `fechaEntregada` DATETIME NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `preguntapartida`
 --
 
-INSERT INTO `preguntapartida` (`id_preguntaPartida`, `id_partida`, `id_pregunta`, `id_usuario`, `respondida`, `acertoElUsuario`) VALUES
-(304, 156, 45, 10, 1, 0),
-(305, 157, 52, 10, 1, 1),
-(306, 157, 19, 10, 1, 0),
-(307, 158, 31, 10, 1, 0),
-(308, 159, 12, 10, 1, 1),
-(309, 159, 15, 10, 1, 1),
-(310, 159, 53, 10, 1, 1),
-(311, 159, 18, 10, 1, 0),
-(312, 160, 46, 10, 1, 0),
-(313, 161, 9, 10, 1, 0),
-(314, 162, 57, 10, 1, 0),
-(315, 165, 21, 10, 1, 0),
-(316, 169, 22, 10, 1, 0),
-(317, 170, 7, 10, 1, 1),
-(318, 170, 13, 10, 1, 0),
-(319, 171, 48, 10, 1, 1),
-(320, 171, 5, 10, 1, 0),
-(321, 172, 50, 10, 1, 0),
-(322, 173, 47, 10, 1, 0),
-(323, 175, 2, 10, 1, 1),
-(324, 175, 54, 10, 1, 0),
-(325, 176, 59, 10, 1, 0),
-(326, 177, 32, 10, 1, 1),
-(327, 177, 28, 10, 1, 0),
-(328, 178, 4, 10, 0, 0);
+INSERT INTO `preguntapartida` (`id_preguntaPartida`, `id_partida`, `id_pregunta`, `id_usuario`, `respondida`, `acertoElUsuario`, `fechaEntregada`) VALUES
+(304, 156, 45, 10, 1, 0, '2024-11-17 14:30:00');
 
 -- --------------------------------------------------------
 

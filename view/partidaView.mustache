@@ -34,9 +34,20 @@
             {{#mostrarReloj}}
                 <h5 class="contador" id="contador">00:10</h5>
             {{/mostrarReloj}}
-            {{^mostrarReloj}}
-                <h5 class="contador animacion-tiempo-completo" id="contador">¡Tiempo terminado!</h5>
-            {{/mostrarReloj}}
+            {{#esDeCorreccion}}
+                {{^contestoDentroDelTiempo}}
+                    <h5 class="contador animacion-tiempo-completo" id="contador">¡Tiempo terminado!</h5>
+                {{/contestoDentroDelTiempo}}
+
+                {{#contestoDentroDelTiempo}}
+                    {{#laSeleccionadaEsCorrecta}}
+                        <h5 class="contador animacion-tiempo-completo" id="contador" style="color: #13ba00">¡Correcto!</h5>
+                    {{/laSeleccionadaEsCorrecta}}
+                    {{^laSeleccionadaEsCorrecta}}
+                        <h5 class="contador animacion-tiempo-completo" id="contador">¡Incorrecto!</h5>
+                    {{/laSeleccionadaEsCorrecta}}
+                {{/contestoDentroDelTiempo}}
+            {{/esDeCorreccion}}
         </div>
         <h2 class="question-title">{{pregunta.pregunta}}</h2>
 
@@ -64,13 +75,20 @@
 
         <div class="contenedor-botones">
             {{#esDeCorreccion}}
-                {{#laSeleccionadaEsCorrecta}}
-                    <button class="next-button end"><a href="/partida/jugar">Siguiente <img src="/public/images/icons/arrowRightIcon.svg"></a></button>
-                {{/laSeleccionadaEsCorrecta}}
-                {{^laSeleccionadaEsCorrecta}}
+                {{#contestoDentroDelTiempo}}
+                    {{#laSeleccionadaEsCorrecta}}
+                        <button class="next-button end"><a href="/partida/jugar">Siguiente <img src="/public/images/icons/arrowRightIcon.svg"></a></button>
+                    {{/laSeleccionadaEsCorrecta}}
+                    {{^laSeleccionadaEsCorrecta}}
+                        <button class="back-button start"><a href="/principal/home">Volver al inicio</a></button>
+                        <p>Puntaje total: {{puntaje}}</p>
+                    {{/laSeleccionadaEsCorrecta}}
+                {{/contestoDentroDelTiempo}}
+
+                {{^contestoDentroDelTiempo}}
                     <button class="back-button start"><a href="/principal/home">Volver al inicio</a></button>
-                    <p>Puntaje obtenido: 100</p>
-                {{/laSeleccionadaEsCorrecta}}
+                    <p>Puntaje total: {{puntaje}}</p>
+                {{/contestoDentroDelTiempo}}
             {{/esDeCorreccion}}
 
         </div>
