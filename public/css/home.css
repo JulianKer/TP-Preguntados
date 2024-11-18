@@ -50,7 +50,7 @@ body {
 }
 .game-list {
     list-style-type: none;
-    padding: 0;
+    padding: 0 1em 0 .2em;
     min-height: 162px;
     max-height: 383px;
     overflow: auto;
@@ -58,7 +58,7 @@ body {
 
 .sin-partidas{
     font-size: 1em;
-    background-color: #fbbebe;
+    background-color: #ffe9e9;
     color: #a60000;
     border-radius: .3em;
     text-align: center;

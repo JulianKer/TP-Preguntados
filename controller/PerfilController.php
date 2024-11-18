@@ -63,6 +63,12 @@ class PerfilController{
         $data['usuarioAMostrar'] = $userAMostrar;
         $data["coordenadas"] = $this->model->obtenerCoordenadas($userAMostrar["ubicacion"]);
         $data["partidasDelUsuario"] = $this->partidasModel->obtenerPartidasDelUsuario($userAMostrar["id"]);
+
+
+        $data["esJugador"] = $this->model->saberSiEsJugador($userAMostrar["rango"]);
+        $data["esEditor"] = $this->model->saberSiEsEditor($userAMostrar["rango"]);
+        $data["esAdmin"] = $this->model->saberSiEsAdmin($userAMostrar["rango"]);
+
         $this->presenter->show("perfil", $data);
     }
 }

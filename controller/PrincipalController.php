@@ -17,10 +17,11 @@ class PrincipalController
     }
 
     public function inicio(){
-        if (!isset($_SESSION['user'])) {
+        /*if (!isset($_SESSION['user'])) {
             header("location: /acceso/ingresar");
             exit();
-        }
+        }*/
+        Seguridad::verSiHayUnUsuarioEnLaSesion();
 
         $_SESSION["errorCrear"] = null;
         $_SESSION["exitoCrear"] = null;
@@ -33,6 +34,12 @@ class PrincipalController
         $data["partidaPendiente"] = (bool)$this->modelPartida->buscarSiHayUnaPartidaEnCursoParaEsteUser($_SESSION['idUser']);
         $data["posicionEnElRanking"] = $this->modelRanking->dameLaPosicionEnElRankingDeEsteUsuario($userEncontrado["id"]);
         $data["partidasDelUsuario"] = $this->modelPartida->obtenerPartidasDelUsuario($userEncontrado["id"]);
+
+
+        $data["esJugador"] = $this->modelUsuario->saberSiEsJugador($userEncontrado["rango"]);
+        $data["esEditor"] = $this->modelUsuario->saberSiEsEditor($userEncontrado["rango"]);
+        $data["esAdmin"] = $this->modelUsuario->saberSiEsAdmin($userEncontrado["rango"]);
+
         $this->presenter->show('home', $data);
     }
 

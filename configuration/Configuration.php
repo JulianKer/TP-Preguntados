@@ -3,6 +3,7 @@ include_once("helper/Database.php"); // esta es la nueva clase para usar stmt
 include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
+include_once("helper/Seguridad.php");
 
 include_once("controller/PrincipalController.php");
 include_once("model/PrincipalModel.php");

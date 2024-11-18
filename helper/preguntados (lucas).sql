@@ -563,7 +563,8 @@ CREATE TABLE `usuario` (
   `sexo` varchar(50) DEFAULT NULL,
   `verificado` tinyint(1) NOT NULL DEFAULT 0,
   `musica` tinyint(1) NOT NULL DEFAULT 0,
-  `puntaje_usuario` int(11) DEFAULT 0
+  `puntaje_usuario` int(11) DEFAULT 0,
+  `rango` int(11) NOT NULL DEFAULT 3
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

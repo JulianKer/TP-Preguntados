@@ -26,9 +26,20 @@ class Router
         return call_user_func(array($this->configuration, $validController));
     }
 
-    private function executeMethodFromController($controller, $method)
-    {
+    private function executeMethodFromController($controller, $method){
+        $metodosPublicos = parse_ini_file("permisosUsuarios.ini", true)['metodosPublicos'];
+
         $validMethod = method_exists($controller, $method) ? $method : $this->defaultMethod;
-        call_user_func(array($controller, $validMethod));
+
+        if (array_key_exists($validMethod, $metodosPublicos)) {
+            call_user_func(array($controller, $validMethod));
+        } else {
+            if (Seguridad::verificarSiTienePermisos($validMethod)){
+                call_user_func(array($controller, $validMethod));
+            }else{
+                Seguridad::verSiHayUnUsuarioEnLaSesion();
+                call_user_func(array($controller, $this->defaultMethod));
+            }
+        }
     }
 }

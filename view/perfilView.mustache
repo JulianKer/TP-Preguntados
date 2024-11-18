@@ -20,7 +20,7 @@
     </div>
 </div>
 
-    <div class="main-content">
+    <div class="main-content {{^esJugador}}displayAdminEditor{{/esJugador}}">
         <div class="profile-card">
             <div class="profile-header">
                 <div class="cont-avataryname">
@@ -38,14 +38,21 @@
             </div>
 
             <div class="profile-stats">
-                <div class="stat-item">
-                    <p class="stat-label">Ranking</p>
-                    <p class="stat-value">#{{usuarioAMostrar.posicionEnElRanking}}</p>
-                </div>
-                <div class="stat-item">
-                    <p class="stat-label">Puntaje</p>
-                    <p class="stat-value">{{usuarioAMostrar.puntaje_usuario}}</p>
-                </div>
+                {{#esJugador}}
+                    <div class="stat-item">
+                        <p class="stat-label">Ranking</p>
+                        <p class="stat-value">#{{usuarioAMostrar.posicionEnElRanking}}</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-label">Puntaje</p>
+                        <p class="stat-value">{{usuarioAMostrar.puntaje_usuario}}</p>
+                    </div>
+                {{/esJugador}}
+                {{^esJugador}}
+                    <div class="stat-item">
+                        <p class="stat-label">Rol: <span style="color: red; font-weight: bolder">{{usuarioAMostrar.rango}}</span></p>
+                    </div>
+                {{/esJugador}}
             </div>
             <div id="mapaPerfil">
                 <input type="hidden" id="lat" value="{{coordenadas.lat}}">
@@ -54,11 +61,14 @@
                 <label class="direccion"><img src="/public/images/icons/locationIcon.svg" alt="locationIcon" title="Ubicación seleccionada" style="margin-bottom: .3em"> <span id="selectedLocation">Ninguna</span></label>
             </div>
 
-            {{^estoyEnMiPerfil}}
-                <a href="/ranking" class="button">Volver al ranking</a>
-            {{/estoyEnMiPerfil}}
+            {{#esJugador}}
+                {{^estoyEnMiPerfil}}
+                    <a href="/ranking/posiciones" class="button">Volver al ranking</a>
+                {{/estoyEnMiPerfil}}
+            {{/esJugador}}
         </div>
 
+        {{#esJugador}}
         <div class="card2">
             {{#estoyEnMiPerfil}}
                 <div class="preferencias">
@@ -85,9 +95,15 @@
                             <span class="puntaje">+{{puntaje}} puntos</span>
                         </li>
                     {{/partidasDelUsuario}}
+                    {{^partidasDelUsuario}}
+                        <li class="sin-partidas">
+                            <p>¡Aún no tiene partidas jugadas!</p>
+                        </li>
+                    {{/partidasDelUsuario}}
                 </ul>
             </div>
         </div>
+        {{/esJugador}}
     </div>
 </body>
 </html>
