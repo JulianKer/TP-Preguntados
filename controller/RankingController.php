@@ -15,7 +15,7 @@ class RankingController{
     }
 
     public function inicio(){
-        header('location: /ranking/posiciones');
+        header('location: /principal/inicio');
         exit();
     }
 

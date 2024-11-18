@@ -15,6 +15,14 @@ class AccesoController
         $this->subirImg = $subirImg;
     }
 
+    public function inicio(){
+        if (!isset($_SESSION['usuarioObjetoDeLaSesion'])) {
+            header("location: /acceso/ingresar");
+        } else {
+            header("location: /principal/inicio");
+        }
+        exit;
+    }
     public function ingresar(){
         $data = [];
         if (isset($_GET["msj"])){
@@ -44,6 +52,7 @@ class AccesoController
             $_SESSION['user'] = $user;
 ;
             $_SESSION['idUser'] = $this->model->obtenerIdUserPorUserName($user)["id"];
+            $_SESSION['usuarioObjetoDeLaSesion'] = $this->model->obtenerUsuarioPorId($_SESSION['idUser'])[0];
             header('location: /principal/inicio');
             exit();
         }
@@ -128,6 +137,9 @@ class AccesoController
         $data = [];
         if (isset($_POST['id_usuario'])) {
             $usuario_id = $_POST['id_usuario'];
+        }else{
+            header('location: /acceso/ingresar');
+            exit();
         }
 
     $resultado = $this -> model -> verificarEmail($usuario_id);

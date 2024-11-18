@@ -56,10 +56,12 @@ body {
     background-color: #2fd133;
     color: white;
     border-color: #45a049;
+    animation: 1s correcta;
 }
 .option-correct:hover{
     background-color: #76fd78;
 }
+
 .option-incorrect {
     background-color: #f44336;
     color: white;
@@ -69,6 +71,26 @@ body {
 .option-incorrect:hover{
     background-color: #f6736b;
 }
+
+
+@keyframes correcta {
+    25%{
+        transform: rotateZ(2deg);
+    }
+    50%{
+        transform: rotateZ(-2deg);
+    }
+    75%{
+        transform: rotateZ(2deg);
+    }
+    100%{
+        transform: rotateZ(0deg);
+    }
+}
+
+
+
+
 
 .contenedor-botones{
     width: 100%;

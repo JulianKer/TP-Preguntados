@@ -8,16 +8,18 @@
     <title>Inicio - QuizMaster</title>
 </head>
 <body>
-{{#partidaPendiente}}
-    <div class="popupCompleto">
-        <div class="caja-popup">
-            <img src="/public/images/icons/warningIcon.svg" alt="warningIcon" title="Advertencia">
-            <h3>¡Tienes una partida empezada!</h3>
-            <h6>Debes terminar tu partida.</h6>
-            <a href="/partida/jugar" id="btnReanudar">Reanudar partida</a>
+
+{{#esJugador}}
+    {{#partidaPendiente}}
+        <div class="popupCompleto">
+            <div class="caja-popup">
+                <img src="/public/images/icons/warningIcon.svg" alt="warningIcon" title="Advertencia">
+                <h3>¡Tienes una partida empezada!</h3>
+                <h6>Debes terminar tu partida.</h6>
+                <a href="/partida/jugar" id="btnReanudar">Reanudar partida</a>
+            </div>
         </div>
-    </div>
-{{/partidaPendiente}}
+    {{/partidaPendiente}}
     <div class="main-content">
         <div class="lobby-card">
             <h1 class="welcome-title">Bienvenido, {{user}} !</h1>
@@ -48,5 +50,14 @@
             </ul>
         </div>
     </div>
+{{/esJugador}}
+
+{{#esEditor}}
+    SOS UN EDITOR
+{{/esEditor}}
+
+{{#esAdmin}}
+    SOS UN ADMINISTRADOR
+{{/esAdmin}}
 </body>
 </html>

@@ -15,7 +15,7 @@ class CrearController{
     }
 
     public function inicio(){
-        header("location: /crear/pregunta");
+        header("location: /principal/inicio");
     }
     public function pregunta(){
 
@@ -91,6 +91,4 @@ class CrearController{
         header("location: /crear/pregunta");
         exit();
     }
-
-
 }

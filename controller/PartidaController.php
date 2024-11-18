@@ -16,7 +16,7 @@ class   PartidaController
 
     public function inicio()
     {
-        header('location: /partida/jugar');
+        header('location: /principal/inicio');
         exit();
     }
 
@@ -142,7 +142,7 @@ class   PartidaController
         $this->presenter->show("partida", $data);
     }
 
-    public function mostrarVistaReporte()
+        public function mostrarVistaReporte()
     {
 
         if (!isset($_GET['id_pregunta'])) {
@@ -199,7 +199,4 @@ class   PartidaController
         exit();
 
     }
-
-
-
 }
