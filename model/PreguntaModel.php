@@ -117,11 +117,15 @@ class PreguntaModel
         $pregunta = $this->obtenerPregunta($idDePreguntaAHabilitar);
 
         if ($pregunta != null && $pregunta["estado"] === 1) {
-            $this->database->cambiarEstadoDePregunta($idDePreguntaAHabilitar, 4);
+            $this->cambiarEstadoDePregunta($idDePreguntaAHabilitar, 4);
             return "Pregunta " . $idDePreguntaAHabilitar . " habilitada correctamente.";
         }else{
             return "No se pudo habilitar la pregunta " . $idDePreguntaAHabilitar . ".";
         }
+    }
+
+    public function cambiarEstadoDePregunta($idDePreguntaACambiar, $idEstado){
+        $this->database->cambiarEstadoDePregunta($idDePreguntaACambiar, $idEstado);
     }
 }
 

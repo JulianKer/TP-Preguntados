@@ -8,13 +8,15 @@ class PrincipalController
     private $modelUsuario;
     private $modelRanking;
     private $modelPreguntas;
-    public function __construct($model, $modelPartida, $modelUsuario, $modelRanking, $modelPreguntas, $presenter)
+    private $modelReporte;
+    public function __construct($model, $modelPartida, $modelUsuario, $modelRanking, $modelPreguntas, $modelReporte, $presenter)
     {
         $this->model = $model;
         $this->modelPartida = $modelPartida;
         $this->modelUsuario = $modelUsuario;
         $this->modelRanking = $modelRanking;
         $this->modelPreguntas = $modelPreguntas;
+        $this->modelReporte = $modelReporte;
         $this->presenter = $presenter;
     }
 
@@ -109,6 +111,62 @@ class PrincipalController
         unset($_SESSION["errorMsjSobreDesactivacion"]);
 
         $this->redirectHome();
+    }
+
+
+    public function reportes(){
+        $idUsuario = $_SESSION['idUser'];
+        $userName = $_SESSION['user']; // es el user name pero en el sesion esta como user
+        $_SESSION["errorCrear"] = null;
+        $_SESSION["exitoCrear"] = null;
+        $userEncontrado = $this->modelUsuario->obtenerUsuarioPorId($idUsuario)[0];
+        $rangoDelUsuario = $userEncontrado["rango"];
+
+        $data["musicaActivada"] = $userEncontrado["musica"];
+        $data["objUsuario"] = $userEncontrado;
+        $data['user'] = $userName;
+        $data['idUsuario'] = $idUsuario;
+
+        $data["exitoMsjSobreEliminacionReporte"] = isset($_SESSION["exitoMsjSobreEliminacionReporte"]) ? $_SESSION["exitoMsjSobreEliminacionReporte"] : false;
+        $data["errorMsjSobreEliminacionReporte"] = isset($_SESSION["errorMsjSobreEliminacionReporte"]) ? $_SESSION["errorMsjSobreEliminacionReporte"] : false;
+
+        $data["exitoMsjSobreAprobacionReporte"] = isset($_SESSION["exitoMsjSobreAprobacionReporte"]) ? $_SESSION["exitoMsjSobreAprobacionReporte"] : false;
+        $data["errorMsjSobreAprobacionReporte"] = isset($_SESSION["errorMsjSobreAprobacionReporte"]) ? $_SESSION["errorMsjSobreAprobacionReporte"] : false;
+
+        unset($_SESSION["exitoMsjSobreEliminacionReporte"]);
+        unset($_SESSION["errorMsjSobreEliminacionReporte"]);
+        unset($_SESSION["exitoMsjSobreAprobacionReporte"]);
+        unset($_SESSION["errorMsjSobreDesactivacion"]);
+
+        $data['reportes'] = $this->modelReporte->obtenerTodosLosReportes();
+        $data['total'] = count($data['reportes']);
+        $this->presenter->show('reportes', $data);
+    }
+
+    public function eliminarReporte(){
+        $idReporte = isset($_GET['var1']) ? $_GET['var1'] : 0;
+
+        $reporteEncontrado = $this->modelReporte->obtenerReportePorId($idReporte);
+
+        if ($reporteEncontrado){
+            $msj = $this->modelReporte->eliminarReporte($idReporte);
+
+            if ($msj === "Reporte " . $idReporte . " eliminado correctamente."){
+                $idEstadoACambiar = 4; // (aprobada), pq el reporte "estaria mal" entonces al eliminarlo, dejo la pregunta aprobada como si no hubiese pasado nada
+                $this->modelPreguntas->cambiarEstadoDePregunta($reporteEncontrado['id_pregunta'], $idEstadoACambiar);
+                $_SESSION['exitoMsjSobreEliminacionReporte'] = $msj;
+            }else{
+                $_SESSION['errorMsjSobreEliminacionReporte'] = $msj;
+            }
+        }else{
+            $_SESSION['errorMsjSobreEliminacionReporte'] = "El reporte " . $idReporte . " no existe ";
+        }
+
+        unset($_SESSION["exitoMsjSobreAprobacionReporte"]);
+        unset($_SESSION["errorMsjSobreAprobacionReporte"]);
+
+        header("location: /principal/reportes");
+        exit();
     }
     /*-----------------------------------------------------------------------------------*/
 }
