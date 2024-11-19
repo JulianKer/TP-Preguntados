@@ -39,7 +39,7 @@ class Configuration
     }
 
     public function getPrincipalController(){
-        return new PrincipalController($this->getPrincipalModel(), $this->getPartidaModel(), $this->getUsuarioModel(), $this->getRankingModel(), $this->getPresenter());
+        return new PrincipalController($this->getPrincipalModel(), $this->getPartidaModel(), $this->getUsuarioModel(), $this->getRankingModel(), $this->getPreguntaModel(), $this->getPresenter());
     }
 
     public function getUsuarioController(){

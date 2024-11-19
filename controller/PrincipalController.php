@@ -7,46 +7,108 @@ class PrincipalController
     private $presenter;
     private $modelUsuario;
     private $modelRanking;
-    public function __construct($model, $modelPartida, $modelUsuario, $modelRanking, $presenter)
+    private $modelPreguntas;
+    public function __construct($model, $modelPartida, $modelUsuario, $modelRanking, $modelPreguntas, $presenter)
     {
         $this->model = $model;
         $this->modelPartida = $modelPartida;
         $this->modelUsuario = $modelUsuario;
         $this->modelRanking = $modelRanking;
+        $this->modelPreguntas = $modelPreguntas;
         $this->presenter = $presenter;
     }
 
     public function inicio(){
-        /*if (!isset($_SESSION['user'])) {
-            header("location: /acceso/ingresar");
-            exit();
-        }*/
-        Seguridad::verSiHayUnUsuarioEnLaSesion();
+        //Seguridad::verSiHayUnUsuarioEnLaSesion();
 
+        $idUsuario = $_SESSION['idUser'];
+        $userName = $_SESSION['user']; // es el user name pero en el sesion esta como user
         $_SESSION["errorCrear"] = null;
         $_SESSION["exitoCrear"] = null;
-        $userEncontrado = $this->modelUsuario->obtenerUsuarioPorId($_SESSION['idUser'])[0];
+        $userEncontrado = $this->modelUsuario->obtenerUsuarioPorId($idUsuario)[0];
+        $rangoDelUsuario = $userEncontrado["rango"];
 
         $data["musicaActivada"] = $userEncontrado["musica"];
         $data["objUsuario"] = $userEncontrado;
-        $data['user'] = $_SESSION['user'];
-        $data['idUsuario'] = $_SESSION['idUser'];
-        $data["partidaPendiente"] = (bool)$this->modelPartida->buscarSiHayUnaPartidaEnCursoParaEsteUser($_SESSION['idUser']);
-        $data["posicionEnElRanking"] = $this->modelRanking->dameLaPosicionEnElRankingDeEsteUsuario($userEncontrado["id"]);
-        $data["partidasDelUsuario"] = $this->modelPartida->obtenerPartidasDelUsuario($userEncontrado["id"]);
+        $data['user'] = $userName;
+        $data['idUsuario'] = $idUsuario;
 
+        switch ($rangoDelUsuario) {
+            case 1: // admin
+                $data["esAdmin"] = $this->modelUsuario->saberSiEsAdmin($userEncontrado["rango"]);
 
-        $data["esJugador"] = $this->modelUsuario->saberSiEsJugador($userEncontrado["rango"]);
-        $data["esEditor"] = $this->modelUsuario->saberSiEsEditor($userEncontrado["rango"]);
-        $data["esAdmin"] = $this->modelUsuario->saberSiEsAdmin($userEncontrado["rango"]);
+                break;
+                case 2: // editor
+                    $data["esEditor"] = $this->modelUsuario->saberSiEsEditor($userEncontrado["rango"]);
 
+                    $data["preguntas"] = $this->modelPreguntas->obtenerTodasLasPreguntasDeLaTablaAprobadasYDesactivadas();
+                    $data["total"] = count($data["preguntas"]);
+
+                    $desactivadas = $this->modelPreguntas->obtenerDesactivadas();
+                    $habilitadas = $this->modelPreguntas->obtenerHabilitadas();
+                    $data["totalDesactivadas"] = $desactivadas ? count($desactivadas) : 0;
+                    $data["totalHabilitadas"] = $habilitadas ? count($habilitadas) : 0;
+
+                    $data["exitoMsjSobreDesactivacion"] = isset($_SESSION["exitoMsjSobreDesactivacion"]) ? $_SESSION["exitoMsjSobreDesactivacion"] : false;
+                    $data["errorMsjSobreDesactivacion"] = isset($_SESSION["errorMsjSobreDesactivacion"]) ? $_SESSION["errorMsjSobreDesactivacion"] : false;
+
+                    $data["exitoMsjSobreHabilitacion"] = isset($_SESSION["exitoMsjSobreHabilitacion"]) ? $_SESSION["exitoMsjSobreHabilitacion"] : false;
+                    $data["errorMsjSobreHabilitacion"] = isset($_SESSION["errorMsjSobreHabilitacion"]) ? $_SESSION["errorMsjSobreHabilitacion"] : false;
+
+                    unset($_SESSION["exitoMsjSobreHabilitacion"]);
+                    unset($_SESSION["errorMsjSobreHabilitacion"]);
+                    unset($_SESSION["exitoMsjSobreDesactivacion"]);
+                    unset($_SESSION["errorMsjSobreDesactivacion"]);
+
+                    break;
+                    case 3: // jugador
+                        $data["esJugador"] = $this->modelUsuario->saberSiEsJugador($userEncontrado["rango"]);
+
+                        $data["partidaPendiente"] = (bool)$this->modelPartida->buscarSiHayUnaPartidaEnCursoParaEsteUser($idUsuario);
+                        $data["posicionEnElRanking"] = $this->modelRanking->dameLaPosicionEnElRankingDeEsteUsuario($userEncontrado["id"]);
+                        $data["partidasDelUsuario"] = $this->modelPartida->obtenerPartidasDelUsuario($userEncontrado["id"]);
+                        break;
+        }
         $this->presenter->show('home', $data);
     }
 
-    public function redirectHome()
-    {
+    public function redirectHome(){
         header('location: /principal/inicio');
         exit();
+    }
+    /*-----------------------------------------------------------------------------------*/
+
+    /*---------------------------------metodos editor----------------------------------*/
+    public function desactivar(){
+        $idDePreguntaADesactivar = isset($_GET['var1']) ? $_GET['var1'] : 0;
+
+        $msj = $this->modelPreguntas->desactivarPregunta($idDePreguntaADesactivar);
+
+        if ($msj === "Pregunta " . $idDePreguntaADesactivar . " desactivada correctamente."){
+            $_SESSION['exitoMsjSobreDesactivacion'] = $msj;
+        }else{
+            $_SESSION['errorMsjSobreDesactivacion'] = $msj;
+        }
+        unset($_SESSION["exitoMsjSobreHabilitacion"]);
+        unset($_SESSION["errorMsjSobreHabilitacion"]);
+
+        $this->redirectHome();
+    }
+
+    public function habilitar(){
+        $idDePreguntaADesactivar = isset($_GET['var1']) ? $_GET['var1'] : 0;
+
+        $msj = $this->modelPreguntas->habilitarPregunta($idDePreguntaADesactivar);
+
+        if ($msj === "Pregunta " . $idDePreguntaADesactivar . " habilitada correctamente."){
+            $_SESSION['exitoMsjSobreHabilitacion'] = $msj;
+        }else{
+            $_SESSION['errorMsjSobreHabilitacion'] = $msj;
+        }
+        unset($_SESSION["exitoMsjSobreDesactivacion"]);
+        unset($_SESSION["errorMsjSobreDesactivacion"]);
+
+        $this->redirectHome();
     }
     /*-----------------------------------------------------------------------------------*/
 }

@@ -134,37 +134,6 @@ class Database{
 
 
     /* --------------------- INICIO PARTIDAS------------------------------------------------------------------*/
-        public function obtenerPregunta($numPreguntaRandom){
-            //$sql = "SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria WHERE p.id_pregunta = $numPreguntaRandom";
-            //return $this->conn->queryAssoc($sql);
-
-            $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria WHERE p.id_pregunta = ?");
-            $stmt->bind_param("i", $numPreguntaRandom);
-            $stmt->execute();
-            return $stmt->get_result()->fetch_assoc();
-        }
-
-        public function obtenerRespuestas($idPregunta){
-            //$sql = "SELECT * FROM respuesta WHERE id_pregunta = $idPregunta";
-            //$resultado = $this->conn->query($sql);
-            //return $resultado;
-
-            $stmt = $this->conn->prepare("SELECT * FROM respuesta WHERE id_pregunta = ?");
-            $stmt->bind_param("i", $idPregunta);
-            $stmt->execute();
-            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        }
-
-        public function obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta){
-            //$sql = "SELECT * FROM respuesta WHERE id_pregunta = $id_pregunta AND correcta = true";
-            //return $this->conn->queryAssoc($sql);
-
-            $stmt = $this->conn->prepare("SELECT * FROM respuesta WHERE id_pregunta = ? AND correcta = true");
-            $stmt->bind_param("i", $id_pregunta);
-            $stmt->execute();
-            return $stmt->get_result()->fetch_assoc();
-        }
-
         public  function crearPartidaEnCursoParaEsteUser($idUser){
     //        $sql = "INSERT INTO partida (id_usuario, puntaje, terminada) VALUES ( $idUser, 0, FALSE);";
     //        return $this->conn->insertar($sql);
@@ -314,7 +283,66 @@ class Database{
         return array_column($ids, 'id_pregunta');
     }
 
+    public function obtenerPregunta($numPreguntaRandom){
+        //$sql = "SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria WHERE p.id_pregunta = $numPreguntaRandom";
+        //return $this->conn->queryAssoc($sql);
 
+        $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria WHERE p.id_pregunta = ?");
+        $stmt->bind_param("i", $numPreguntaRandom);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function obtenerTodasLasPreguntasDeLaTablaAprobadasYDesactivadas(){
+        $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria JOIN estado e ON e.id_estado = p.estado WHERE p.estado = 1 or p.estado = 4 ORDER BY id_pregunta ASC");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerDesactivadas(){
+        $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria JOIN estado e ON e.id_estado = p.estado WHERE p.estado = 1 ORDER BY id_pregunta ASC");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerHabilitadas(){
+        $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria JOIN estado e ON e.id_estado = p.estado WHERE p.estado = 4 ORDER BY id_pregunta ASC");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerCantidadDeTodasLasPreguntasDeLaTablaAprobadasYDesactivadas(){
+        $stmt = $this->conn->prepare("SELECT COUNT(*) as Total FROM pregunta WHERE estado = 1 or estado = 4");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function cambiarEstadoDePregunta($idDePreguntaADesactivar, $idEstado){
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `estado`= ? WHERE `id_pregunta`= ?");
+        $stmt->bind_param("ii", $idEstado, $idDePreguntaADesactivar);
+        $stmt->execute();
+    }
+
+    public function obtenerRespuestas($idPregunta){
+        //$sql = "SELECT * FROM respuesta WHERE id_pregunta = $idPregunta";
+        //$resultado = $this->conn->query($sql);
+        //return $resultado;
+
+        $stmt = $this->conn->prepare("SELECT * FROM respuesta WHERE id_pregunta = ?");
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta){
+        //$sql = "SELECT * FROM respuesta WHERE id_pregunta = $id_pregunta AND correcta = true";
+        //return $this->conn->queryAssoc($sql);
+
+        $stmt = $this->conn->prepare("SELECT * FROM respuesta WHERE id_pregunta = ? AND correcta = true");
+        $stmt->bind_param("i", $id_pregunta);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
 
     public function buscarPreguntasResponidasPorElUsuario($idUser){
         $stmt = $this->conn->prepare("SELECT pp.id_pregunta FROM preguntapartida pp JOIN usuario u ON pp.id_usuario = u.id WHERE u.id = $idUser");

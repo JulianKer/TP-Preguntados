@@ -3,11 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="/public/css/home.css">
-    <script src="/public/js/popUp.js" defer></script>
+
+    {{#esEditor}}
+        <link rel="stylesheet" href="/public/css/homeEditor.css">
+    {{/esEditor}}
+
+
+
+        <script src="/public/js/popUp.js" defer></script>
     <title>Inicio - QuizMaster</title>
 </head>
 <body>
+
+
+
+
+
 
 {{#esJugador}}
     {{#partidaPendiente}}
@@ -52,9 +65,95 @@
     </div>
 {{/esJugador}}
 
+
+
+
+
+
+
+
+
+
+
+
 {{#esEditor}}
-    SOS UN EDITOR
-{{/esEditor}}
+
+    {{#exitoMsjSobreDesactivacion}}
+        <p class="alerta exito">{{exitoMsjSobreDesactivacion}}</p>
+    {{/exitoMsjSobreDesactivacion}}
+    {{#errorMsjSobreDesactivacion}}
+        <p class="alerta error">{{errorMsjSobreDesactivacion}}</p>
+    {{/errorMsjSobreDesactivacion}}
+
+    {{#exitoMsjSobreHabilitacion}}
+        <p class="alerta exito">{{exitoMsjSobreHabilitacion}}</p>
+    {{/exitoMsjSobreHabilitacion}}
+    {{#errorMsjSobreHabilitacion}}
+        <p class="alerta error">{{errorMsjSobreDesactivacion}}</p>
+    {{/errorMsjSobreHabilitacion}}
+
+    <div class="main-content">
+        <div class="lobby-card">
+            <h1 class="welcome-title">Bienvenido, {{user}} !</h1>
+            <div class="button-group">
+                <a class="button" href="/principal/preguntas">Preguntas</a>
+                <a class="button" href="/principal/reportes">Reportes</a>
+                <a class="button" href="/principal/preguntasSugeridas">Preguntas sugeridas</a>
+            </div>
+        </div>
+        <div class="lobby-card card-container-preguntas">
+            <div class="container-cantidades">
+                <p class="recent-games-title titulo-preguntas">Preguntas</p>
+                <p class="recent-games-title">Habilitadas: <span style="font-weight: bolder; margin-left: .5em;">{{totalHabilitadas}}</span></p>
+                <p class="recent-games-title">Desactivadas: <span style="font-weight: bolder; margin-left: .5em;">{{totalDesactivadas}}</span></p>
+                <p class="recent-games-title">Totales: <span style="font-weight: bolder; margin-left: .5em">{{total}}</span></p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Categoría</th>
+                        <th>Pregunta</th>
+                        <th class="acciones-th">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#preguntas}}
+                        <tr>
+                            <td>{{id_pregunta}}</td>
+                            <td>{{nombre}}</td>
+                            <td>{{pregunta}}</td>
+                            <td class="botones-td">
+                                <button class="btn editar">
+                                    <a href="">
+                                        <img src="/public/images/icons/editIcon.svg" alt="edit" title="Editar">
+                                        <span>Editar</span>
+                                    </a>
+                                </button>
+                                <button class="btn {{imagenDelBoton}}">
+                                    <a href="/principal/{{accion}}/{{id_pregunta}}">
+                                        <img src="/public/images/icons/{{imagenDelBoton}}.svg" alt="edit" title="Editar">
+                                        <span>{{accion}}</span>
+                                    </a> <!-- ACA VER EN EL ICON DE REEMPLAZAR POR EL { {pregunta.estado} } segun el nombre del icono si es desactivar es cancel y si es aprobar es el check-->
+                                </button>
+                            </td>
+                        </tr>
+                    {{/preguntas}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>{{/esEditor}}
+
+
+
+
+
+
+
+
 
 {{#esAdmin}}
     SOS UN ADMINISTRADOR
