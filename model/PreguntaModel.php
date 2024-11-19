@@ -12,8 +12,20 @@ class PreguntaModel
     public function obtenerPregunta($numPreguntaRandom){
         return $this->database->obtenerPregunta($numPreguntaRandom);
     }
+
+    public function editarRespuesta($idOpcionAActualizar, $valorDeLaOpcionAActualizar){
+        $this->database->editarRespuesta($idOpcionAActualizar, $valorDeLaOpcionAActualizar);
+    }
+
     public function obtenerRespuestas($idPregunta){
         return $this->database->obtenerRespuestas($idPregunta);
+    }
+
+    public function obtenerEstasRespuestasConNumeroDeOpcion($respuestas){
+        for ($i=0; $i < count($respuestas); $i++) {
+            $respuestas[$i]['numeroDeOpcion'] = ($i+1);
+        }
+        return $respuestas;
     }
     public function obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta){
         return $this->database->obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta);
@@ -46,6 +58,16 @@ class PreguntaModel
     }
     public function actualizarPregunta($pregunta){
         return $this->database->actualizarPregunta($pregunta);
+    }
+
+    public function actualizarPreguntaEditada($idPregunta, $pregunta, $categoria, $idEstado){
+        $preguntaEncontrada = $this->obtenerPregunta($idPregunta);
+
+        if (!$preguntaEncontrada) {
+            return false;
+        }
+        $this->database->actualizarPreguntaEditada($idPregunta, $pregunta, $categoria, $idEstado);
+        return true;
     }
 
     public  function obtenerCantidadTotalDePreguntasQueExisten(){

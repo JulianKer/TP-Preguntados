@@ -41,6 +41,8 @@ class PrincipalController
 
                 break;
                 case 2: // editor
+                    unset($_SESSION["idReporteAEliminar"]);
+
                     $data["esEditor"] = $this->modelUsuario->saberSiEsEditor($userEncontrado["rango"]);
 
                     $data["preguntas"] = $this->modelPreguntas->obtenerTodasLasPreguntasDeLaTablaAprobadasYDesactivadas();
@@ -57,10 +59,15 @@ class PrincipalController
                     $data["exitoMsjSobreHabilitacion"] = isset($_SESSION["exitoMsjSobreHabilitacion"]) ? $_SESSION["exitoMsjSobreHabilitacion"] : false;
                     $data["errorMsjSobreHabilitacion"] = isset($_SESSION["errorMsjSobreHabilitacion"]) ? $_SESSION["errorMsjSobreHabilitacion"] : false;
 
+                    $data["errorEditar"] = isset($_SESSION["errorEditar"]) ? $_SESSION["errorEditar"] : false;
+                    $data["exitoEditar"] = isset($_SESSION["exitoEditar"]) ? $_SESSION["exitoEditar"] : false;
+
                     unset($_SESSION["exitoMsjSobreHabilitacion"]);
                     unset($_SESSION["errorMsjSobreHabilitacion"]);
                     unset($_SESSION["exitoMsjSobreDesactivacion"]);
                     unset($_SESSION["errorMsjSobreDesactivacion"]);
+                    unset($_SESSION["errorEditar"]);
+                    unset($_SESSION["exitoEditar"]);
 
                     break;
                     case 3: // jugador
@@ -164,6 +171,25 @@ class PrincipalController
 
         unset($_SESSION["exitoMsjSobreAprobacionReporte"]);
         unset($_SESSION["errorMsjSobreAprobacionReporte"]);
+
+        header("location: /principal/reportes");
+        exit();
+    }
+
+
+    public function aprobarReporte(){
+        $idReporte = isset($_GET['var1']) ? $_GET['var1'] : 0;
+
+        $reporteEncontrado = $this->modelReporte->obtenerReportePorId($idReporte);
+
+        if ($reporteEncontrado){
+            $_SESSION['idReporteAEliminar'] = $idReporte;
+            header("location: /editar/pregunta/" . $reporteEncontrado['id_pregunta']);
+            exit();
+        }else{
+            $_SESSION['errorMsjSobreEliminacionReporte'] = "El reporte " . $idReporte . " no existe ";
+        }
+        unset($_SESSION["exitoMsjSobreEliminacionReporte"]);
 
         header("location: /principal/reportes");
         exit();

@@ -12,13 +12,6 @@ class ReporteModel{
     }
 
     public function eliminarReporte($idReporte){
-        /*aca antes de eliminarlo tengo que cambiarEstadoPregunta a aprobada (4) ver q ya lo tengo el metodo ese, solo tengo q implemetnar el modelPregunta en este modelReporte y llamarlo
-        --------------------
-        -------------------
-        -----------------
-        -----------------
-        ----------------
-        ---------------- PONOG ESTO PARA QUE JULIAN SE DE CUENTA QUE TIENE Q HACER ACA*/
         $reporteEncontrado = $this->obtenerReportePorId($idReporte);
 
         if ($reporteEncontrado){

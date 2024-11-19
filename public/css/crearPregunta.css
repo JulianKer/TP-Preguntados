@@ -24,6 +24,9 @@ a, a:hover{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.tituloForm{
+    text-align: center;
+}
 .form-group {
     margin-bottom: 20px;
 }
@@ -88,6 +91,17 @@ button:hover, .boton-volver:hover{
     text-decoration: none;
 }
 
+input[type="text"]::placeholder{
+    color: #434343;
+}
+
+input[type="radio"]:checked ~ input[type="text"] {
+    background-color: #beffcd;
+}
+
+input[type="radio"]:not(:checked) ~ input[type="text"] {
+    background-color: #ffe2e2;
+}
 
 @media screen and (max-width: 1000px){
     .main-content{
