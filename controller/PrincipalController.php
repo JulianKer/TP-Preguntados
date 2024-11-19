@@ -168,5 +168,24 @@ class PrincipalController
         header("location: /principal/reportes");
         exit();
     }
+
+
+    public function aprobarReporte($idReporte){
+        $idReporte = isset($_GET['var1']) ? $_GET['var1'] : 0;
+
+        $reporteEncontrado = $this->modelReporte->obtenerReportePorId($idReporte);
+
+        if ($reporteEncontrado){
+            header("location: /editar/pregunta/");
+            exit();
+        }else{
+            $_SESSION['errorMsjSobreEliminacionReporte'] = "El reporte " . $idReporte . " no existe ";
+        }
+        unset($_SESSION["exitoMsjSobreEliminacionReporte"]);
+        unset($_SESSION["errorMsjSobreEliminacionReporte"]);
+
+        header("location: /principal/reportes");
+        exit();
+    }
     /*-----------------------------------------------------------------------------------*/
 }

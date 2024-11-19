@@ -21,7 +21,7 @@ include_once ("model/PreguntaModel.php");
 include_once ("controller/RankingController.php");
 include_once ("model/RankingModel.php");
 
-include_once ("controller/CrearController.php");
+include_once("controller/EditarController.php");
 
 include_once ("model/CategoriaModel.php");
 
@@ -64,8 +64,8 @@ class Configuration
         return new RankingController($this->getRankingModel(),$this->getUsuarioModel(),$this->getPartidaModel(), $this->getPresenter());
     }
 
-    public function getCrearController(){
-        return new CrearController($this->getPreguntaModel(), $this->getUsuarioModel(), $this->getCategoriaModel(), $this->getPresenter());
+    public function getEditarController(){
+        return new EditarController($this->getPreguntaModel(), $this->getUsuarioModel(), $this->getCategoriaModel(), $this->getPresenter());
     }
 
 

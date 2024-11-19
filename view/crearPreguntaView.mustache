@@ -8,12 +8,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/public/css/crearPregunta.css">
 
-    <title>Crear Pregunta - QuizMaster</title>
+    <title>Nueva pregunta - QuizMaster</title>
 </head>
 <body>
 
 <div class="main-content">
-    <form action="/crear/validarPregunta" method="post">
+    <form action="/editar/validarPregunta" method="post">
         {{#errorCrear}}
             <p class="alert alert-danger">{{errorCrear}}</p>
         {{/errorCrear}}

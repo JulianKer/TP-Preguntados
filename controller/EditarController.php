@@ -1,6 +1,6 @@
 <?php
 
-class CrearController{
+class EditarController{
 
     private $modelPregunta;
     private $modelUsuario;
@@ -17,7 +17,7 @@ class CrearController{
     public function inicio(){
         header("location: /principal/inicio");
     }
-    public function pregunta(){
+    public function nuevaPregunta(){
 
         if (!isset($_SESSION['user'])) { // validar que aca SOLO entren rol jugador (pq no puede sugerir preguntas los demas roles, o si?)
             header("location: /acceso/ingresar");
@@ -60,7 +60,7 @@ class CrearController{
 
             $_SESSION["errorCrear"] = "Los campos no deben estar vacíos: seleccione una categoria, formule la pregunta, escriba las posibles opciones y elija la opción correcta.";
             $_SESSION["exitoCrear"] = null;
-            header("location: /crear/pregunta");
+            header("location: /editar/nuevaPregunta");
             exit();
         }
 
@@ -77,7 +77,7 @@ class CrearController{
         if ($idDePreguntaInsertada == null){
             $_SESSION["errorCrear"] = "No se pudo crear la pregunta. Intente nuevamente.";
             $_SESSION["exitoCrear"] = null;
-            header("location: /crear/pregunta");
+            header("location: /editar/nuevaPregunta");
             exit();
         }
 
@@ -88,7 +88,7 @@ class CrearController{
 
         $_SESSION["exitoCrear"] = "¡Pregunta creada con éxito! Nuestro staff evaluará tu sugerencia para incorporarla a QuizMaster. Gracias por tu aporte : )";
         $_SESSION["errorCrear"] = null;
-        header("location: /crear/pregunta");
+        header("location: /editar/nuevaPregunta");
         exit();
     }
 }
