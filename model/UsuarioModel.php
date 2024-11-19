@@ -123,4 +123,17 @@ class UsuarioModel
     public function saberSiEsEditor($rango){
         return $rango === 2;
     }
+
+    public function obtenerCantidadDeJugadores(){
+       return $this -> database -> obtenerCantidadDeJugadores();
+    }
+
+    public function obtenerCantidadDeJugadoresPorSexo(){
+        return $this -> database -> obtenerCantidadDeJugadoresPorSexo();
+    }
+
+
+
+
+
 }

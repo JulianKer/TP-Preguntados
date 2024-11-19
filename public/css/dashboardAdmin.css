@@ -1,0 +1,51 @@
+/* Estilo general para la página */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para el contenedor del título */
+#chart_div h2 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1.5rem;
+    margin: 20px 0;
+    color: #333;
+}
+
+/* Estilo para el número de jugadores */
+#cantidad_jugadores {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    color: #333;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Estilo individual para los gráficos */
+#chart_div_sexo,
+#chart_div_barras {
+    margin: 20px auto;
+    width: 80%; /* Ocupan el 80% del ancho de la pantalla */
+    height: auto; /* Altura automática */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* Quitar fondo de los gráficos */
+#chart_div_sexo div,
+#chart_div_barras div {
+    background: none !important;
+}
+
+/* Estilo adicional para un diseño limpio */
+h2 {
+    text-align: center;
+    color: #444;
+}
+

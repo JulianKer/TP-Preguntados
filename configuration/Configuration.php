@@ -21,6 +21,9 @@ include_once ("model/PreguntaModel.php");
 include_once ("controller/RankingController.php");
 include_once ("model/RankingModel.php");
 
+include_once ("controller/DashboardAdminController.php");
+include_once ("model/DashboardAdminModel.php");
+
 include_once ("controller/CrearController.php");
 
 include_once ("model/CategoriaModel.php");
@@ -66,7 +69,10 @@ class Configuration
         return new CrearController($this->getPreguntaModel(), $this->getUsuarioModel(), $this->getCategoriaModel(), $this->getPresenter());
     }
 
+public function getDashboardAdminController(){
+    return new DashboardAdminController($this->getUsuarioModel(), $this->getDashboardAdminModel(), $this->getPresenter());
 
+}
 
 
     private function getPrincipalModel()
@@ -122,6 +128,12 @@ class Configuration
     public function getCategoriaModel(){
         return new CategoriaModel($this->getDatabase());
     }
+
+    public function getDashboardAdminModel(){
+        return new DashboardAdminModel ($this->getDatabase());
+    }
+
+
 
     public function getMail(){
         return new Mail();

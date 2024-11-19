@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/dashboardAdmin.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>Dashboard</title>
+</head>
+<body>
+<div id="chart_div">
+    <h2>Cantidad de Jugadores: <span id="cantidad_jugadores">Cargando...</span></h2>
+</div>
+<div id="chart_div_sexo"></div>
+<div id="chart_div_barras"></div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    // Cargar la librería de Google Charts
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(dibujarValores);
+
+    // Función para obtener los datos con AJAX
+    function dibujarValores() {
+        if (window.XMLHttpRequest) {
+            var xmlhttp = new XMLHttpRequest();
+        } else {
+            var xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var datos = JSON.parse(this.responseText); // Parsear el JSON
+                console.log(datos);
+
+                var cantidadJugadores = datos.datosCantidadJugadores;
+                var cantidadJugadoresPorSexo = datos.cantidadJugadoresPorSexo;
+
+                // Mostrar cantidad de jugadores
+                document.getElementById("cantidad_jugadores").innerText = cantidadJugadores;
+
+                // Dibujar gráfico de torta
+                dibujarTorta(cantidadJugadoresPorSexo, "chart_div_sexo", "CANTIDAD DE JUGADORES POR SEXO");
+
+                // Dibujar gráfico de barras (harcodeado)
+                dibujarGraficoColumna(
+                        [
+                            { dato: "Usuario A", valor: 10 },
+                            { dato: "Usuario B", valor: 20 },
+                            { dato: "Usuario C", valor: 15 }
+                        ],
+                        "chart_div_barras",
+                        "PARTIDAS JUGADAS POR USUARIO"
+                );
+            }
+        }
+        xmlhttp.open("GET", '/dashboardAdmin/obtenerDatos', true);
+        xmlhttp.send();
+    }
+
+    function dibujarTorta(datos, idElemento, titulo) {
+        let graficoMostrable = new google.visualization.DataTable();
+        graficoMostrable.addColumn('string', 'dato');
+        graficoMostrable.addColumn('number', 'valor');
+
+        datos.forEach(function (fila) {
+            graficoMostrable.addRow([fila.dato, fila.valor]);
+        });
+
+        let options = {
+            'title': titulo,
+            'width': 400,
+            'height': 300,
+            'legend': { textStyle: { color: '#000000', fontSize: 12 } },
+            'titleTextStyle': { color: '#000000', fontSize: 16 }
+        };
+
+        let chart = new google.visualization.PieChart(document.getElementById(idElemento));
+        chart.draw(graficoMostrable, options);
+    }
+
+    function dibujarGraficoColumna(datos, idElemento, titulo) {
+        let grafico = new google.visualization.DataTable();
+        grafico.addColumn('string', 'Usuario');
+        grafico.addColumn('number', 'Partidas Jugadas');
+
+        datos.forEach(function (fila) {
+            grafico.addRow([fila.dato, fila.valor]);
+        });
+
+        let options = {
+            title: titulo,
+            hAxis: { title: 'Usuarios' },
+            vAxis: { title: 'Partidas Jugadas' },
+            width: 400,
+            height: 300,
+            legend: { position: 'none' }
+        };
+
+        let chart = new google.visualization.ColumnChart(document.getElementById(idElemento));
+        chart.draw(grafico, options);
+    }
+</script>
+</body>

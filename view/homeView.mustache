@@ -55,9 +55,16 @@
 {{#esEditor}}
     SOS UN EDITOR
 {{/esEditor}}
-
-{{#esAdmin}}
-    SOS UN ADMINISTRADOR
+<!-- Aca tengo que ver porque no me anda todo el codigo del controller en el principal, por eso hago un boton para redirigir por los menos para poder probar
+!-->
+{{#esAdmin}} ;
+    <div style="text-align: right; margin: 20px;">
+        <button
+                onclick="window.location.href='/dashboardAdmin/default'"
+                style="padding: 10px 20px; font-size: 1rem; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Ir al Dashboard
+        </button>
+    </div>
 {{/esAdmin}}
 </body>
 </html>

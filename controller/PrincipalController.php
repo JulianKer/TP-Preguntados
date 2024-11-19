@@ -48,5 +48,7 @@ class PrincipalController
         header('location: /principal/inicio');
         exit();
     }
+
+
     /*-----------------------------------------------------------------------------------*/
 }

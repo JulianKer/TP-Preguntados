@@ -397,12 +397,42 @@ class Database{
     }
 
     /*----------------------------------- FIN RANKING ---------------------------------------------------------*/
+    public function obtenerCantidadDeJugadores()
+    {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) AS cantidad FROM usuario WHERE rango = 3");
+        $stmt->execute();
+
+        $resultado = $stmt->get_result()->fetch_assoc();
+
+        return intval($resultado['cantidad']);
+    }
+    public function obtenerCantidadDeJugadoresPorSexo()
+    {
 
 
+        $stmt = $this->conn->prepare( "SELECT
+                CASE
+                    WHEN sexo = 'm' THEN 'Masculino'
+                    WHEN sexo = 'f' THEN 'Femenino'
+                END AS sexo_filtrado,
+                COUNT(*) AS cantidadUsuarios
+                FROM usuario
+                GROUP BY sexo_filtrado");
+        $stmt->execute();
+        $resultado = $stmt->get_result()->fetch_all( MYSQLI_ASSOC);
 
+        $datos = [];
 
-
-
+        foreach ($resultado as $registro) {
+            $sexo = $registro['sexo_filtrado'];
+            $cantidadUsuarios = intval($registro['cantidadUsuarios']);
+            $datos[] = [
+                'dato' => $sexo,
+                'valor' => $cantidadUsuarios
+            ];
+        }
+        return $datos;
+    }
 
 
 
