@@ -56,6 +56,31 @@ class PreguntaModel
         return $this->database->obtenerIdsDeTodasLasPreguntasQueExisten();
     }
 
+    public function obtenerTodasLasPreguntasDeLaTablaAprobadasYDesactivadas(){
+        $preguntasRecibidas = $this->database->obtenerTodasLasPreguntasDeLaTablaAprobadasYDesactivadas();
+
+        for ($i = 0; $i < count($preguntasRecibidas); $i++) {
+            if ($preguntasRecibidas[$i]["id_estado"] === 1) { // Si está "desactivada", le pongo el botón de "habilitar"
+                $preguntasRecibidas[$i]["imagenDelBoton"] = "checkIcon";
+                $preguntasRecibidas[$i]["accion"] = "habilitar";
+            }
+            if ($preguntasRecibidas[$i]["id_estado"] === 4) { // Sino, te pongo el botón de desactivar
+                $preguntasRecibidas[$i]["imagenDelBoton"] = "cancelIcon";
+                $preguntasRecibidas[$i]["accion"] = "desactivar";
+            }
+        }
+        //var_dump($preguntasRecibidas);
+        return $preguntasRecibidas;
+    }
+
+    public function obtenerDesactivadas(){
+        return $this->database->obtenerDesactivadas();
+    }
+
+    public function obtenerHabilitadas(){
+        return $this->database->obtenerHabilitadas();
+    }
+
     public function actualizarEstadoPregunta($id_pregunta, $id_estado){
         return $this->database->actualizarEstadoPregunta($id_pregunta, $id_estado);
     }
@@ -67,6 +92,36 @@ class PreguntaModel
 
     public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta){
         return $this->database->crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta);
+    }
+
+    public function desactivarPregunta($idDePreguntaADesactivar){
+        if ($idDePreguntaADesactivar <= 0 || $idDePreguntaADesactivar > $this->obtenerCantidadTotalDePreguntasQueExisten()) {
+            return "Esa pregunta no existe, no se puede desactivar.";
+        }
+
+        $pregunta = $this->obtenerPregunta($idDePreguntaADesactivar);
+
+        if ($pregunta != null && $pregunta["estado"] === 4) {
+            $this->database->cambiarEstadoDePregunta($idDePreguntaADesactivar, 1);
+            return "Pregunta " . $idDePreguntaADesactivar . " desactivada correctamente.";
+        }else{
+            return "No se pudo desactivar la pregunta " . $idDePreguntaADesactivar . ".";
+        }
+    }
+
+    public function habilitarPregunta($idDePreguntaAHabilitar){
+        if ($idDePreguntaAHabilitar <= 0 || $idDePreguntaAHabilitar > $this->obtenerCantidadTotalDePreguntasQueExisten()) {
+            return "Esa pregunta no existe, no se puede habilitar.";
+        }
+
+        $pregunta = $this->obtenerPregunta($idDePreguntaAHabilitar);
+
+        if ($pregunta != null && $pregunta["estado"] === 1) {
+            $this->database->cambiarEstadoDePregunta($idDePreguntaAHabilitar, 4);
+            return "Pregunta " . $idDePreguntaAHabilitar . " habilitada correctamente.";
+        }else{
+            return "No se pudo habilitar la pregunta " . $idDePreguntaAHabilitar . ".";
+        }
     }
 }
 
