@@ -70,6 +70,7 @@ body {
     font-size: 1em;
     background-color: #ffe9e9;
     color: #a60000;
+    border: solid 1px #fdb8b8;
     border-radius: .3em;
     text-align: center;
     padding: .1em 0;

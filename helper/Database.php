@@ -317,9 +317,9 @@ class Database{
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public function cambiarEstadoDePregunta($idDePreguntaADesactivar, $idEstado){
+    public function cambiarEstadoDePregunta($idDePreguntaACambiar, $idEstado){
         $stmt = $this->conn->prepare("UPDATE `pregunta` SET `estado`= ? WHERE `id_pregunta`= ?");
-        $stmt->bind_param("ii", $idEstado, $idDePreguntaADesactivar);
+        $stmt->bind_param("ii", $idEstado, $idDePreguntaACambiar);
         $stmt->execute();
     }
 
@@ -404,13 +404,6 @@ class Database{
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
-
-    public function crearReporte($id_pregunta, $id_usuario, $descripcion) {
-        $sql = "INSERT INTO reporte (id_pregunta, id_usuario, descripcion) VALUES (?, ?, ?)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iis", $id_pregunta, $id_usuario, $descripcion);
-        $stmt->execute();
-    }
     /*----------------------------------- FIN RANKING ---------------------------------------------------------*/
 
 
@@ -424,10 +417,39 @@ class Database{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    /*----------------------------------- FIN RANKING ---------------------------------------------------------*/
+    /*----------------------------------- FIN  CATEGORIAS---------------------------------------------------------*/
 
 
 
+
+    /*----------------------------------- INICIO REPORTES ---------------------------------------------------------*/
+    public function crearReporte($id_pregunta, $id_usuario, $descripcion) {
+        $sql = "INSERT INTO reporte (id_pregunta, id_usuario, descripcion) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("iis", $id_pregunta, $id_usuario, $descripcion);
+        $stmt->execute();
+    }
+
+    public function eliminarReporte($idReporte){
+        $stmt = $this->conn->prepare("DELETE FROM `reporte` WHERE `id_reporte` = ?");
+        $stmt->bind_param("i", $idReporte);
+        $stmt->execute();
+    }
+
+    public function obtenerTodosLosReportes(){
+        $stmt = $this->conn->prepare("SELECT * FROM `reporte`");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerReportePorId($idReporte){
+        $stmt = $this->conn->prepare("SELECT * FROM `reporte` WHERE `id_reporte` = ?");
+        $stmt->bind_param("i",$idReporte);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    /*----------------------------------- FIN REPORTES ---------------------------------------------------------*/
 
 
 

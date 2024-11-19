@@ -25,6 +25,8 @@ include_once ("controller/CrearController.php");
 
 include_once ("model/CategoriaModel.php");
 
+include_once ("model/ReporteModel.php");
+
 include_once ("helper/Mail.php");
 include_once ("helper/SubirImagen.php");
 include_once ("helper/QrGenerador.php");
@@ -39,7 +41,7 @@ class Configuration
     }
 
     public function getPrincipalController(){
-        return new PrincipalController($this->getPrincipalModel(), $this->getPartidaModel(), $this->getUsuarioModel(), $this->getRankingModel(), $this->getPreguntaModel(), $this->getPresenter());
+        return new PrincipalController($this->getPrincipalModel(), $this->getPartidaModel(), $this->getUsuarioModel(), $this->getRankingModel(), $this->getPreguntaModel(), $this->getReporteModel(), $this->getPresenter());
     }
 
     public function getUsuarioController(){
@@ -121,6 +123,10 @@ class Configuration
 
     public function getCategoriaModel(){
         return new CategoriaModel($this->getDatabase());
+    }
+
+    public function getReporteModel(){
+        return new ReporteModel($this->getDatabase());
     }
 
     public function getMail(){
