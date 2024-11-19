@@ -269,6 +269,12 @@ class Database{
         $stmt->execute();
     }
 
+    public function actualizarPreguntaEditada($idPregunta, $pregunta, $categoria, $idEstado){
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `pregunta`= ?,`id_categoria`= ?, `estado`= ? WHERE `id_pregunta`= ?");
+        $stmt->bind_param("siii", $pregunta, $categoria, $idEstado, $idPregunta);
+        $stmt->execute();
+    }
+
     public function obtenerCantidadTotalDePreguntasQueExisten(){
         $stmt = $this->conn->prepare("SELECT COUNT(*) AS total_preguntas FROM `pregunta`");
         $stmt->execute();
@@ -320,6 +326,12 @@ class Database{
     public function cambiarEstadoDePregunta($idDePreguntaACambiar, $idEstado){
         $stmt = $this->conn->prepare("UPDATE `pregunta` SET `estado`= ? WHERE `id_pregunta`= ?");
         $stmt->bind_param("ii", $idEstado, $idDePreguntaACambiar);
+        $stmt->execute();
+    }
+
+    public function editarRespuesta($idOpcionAActualizar, $valorDeLaOpcionAActualizar){
+        $stmt = $this->conn->prepare("UPDATE `respuesta` SET `descripcion`= ?, `correcta`= 0 WHERE `id_respuesta`= ?");
+        $stmt->bind_param("si", $valorDeLaOpcionAActualizar, $idOpcionAActualizar);
         $stmt->execute();
     }
 

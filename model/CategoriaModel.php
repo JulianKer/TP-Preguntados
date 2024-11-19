@@ -11,4 +11,14 @@ class CategoriaModel{
         return $this->database->obtenerTodasCategorias();
     }
 
+    public function dameTodasLasCategoriasMenosLaQueTePaso($idCategoriaAExcluir){
+        $categoriasTotales = $this->obtenerTodasCategorias();
+
+        $categoriasFiltradas = array_filter($categoriasTotales, function($categoria) use ($idCategoriaAExcluir) {
+            return $categoria['id_categoria'] !== $idCategoriaAExcluir;
+        });
+
+        return array_values($categoriasFiltradas);
+    }
+
 }

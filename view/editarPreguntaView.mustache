@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap y FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/crearPregunta.css">
+
+    <title>Editar pregunta - QuizMaster</title>
+</head>
+<body>
+
+<div class="main-content">
+    <form action="/editar/validarPreguntaEditada" method="post">
+        <input type="hidden" value="{{pregunta.id_pregunta}}" name="id_pregunta">
+        {{#vengoDeReportar}}
+            <h4 class="tituloForm">Para aprobar el reporte: {{idReporteAEliminar}}, debe editar la pregunta: {{pregunta.id_pregunta}}</h4>
+            <input type="hidden" value="{{idReporteAEliminar}}" name="idReporteAEliminar">
+        {{/vengoDeReportar}}
+
+        {{^vengoDeReportar}}
+            <h4 class="tituloForm">Editar pregunta: {{pregunta.id_pregunta}}</h4>
+        {{/vengoDeReportar}}
+
+        {{#errorEditar}}
+            <p class="alert alert-danger">{{errorEditar}}</p>
+        {{/errorEditar}}
+        <div class="form-group">
+            <label for="categoria">Categoría:</label>
+            <select id="categoria" name="categoria" required>
+                <option value="{{pregunta.id_categoria}}" selected>{{pregunta.nombre}}</option>
+                {{#categoriasRestantes}}
+                    <option value="{{id_categoria}}">{{nombre}}</option>
+                {{/categoriasRestantes}}
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="pregunta">Pregunta:</label>
+            <input type="text" id="pregunta" name="pregunta" placeholder="Escribe tu pregunta aquí" value="{{pregunta.pregunta}}">
+        </div>
+
+        <div class="form-group">
+            <label>Opciones de respuesta: (Seleccione la correcta)</label>
+
+            {{#respuestas}}
+                <div class="option-group">
+                    <input type="radio" name="respuesta_correcta" value="opcion{{numeroDeOpcion}}" {{#correcta}}checked{{/correcta}} required>
+                    <input type="text" name="opcion{{numeroDeOpcion}}" placeholder="Opción {{numeroDeOpcion}}" value="{{descripcion}}" required>
+                    <input type="hidden" name="idOpcion{{numeroDeOpcion}}" value="{{id_respuesta}}">
+                </div>
+            {{/respuestas}}
+            <!--
+            <div class="option-group">
+                <input type="radio" name="respuesta_correcta" value="opcion2" required>
+                <input type="text" name="opcion2" placeholder="Opción 2" required>
+            </div>
+            <div class="option-group">
+                <input type="radio" name="respuesta_correcta" value="opcion3" required>
+                <input type="text" name="opcion3" placeholder="Opción 3" required>
+            </div>
+            <div class="option-group">
+                <input type="radio" name="respuesta_correcta" value="opcion4" required>
+                <input type="text" name="opcion4" placeholder="Opción 4" required>
+            </div>-->
+        </div>
+
+        <div class="cont_btns">
+            {{#vengoDeReportar}}
+                <a class="boton-volver" href="/principal/reportes">Volver</a>
+            {{/vengoDeReportar}}
+            {{^vengoDeReportar}}
+                <a class="boton-volver" href="/principal/inicio">Volver</a>
+            {{/vengoDeReportar}}
+            <button type="submit">Guardar</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

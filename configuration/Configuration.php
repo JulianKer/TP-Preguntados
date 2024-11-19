@@ -65,7 +65,7 @@ class Configuration
     }
 
     public function getEditarController(){
-        return new EditarController($this->getPreguntaModel(), $this->getUsuarioModel(), $this->getCategoriaModel(), $this->getPresenter());
+        return new EditarController($this->getPreguntaModel(), $this->getUsuarioModel(), $this->getCategoriaModel(), $this->getReporteModel(), $this->getPresenter());
     }
 
 
