@@ -132,7 +132,8 @@ class EditarController{
         }
 
         $data['idReporteAEliminar'] = isset($_SESSION['idReporteAEliminar']) ? $_SESSION['idReporteAEliminar'] : "";
-        $data['vengoDeReportar'] = true;
+        $data['vengoDeReportar'] = isset($_SESSION['idReporteAEliminar']);
+
         $this->presenter->show("editarPregunta", $data);
     }
 
@@ -145,6 +146,8 @@ class EditarController{
             !isset($_POST["categoria"]) || empty($_POST["categoria"]) ||
             !isset($_POST["pregunta"]) || empty($_POST["pregunta"]) ||
             !isset($_POST["respuesta_correcta"]) || empty($_POST["respuesta_correcta"]) ||
+
+            !isset($_POST["estadoDeLaPreguntaQueVieneDelPost"]) || empty($_POST["estadoDeLaPreguntaQueVieneDelPost"]) ||
 
             !isset($_POST["opcion1"]) || empty($_POST["opcion1"]) || !isset($_POST["idOpcion1"]) || empty($_POST["idOpcion1"]) ||
             !isset($_POST["opcion2"]) || empty($_POST["opcion2"]) || !isset($_POST["idOpcion2"]) || empty($_POST["idOpcion2"]) ||
@@ -161,6 +164,7 @@ class EditarController{
         $pregunta = $_POST["pregunta"];
         $categoria = $_POST["categoria"];
         $idEstado = 4; //(aprobada) le pongo este pq al acutualizarla, se supone que el editor aprueba re reporte actualizando correctamente la pregunta por ende ya le setea el estado de que ahora esta corregida
+        $idEstado = isset($_POST["idReporteAEliminar"]) ? 4 : $_POST["estadoDeLaPreguntaQueVieneDelPost"];
 
         $seEditoLaPregunta = $this->modelPregunta->actualizarPreguntaEditada($idPregunta, $pregunta, $categoria, $idEstado);
 

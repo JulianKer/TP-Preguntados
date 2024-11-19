@@ -130,14 +130,14 @@
                             <td>{{pregunta}}</td>
                             <td class="botones-td">
                                 <button class="btn editar">
-                                    <a href="">
+                                    <a href="/editar/pregunta/{{id_pregunta}}">
                                         <img src="/public/images/icons/editIcon.svg" alt="edit" title="Editar">
                                         <span>Editar</span>
                                     </a>
                                 </button>
                                 <button class="btn {{imagenDelBoton}}">
                                     <a href="/principal/{{accion}}/{{id_pregunta}}">
-                                        <img src="/public/images/icons/{{imagenDelBoton}}.svg" alt="edit" title="Editar">
+                                        <img src="/public/images/icons/{{imagenDelBoton}}.svg" alt="{{accion}}" title="{{accion}}">
                                         <span>{{accion}}</span>
                                     </a> <!-- ACA VER EN EL ICON DE REEMPLAZAR POR EL { {pregunta.estado} } segun el nombre del icono si es desactivar es cancel y si es aprobar es el check-->
                                 </button>
