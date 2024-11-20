@@ -112,8 +112,8 @@ class PreguntaModel
         // faltaria guardar la descripcion del reporte en la base de datos pero despues lo agrego.
     }
 
-    public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta){
-        return $this->database->crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta);
+    public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta, $idEstadoQueDebeQuedarLaPregunta){
+        return $this->database->crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta, $idEstadoQueDebeQuedarLaPregunta);
     }
 
     public function desactivarPregunta($idDePreguntaADesactivar){
