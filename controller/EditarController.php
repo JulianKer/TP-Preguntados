@@ -76,7 +76,9 @@ class EditarController{
         $opcion3 = $_POST["opcion3"];
         $opcion4 = $_POST["opcion4"];
 
-        $idDePreguntaInsertada = $this->modelPregunta->crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta);
+        $idEstadoQueDebeQuedarLaPregunta = $_SESSION["usuarioObjetoDeLaSesion"]["rango"] === 2 ? 4 : 5; // si sos "editor" queda la pregunta con estado "aprobada" (4) directamente,  si sos "jugador", se inserta la preg con estado "pendiente" (5)
+
+        $idDePreguntaInsertada = $this->modelPregunta->crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta, $idEstadoQueDebeQuedarLaPregunta);
 
         if ($idDePreguntaInsertada == null){
             $_SESSION["errorCrear"] = "No se pudo crear la pregunta. Intente nuevamente.";
@@ -90,7 +92,7 @@ class EditarController{
         $descripcionDeLaRespuestaCorrecta = $this->modelPregunta->dameLaDescripcionDeLaRespuestaCorrectaSegunEstasOpciones($respuesta_correcta, $opcion1, $opcion2, $opcion3, $opcion4);
         $this->modelPregunta->setearEstaRespuestaComoCorrectaParaEstaPregunta($idDePreguntaInsertada, $descripcionDeLaRespuestaCorrecta);
 
-        $_SESSION["exitoCrear"] = "¡Pregunta creada con éxito! Nuestro staff evaluará tu sugerencia para incorporarla a QuizMaster. Gracias por tu aporte : )";
+        $_SESSION["exitoCrear"] = $_SESSION["usuarioObjetoDeLaSesion"]["rango"] === 2 ? "Pregunta creada correctamente." : "¡Pregunta creada con éxito! Nuestro staff evaluará tu sugerencia para incorporarla a QuizMaster. Gracias por tu aporte : )";
         $_SESSION["errorCrear"] = null;
         header("location: /editar/nuevaPregunta");
         exit();

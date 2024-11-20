@@ -251,10 +251,10 @@ class Database{
 
     /*-------------------- PREGUNTAS ----------------------------------------------------------------------*/
 
-    public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta){ // este inserta la pregunta con estado (5) "pendiente" (para q el admin la apruebe o la rechace)
+    public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta, $idEstadoQueDebeQuedarLaPregunta){ // este inserta la pregunta con estado (5) "pendiente" (para q el admin la apruebe o la rechace)
         $stmt = $this->conn->prepare("INSERT INTO `pregunta` (`pregunta`, `id_categoria`, `id_dificultad`, `estado`, `apariciones`, `aciertos`) 
-                                                            VALUES (?, ? , 1, 5, 0, 0)");
-        $stmt->bind_param("si", $pregunta, $categoria);
+                                                            VALUES (?, ? , 1, ?, 0, 0)");
+        $stmt->bind_param("sii", $pregunta, $categoria, $idEstadoQueDebeQuedarLaPregunta);
         $stmt->execute();
         return $stmt->insert_id;
     }
