@@ -23,11 +23,6 @@ class PerfilController{
         $idDelUserAMostrar = null;
         $data = null;
 
-        /*if (!isset($_SESSION['user'])) {
-            header("location: /acceso/ingresar");
-            exit();
-        }*/
-
         $ip = getHostByName(getHostName());
 
         if (isset($_GET["var1"])){
