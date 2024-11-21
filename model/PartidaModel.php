@@ -11,6 +11,15 @@ class PartidaModel
         $this->userModel = $userModel;
     }
 
+    public function obtenerPartidaEnCursoDelUserOCrearUnaNuevaPartida($idUser){
+        $partida = $this->buscarSiHayUnaPartidaEnCursoParaEsteUser($idUser);
+        if ($partida === null) {
+            $idPartidaABuscar = $this->crearPartidaEnCursoParaEsteUser($idUser);
+            $partida = $this->buscarLaUltimaPartidaInsertada($idPartidaABuscar);
+        }
+        return $partida;
+    }
+
     public function obtenerCategoria($categoria){
         // hago este para q me coincidan las clases con el css pq algunas categorias
         // estan separadas por 2 palabras, tonces asi la hago minuscula y las q son 2, las dejo en 1
@@ -117,7 +126,7 @@ class PartidaModel
             }
 
 
-            //hay q agregar lo de la dificultad y lo de si la preg esta habilitada (un campo mas en la pregunta)
+            //hay q agregar lo de la dificultad y lo de si la preg esta habilitada y reportada (pq aunq este reportada la puedo omostrar igual)
 
 
 

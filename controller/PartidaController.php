@@ -38,17 +38,8 @@ class   PartidaController
         $data['musicaActivada'] = $userEncontrado["musica"];
         $data['objUsuario'] = $userEncontrado;
 
-        $partida = $this->model->buscarSiHayUnaPartidaEnCursoParaEsteUser($idUser);
-        if ($partida === null) {
-            $idPartidaABuscar = $this->model->crearPartidaEnCursoParaEsteUser($idUser);
-            $partida = $this->model->buscarLaUltimaPartidaInsertada($idPartidaABuscar);
-        }
-        $data['partida'] = $partida;
+        $data['partida'] = $this->model->obtenerPartidaEnCursoDelUserOCrearUnaNuevaPartida($idUser);
 
-        /*---- la logica gigante que tenia aca, la pude resumir en 2 mtodos, el array_merge() lo uso para q:
-               a  to do el data que tengo en este controller, le agrego to do el array que me devolvio el metodo
-                q le sigue, podria haber usado por referencia? si, pero me di cuenta despues xd
-        --*/
         if (!$postData['respuesta']) {
             $data = array_merge($data, $this->model->entregarPregunta($data, $sessionData));
             $_SESSION['respuestas_desordenadas'] = $data['opciones'];
