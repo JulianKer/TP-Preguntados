@@ -6,27 +6,23 @@
 
     <link rel="stylesheet" href="/public/css/home.css">
     <link rel="stylesheet" href="/public/css/homeEditor.css">
-    <link rel="stylesheet" href="/public/css/reportes.css">
 
     <script src="/public/js/popUp.js" defer></script>
-    <title>Reportes - QuizMaster</title>
+    <title>Inicio - QuizMaster</title>
 </head>
 <body>
 
-    {{#exitoMsjSobreEliminacionReporte}}
-        <p class="alerta exito">{{exitoMsjSobreEliminacionReporte}}</p>
-    {{/exitoMsjSobreEliminacionReporte}}
-    {{#errorMsjSobreEliminacionReporte}}
-        <p class="alerta error">{{errorMsjSobreEliminacionReporte}}</p>
-    {{/errorMsjSobreEliminacionReporte}}
 
-    {{#exitoMsjSobreAprobacionReporte}}
-        <p class="alerta exito">{{exitoMsjSobreAprobacionReporte}}</p>
-    {{/exitoMsjSobreAprobacionReporte}}
-    {{#errorMsjSobreAprobacionReporte}}
-        <p class="alerta error">{{errorMsjSobreAprobacionReporte}}</p>
-    {{/errorMsjSobreAprobacionReporte}}
+    {{#exitoMsjSobreSugerida}}
+        <p class="alerta exito">{{exitoMsjSobreSugerida}}</p>
+    {{/exitoMsjSobreSugerida}}
+    {{#errorMsjSobreSugerida}}
+        <p class="alerta error">{{errorMsjSobreSugerida}}</p>
+    {{/errorMsjSobreSugerida}}
 
+    {{#exitoEditar}}
+        <p class="alerta exito">{{exitoEditar}}</p>
+    {{/exitoEditar}}
     <div class="main-content">
         <div class="lobby-card">
             <h1 class="welcome-title">Bienvenido, {{user}} !</h1>
@@ -39,7 +35,7 @@
         </div>
         <div class="lobby-card card-container-preguntas">
             <div class="container-cantidades">
-                <p class="recent-games-title titulo-preguntas">Reportes</p>
+                <p class="recent-games-title titulo-preguntas">Preguntas sugeridas por los usuarios</p>
                 <p class="recent-games-title">Totales: <span style="font-weight: bolder; margin-left: .5em">{{total}}</span></p>
             </div>
 
@@ -48,47 +44,46 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Usuario</th>
+                        <th>Categoría</th>
                         <th>Pregunta</th>
-                        <th>Motivo</th>
                         <th>Fecha</th>
                         <th class="acciones-th">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {{#reportes}}
+                    {{#sugeridas}}
                         <tr>
-                            <td>{{id_reporte}}</td>
-                            <td>@{{user}}</td>
                             <td>{{id_pregunta}}</td>
-                            <td>{{descripcion}}</td>
-                            <td>{{fecha_reporte}}</td>
+                            <td>{{nombre}}</td>
+                            <td>{{pregunta}}</td>
+                            <td>{{fecha_alta}}</td>
                             <td class="botones-td">
-                                <button class="btn aprobarEditar">
-                                    <a href="/principal/aprobarReporte/{{id_reporte}}">
-                                        <img src="/public/images/icons/eyeIcon.svg" alt="Aprobar" title="Aprobar">
-                                        <span>Ver y<br>editar</span>
+                                <button class="btn checkIcon">
+                                    <a href="/editar/aprobarSugerencia/{{id_pregunta}}">
+                                        <img src="/public/images/icons/checkIcon.svg" alt="Aprobar" title="Aprobar">
+                                        <span>Aprobar</span>
                                     </a>
                                 </button>
                                 <button class="btn cancelIcon">
-                                    <a href="/principal/eliminarReporte/{{id_reporte}}">
-                                        <img src="/public/images/icons/cancelIcon.svg" alt="Denegar" title="Denegar">
-                                        <span>Rechazar reporte</span>
+                                    <a href="/editar/rechazarSugerida/{{id_pregunta}}">
+                                        <img src="/public/images/icons/cancelIcon.svg" alt="Rechazar" title="Rechazar">
+                                        <span>Rechazar</span>
                                     </a>
                                 </button>
                             </td>
                         </tr>
-                    {{/reportes}}
+                    {{/sugeridas}}
                     </tbody>
                 </table>
-                {{^reportes}}
+
+                {{^sugeridas}}
                     <div class="sin-partidas" style="margin: 1em; margin-bottom: 0">
-                        <p>¡No hay reportes!</p>
+                        <p>¡No hay preguntas sugeridas!</p>
                     </div>
-                {{/reportes}}
+                {{/sugeridas}}
+
             </div>
         </div>
     </div>
-
 </body>
 </html>

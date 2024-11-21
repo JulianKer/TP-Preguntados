@@ -41,7 +41,7 @@ class PrincipalController
 
                 break;
                 case 2: // editor
-                    unset($_SESSION["idReporteAEliminar"]);
+                    unset($_SESSION["idReporte"]);
 
                     $data["esEditor"] = $this->modelUsuario->saberSiEsEditor($userEncontrado["rango"]);
 
@@ -183,7 +183,7 @@ class PrincipalController
         $reporteEncontrado = $this->modelReporte->obtenerReportePorId($idReporte);
 
         if ($reporteEncontrado){
-            $_SESSION['idReporteAEliminar'] = $idReporte;
+            $_SESSION['idReporte'] = $idReporte;
             header("location: /editar/pregunta/" . $reporteEncontrado['id_pregunta']);
             exit();
         }else{

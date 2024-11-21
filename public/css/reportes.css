@@ -1,7 +1,12 @@
-.card-container-preguntas{
-    min-height: 400px;
-}
-
 td{
     text-align: center;
+}
+
+.aprobarEditar{
+    background-color: #007BFF;
+    transition: all .2s;
+}
+
+.aprobarEditar:hover{
+    background-color: #5FA7FD;
 }
