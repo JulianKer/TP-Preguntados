@@ -105,6 +105,14 @@ class PartidaModel
         }
     }
 
+    public function obtenerCuantoTiempoLeQuedaParaResponderLaPregunta($fechaDeEntrega){
+        $fechaEntregada = new DateTime($fechaDeEntrega);
+        $fechaActual = new DateTime();
+        $tiempoRestante = 10 - ($fechaActual->getTimestamp() - $fechaEntregada->getTimestamp());
+        return $tiempoRestante;
+        //return abs($fechaActual->getTimestamp() - $fechaEntregada->getTimestamp());
+    }
+
     // aca esta la logica q tenia en el partidaController, la pase a este model pq seria mi logica del negocio
     public function entregarPregunta($data, $sessionData) {
         $idUser = $data['idUsuario'];
@@ -132,20 +140,22 @@ class PartidaModel
 
             $pregunta = $this->preguntaModel->obtenerPregunta($numPregunta);
             $this->crearNuevaPreguntaPartida($partida["id_partida"], $pregunta["id_pregunta"], $idUser);
+            $preguntaPartida = $this->buscarUltimaPreguntaNoResponididaDeLaPartida($partida["id_partida"]);
         } else {
             $pregunta = $this->preguntaModel->obtenerPregunta($preguntaPartida["id_pregunta"]);
         }
 
         $categoria = $this->obtenerCategoria($pregunta["nombre"]);
         $respuestas = $this->preguntaModel->desordenarRespuestas($this->preguntaModel->obtenerRespuestas($pregunta["id_pregunta"]));
-        //$_SESSION['respuestas_desordenadas'] = $respuestas; ----> lo paso directamente en el return asiq en el controller desp hago $_SESSION['respuestas_desordenadas'] = $data['opciones'] q son basicamente las respuestas
+        $tiempoRestante = $this->obtenerCuantoTiempoLeQuedaParaResponderLaPregunta($preguntaPartida["fechaEntregada"]);
 
         return [
             "pregunta" => $pregunta,
             "opciones" => $respuestas,
             "categoria" => $categoria,
             "esDeCorreccion" => false,
-            "mostrarReloj" => true
+            "mostrarReloj" => true,
+            "tiempoRestante" => $tiempoRestante
         ];
     }
 

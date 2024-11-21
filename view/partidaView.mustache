@@ -32,7 +32,7 @@
         <div class="categoria-reloj">
             <h5 class="categoria">· {{pregunta.nombre}} ·</h5>
             {{#mostrarReloj}}
-                <h5 class="contador" id="contador">00:10</h5>
+                <h5 class="contador" id="contador"><span id="segundos">{{tiempoRestante}}</span><span id="letra-s">s</span></h5>
             {{/mostrarReloj}}
             {{#esDeCorreccion}}
                 {{^contestoDentroDelTiempo}}
