@@ -109,7 +109,7 @@ class Configuration
 
     private function getPartidaModel()
     {
-        return new PartidaModel($this->getDatabase());
+        return new PartidaModel($this->getDatabase(), $this->getPreguntaModel(), $this->getUsuarioModel());
     }
 
     private function getPreguntaModel()

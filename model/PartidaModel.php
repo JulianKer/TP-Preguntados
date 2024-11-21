@@ -3,10 +3,12 @@
 class PartidaModel
 {
     private $database;
-
-    public function __construct($database)
-    {
+    private $preguntaModel;
+    private $userModel;
+    public function __construct($database, $preguntaModel, $userModel){
         $this->database = $database;
+        $this->preguntaModel = $preguntaModel;
+        $this->userModel = $userModel;
     }
 
     public function obtenerCategoria($categoria){
@@ -92,6 +94,100 @@ class PartidaModel
         }else{
             return false;
         }
+    }
+
+    // aca esta la logica q tenia en el partidaController, la pase a este model pq seria mi logica del negocio
+    public function entregarPregunta($data, $sessionData) {
+        $idUser = $data['idUsuario'];
+        $partida = $data['partida'];
+
+        $preguntaPartida = $this->buscarUltimaPreguntaNoResponididaDeLaPartida($partida["id_partida"]);
+
+        if ($preguntaPartida === null) {
+            $idsPreguntasRespondidas = $this->buscarPreguntasResponidasPorElUsuario($idUser);
+            $idsPreguntasTotales = $this->preguntaModel->obtenerIdsDeTodasLasPreguntasQueExisten();
+            $idsPreguntasNoRespondidas = array_values(array_diff($idsPreguntasTotales, $idsPreguntasRespondidas));
+            $numPregunta = $this->seleccionarPreguntaAleatoriaQueElUserNoHayaRespondido($idsPreguntasNoRespondidas);
+
+            if ($numPregunta === 0) {
+                $this->resetearPreguntaPartidaDeLasPreguntasRespondidasPorEsteUsuario($idUser);
+                $idsPreguntasRespondidas = $this->buscarPreguntasResponidasPorElUsuario($idUser);
+                $idsPreguntasNoRespondidas = array_values(array_diff($idsPreguntasTotales, $idsPreguntasRespondidas));
+                $numPregunta = $this->seleccionarPreguntaAleatoriaQueElUserNoHayaRespondido($idsPreguntasNoRespondidas);
+            }
+
+
+            //hay q agregar lo de la dificultad y lo de si la preg esta habilitada (un campo mas en la pregunta)
+
+
+
+            $pregunta = $this->preguntaModel->obtenerPregunta($numPregunta);
+            $this->crearNuevaPreguntaPartida($partida["id_partida"], $pregunta["id_pregunta"], $idUser);
+        } else {
+            $pregunta = $this->preguntaModel->obtenerPregunta($preguntaPartida["id_pregunta"]);
+        }
+
+        $categoria = $this->obtenerCategoria($pregunta["nombre"]);
+        $respuestas = $this->preguntaModel->desordenarRespuestas($this->preguntaModel->obtenerRespuestas($pregunta["id_pregunta"]));
+        //$_SESSION['respuestas_desordenadas'] = $respuestas; ----> lo paso directamente en el return asiq en el controller desp hago $_SESSION['respuestas_desordenadas'] = $data['opciones'] q son basicamente las respuestas
+
+        return [
+            "pregunta" => $pregunta,
+            "opciones" => $respuestas,
+            "categoria" => $categoria,
+            "esDeCorreccion" => false,
+            "mostrarReloj" => true
+        ];
+    }
+
+    public function procesarRespuesta($data, $postData, $sessionData) {
+        $id_pregunta = $postData['id_pregunta'];
+        $id_respuestaSeleccionada = $postData['respuesta'];
+        $id_respuestaCorrecta = $this->preguntaModel->obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta)["id_respuesta"];
+
+        $pregunta = $this->preguntaModel->obtenerPregunta($id_pregunta);
+        $respuestas = $sessionData['respuestas_desordenadas'];
+
+        foreach ($respuestas as &$respuesta) {
+            $respuesta['seleccionada'] = ($respuesta['id_respuesta'] == $id_respuestaSeleccionada);
+        }
+
+        $preguntaPartida = $this->buscarUltimaPreguntaNoResponididaDeLaPartida($data['partida']["id_partida"]);
+        $preguntaPartida["respondida"] = true;
+
+        $contestoDentroDelTiempo = $this->contestoEnTiempoYForma($preguntaPartida) === true;
+
+        if ($contestoDentroDelTiempo) {
+            if ($id_respuestaSeleccionada == $id_respuestaCorrecta) {
+                $pregunta["aciertos"] += 1;
+                $preguntaPartida["acertoElUsuario"] = true;
+                $data['partida']["puntaje"] = isset($data['partida']["puntaje"]) ? $data['partida']["puntaje"] + 10 : 10;
+            } else {
+                $preguntaPartida["acertoElUsuario"] = false;
+                $data['partida']["terminada"] = true;
+                $this->userModel->actualizarPuntaje($data['partida']["puntaje"], $data['partida']["id_usuario"]);
+            }
+        } else {
+            $preguntaPartida["acertoElUsuario"] = false;
+            $data['partida']["terminada"] = true;
+            $this->userModel->actualizarPuntaje($data['partida']["puntaje"], $data['partida']["id_usuario"]);
+        }
+
+        // aca deje comentado el actualizarPregunta, lo hice pq como probaba, iba a tener q modificar todas las preguntas jaj,
+        // pero bueno, lo descomentamos y ya anda
+        //$this->preguntaModel->actualizarPregunta($pregunta);
+        $this->actualizaPartida($data['partida']);
+        $this->actualizaPreguntaPartida($preguntaPartida);
+
+        return [
+            "pregunta" => $pregunta,
+            "opciones" => $respuestas,
+            "categoria" => $this->obtenerCategoria($pregunta["nombre"]),
+            "laSeleccionadaEsCorrecta" => ($id_respuestaSeleccionada == $id_respuestaCorrecta),
+            "esDeCorreccion" => true,
+            "puntaje" => $data['partida']["puntaje"],
+            "contestoDentroDelTiempo" => $contestoDentroDelTiempo
+        ];
     }
 
 }
