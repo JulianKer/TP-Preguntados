@@ -17,8 +17,8 @@
         <input type="hidden" value="{{pregunta.id_pregunta}}" name="id_pregunta">
         <input type="hidden" value="{{pregunta.estado}}" name="estadoDeLaPreguntaQueVieneDelPost">
         {{#vengoDeReportar}}
-            <h4 class="tituloForm">Para aprobar el reporte: {{idReporteAEliminar}}, debe editar la pregunta: {{pregunta.id_pregunta}}</h4>
-            <input type="hidden" value="{{idReporteAEliminar}}" name="idReporteAEliminar">
+            <h4 class="tituloForm">Para aprobar el reporte: {{idReporte}}, debe editar la pregunta: {{pregunta.id_pregunta}}</h4>
+            <input type="hidden" value="{{idReporte}}" name="idReporteAEliminar">
         {{/vengoDeReportar}}
 
         {{^vengoDeReportar}}

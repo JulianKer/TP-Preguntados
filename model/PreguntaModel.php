@@ -149,5 +149,21 @@ class PreguntaModel
     public function cambiarEstadoDePregunta($idDePreguntaACambiar, $idEstado){
         $this->database->cambiarEstadoDePregunta($idDePreguntaACambiar, $idEstado);
     }
+
+    public function obtenerTodasSugeridas(){
+        return $this->database->obtenerTodasSugeridas();
+    }
+
+    public function obtenerPreguntaSugerida($idPreguntaSugerida){
+        return $this->database->obtenerPreguntaSugerida($idPreguntaSugerida);
+    }
+
+    public function aprobarSugerencia($idPreguntaSugerida){
+        $this->database->aprobarSugerencia($idPreguntaSugerida);
+    }
+
+    public function rechazarSugerencia($idPreguntaSugerida){
+        $this->database->rechazarSugerencia($idPreguntaSugerida);
+    }
 }
 

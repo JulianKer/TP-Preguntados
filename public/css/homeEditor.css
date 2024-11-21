@@ -85,13 +85,13 @@ button {
     min-width: 120px;
 }
 
-button.editar {
+button.editar, .ver {
     background-color: #007BFF;
     color: #fff;
     transition: all .2s;
 }
 
-.editar:hover{
+.editar:hover, .ver:hover{
     background-color: #5fa7fd;
 }
 

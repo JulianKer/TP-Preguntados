@@ -133,8 +133,8 @@ class EditarController{
             $data["exitoCrear"] = $_SESSION["exitoCrear"];
         }
 
-        $data['idReporteAEliminar'] = isset($_SESSION['idReporteAEliminar']) ? $_SESSION['idReporteAEliminar'] : "";
-        $data['vengoDeReportar'] = isset($_SESSION['idReporteAEliminar']);
+        $data['idReporte'] = isset($_SESSION['idReporte']) ? $_SESSION['idReporte'] : "";
+        $data['vengoDeReportar'] = isset($_SESSION['idReporte']);
 
         $this->presenter->show("editarPregunta", $data);
     }
@@ -212,4 +212,68 @@ class EditarController{
         header("location: /principal/inicio");
         exit();
     }
+
+
+
+    public function sugeridas(){
+        $userEncontrado = $this->modelUsuario->obtenerUsuarioPorId($_SESSION['idUser'])[0];
+
+        $data["musicaActivada"] = $userEncontrado["musica"];
+        $data["objUsuario"] = $userEncontrado;
+        $data['user'] = $_SESSION['user'];
+        $data['idUsuario'] = $_SESSION['idUser'];
+
+        $data['sugeridas'] = $this->modelPregunta->obtenerTodasSugeridas();
+        $data['total'] = count($data['sugeridas']);
+
+        $data['exitoMsjSobreSugerida'] = isset($_SESSION['exitoMsjSobreSugerida']) ? $_SESSION['exitoMsjSobreSugerida'] : "";
+        $data['errorMsjSobreSugerida'] = isset($_SESSION['errorMsjSobreSugerida']) ? $_SESSION['errorMsjSobreSugerida'] : "";
+
+        unset($_SESSION['exitoMsjSobreSugerida']);
+        unset($_SESSION['errorMsjSobreSugerida']);
+
+        $this->presenter->show("sugeridas", $data);
+    }
+
+    public function aprobarSugerencia(){
+        $idPreguntaSugerida = isset($_GET['var1']) ? $_GET['var1'] : 0;
+
+        $preguntaSugeridaEncontrada = $this->modelPregunta->obtenerPreguntaSugerida($idPreguntaSugerida);
+
+        if ($preguntaSugeridaEncontrada){
+            $this->modelPregunta->aprobarSugerencia($idPreguntaSugerida);
+            $_SESSION['exitoMsjSobreSugerida'] = "La pregunta sugerida " . $idPreguntaSugerida . " fue aprobada con éxito.";
+            unset($_SESSION["errorMsjSobreSugerida"]);
+        }else{
+            $_SESSION['errorMsjSobreSugerida'] = "La pregunta " . $idPreguntaSugerida . " no es sugerida.";
+            unset($_SESSION["exitoMsjSobreSugerida"]);
+        }
+
+        header("location: /editar/sugeridas");
+        exit();
+    }
+
+
+    public function rechazarSugerida(){
+        $idPreguntaSugerida = isset($_GET['var1']) ? $_GET['var1'] : 0;
+
+        $preguntaSugeridaEncontrada = $this->modelPregunta->obtenerPreguntaSugerida($idPreguntaSugerida);
+
+        if ($preguntaSugeridaEncontrada){
+            $this->modelPregunta->rechazarSugerencia($idPreguntaSugerida);
+            $_SESSION['exitoMsjSobreSugerida'] = "La pregunta sugerida " . $idPreguntaSugerida . " fue rechazada.";
+            unset($_SESSION["errorMsjSobreSugerida"]);
+        }else{
+            $_SESSION['errorMsjSobreSugerida'] = "La pregunta " . $idPreguntaSugerida . " no es sugerida.";
+            unset($_SESSION["exitoMsjSobreSugerida"]);
+        }
+
+        header("location: /editar/sugeridas");
+        exit();
+    }
+
+
+
+    /*ACA IBA A HACER EL METODO PARA IR AL /SUGERIDAS O PREGUNTAS SUGERIDAS, HAY Q HACER UN SELECT * PREGUNTAS WHERE id_pregunta = 5 ( osea las pendientes ya q son las que crea el user jugador y esperan ser aprobadas por el editor)
+    tonces ahi tengo que ponerle dos botones a la tabla del html "aceptar pregunta sugerida"(set estado pregunta a --> 4 (habilitada) ) "denegar" (le hago delete de esa pregunta pq no la acepté) o algo asi */
 }
