@@ -210,7 +210,8 @@ body {
     margin-top: .8em;
 }
 
-.categoria{
+.categoria,
+.dificultad_pregunta{
     font-size: 1.1em;
     text-align: center;
     margin: 0;

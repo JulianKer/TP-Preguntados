@@ -95,6 +95,17 @@ class Database{
         $stmt->bind_param("ii", $puntaje, $idUsuario);
         $stmt->execute();
     }
+
+    public function actualizarUsuario($usuario){
+        $respondidas = $usuario['respondidasusuario'];
+        $aciertos = $usuario['aciertosusuario'];
+        $dificultad = $usuario['dificultad'];
+        $idUser = $usuario['id'];
+
+        $stmt = $this->conn->prepare("UPDATE usuario SET `respondidasusuario` = ?, `aciertosusuario` = ?, `dificultad` = ? WHERE id = ?");
+        $stmt->bind_param("iiii", $respondidas, $aciertos, $dificultad, $idUser);
+        $stmt->execute();
+    }
     /* --------------------- FIN user------------------------------------------------------------------*/
 
 
@@ -199,10 +210,11 @@ class Database{
     public function actualizarPregunta($pregunta){
         $apariciones = $pregunta['apariciones'];
         $aciertos = $pregunta['aciertos'];
+        $dificultad = $pregunta['dificultad'];
         $idPregunta = $pregunta['id_pregunta'];
 
-        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `apariciones`= ?,`aciertos`= ?  WHERE `id_partida`= ?");
-        $stmt->bind_param("iii", $apariciones, $aciertos, $idPregunta);
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `apariciones`= ?,`aciertos`= ?, `dificultad`= ? WHERE `id_pregunta`= ?");
+        $stmt->bind_param("iiii", $apariciones, $aciertos, $dificultad, $idPregunta);
         $stmt->execute();
     }
 
@@ -217,8 +229,9 @@ class Database{
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['total_preguntas'];
     }
-    public function obtenerIdsDeTodasLasPreguntasQueExisten(){
-        $stmt = $this->conn->prepare("SELECT id_pregunta FROM `pregunta`");
+    public function obtenerIdsDeTodasLasPreguntasHabilitadasYOReportadasQueExistenDeEstaDificultad($dificultadUser){
+        $stmt = $this->conn->prepare("SELECT id_pregunta FROM `pregunta` WHERE pregunta.dificultad = ? AND pregunta.estado = 4 OR pregunta.estado = 2");
+        $stmt->bind_param("i", $dificultadUser);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -286,8 +299,9 @@ class Database{
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public function buscarPreguntasResponidasPorElUsuario($idUser){
-        $stmt = $this->conn->prepare("SELECT pp.id_pregunta FROM preguntapartida pp JOIN usuario u ON pp.id_usuario = u.id WHERE u.id = $idUser");
+    public function buscarPreguntasHabilitadasYOReportadasResponidasPorElUsuarioDeSuDificultad($idUser, $dificultad){
+        $stmt = $this->conn->prepare("SELECT pp.id_pregunta FROM preguntapartida pp JOIN usuario u ON pp.id_usuario = u.id JOIN pregunta p ON p.id_pregunta = pp.id_pregunta WHERE u.id = ? AND p.dificultad = ? AND p.estado = 4 OR p.estado = 2");
+        $stmt->bind_param("ii", $idUser, $dificultad);
         $stmt->execute();
         $result = $stmt->get_result();
 

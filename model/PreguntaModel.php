@@ -74,8 +74,8 @@ class PreguntaModel
         return $this->database->obtenerCantidadTotalDePreguntasQueExisten();
     }
 
-    public function obtenerIdsDeTodasLasPreguntasQueExisten(){
-        return $this->database->obtenerIdsDeTodasLasPreguntasQueExisten();
+    public function obtenerIdsDeTodasLasPreguntasHabilitadasYOReportadasQueExistenDeEstaDificultad($dificultadUser){
+        return $this->database->obtenerIdsDeTodasLasPreguntasHabilitadasYOReportadasQueExistenDeEstaDificultad($dificultadUser);
     }
 
     public function obtenerTodasLasPreguntasDeLaTablaAprobadasYDesactivadas(){
@@ -105,6 +105,21 @@ class PreguntaModel
 
     public function actualizarEstadoPregunta($id_pregunta, $id_estado){
         return $this->database->actualizarEstadoPregunta($id_pregunta, $id_estado);
+    }
+
+    public function calcularDificultadDePregunta($pregunta){
+        $dificultadNueva = $pregunta['dificultad']; // por default le dejo la que ya tiene (q igual se va a cambiar PERO por las dudas)
+        $resultado = ($pregunta['aciertos'] / $pregunta['apariciones']) * 100; // este me va a dar el porcentaje de 0-100
+
+        if ($resultado >= 70){
+            $dificultadNueva = 1; // osea facil
+        }else if ($resultado <= 30){
+            $dificultadNueva = 3; // osea dificil
+        }else{
+            $dificultadNueva = 2; // osea normal
+        }
+
+        return $dificultadNueva;
     }
 
     public function crearReporte($id_pregunta, $id_usuario, $descripcion){
