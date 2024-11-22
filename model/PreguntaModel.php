@@ -180,5 +180,12 @@ class PreguntaModel
     public function rechazarSugerencia($idPreguntaSugerida){
         $this->database->rechazarSugerencia($idPreguntaSugerida);
     }
-}
 
+    public function habilitarTodasLasPreguntasDesactivadas(){
+        $this->database->habilitarTodasLasPreguntasDesactivadas();
+    }
+
+    public function desactivarTodasLasPreguntasHabilitadasYReportadas(){
+        $this->database->desactivarTodasLasPreguntasHabilitadasYReportadas();
+    }
+}

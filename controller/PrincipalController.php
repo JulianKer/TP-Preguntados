@@ -195,4 +195,15 @@ class PrincipalController
         exit();
     }
     /*-----------------------------------------------------------------------------------*/
+
+
+    public function habilitarTodasLasPreguntasDesactivadas(){
+        $this->modelPreguntas->habilitarTodasLasPreguntasDesactivadas();
+        $this->redirectHome();
+    }
+
+    public function desactivarTodasLasPreguntasHabilitadasYReportadas(){
+        $this->modelPreguntas->desactivarTodasLasPreguntasHabilitadasYReportadas();
+        $this->redirectHome();
+    }
 }

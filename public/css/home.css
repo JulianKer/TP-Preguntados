@@ -53,6 +53,19 @@ body {
 .button:hover{
     background-color: #3e5595;
 }
+
+.seleccionado{
+    background-color: transparent;
+    outline: solid 2px #1e3a8a;
+    color: #1e3a8a !important;
+}
+
+.seleccionado:hover{
+    outline: solid 2px #3e5595;
+    color: #3e5595;
+    background-color: transparent;
+}
+
 .recent-games-title {
     color: #1e3a8a;
     font-size: 1.2rem;

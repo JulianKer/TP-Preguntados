@@ -163,6 +163,17 @@ button.editar, .ver {
 
 
 
+.cont-buton-todas{
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 2em;
+    margin-top: 1em;
+}
+
 
 
 
@@ -226,6 +237,10 @@ button.editar, .ver {
     .container-cantidades{
         flex-direction: column;
         align-items: center;
+    }
+
+    .cont-buton-todas{
+        justify-content: center;
     }
 }
 

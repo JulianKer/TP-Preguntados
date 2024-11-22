@@ -344,6 +344,16 @@ class Database{
         $stmt->bind_param("i", $idPreguntaSugerida);
         $stmt->execute();
     }
+
+    public function habilitarTodasLasPreguntasDesactivadas(){
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `estado` = 4 WHERE estado = 1");
+        $stmt->execute();
+    }
+
+    public function desactivarTodasLasPreguntasHabilitadasYReportadas(){
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `estado` = 1 WHERE estado = 4 OR estado = 2");
+        $stmt->execute();
+    }
     /*------------------------------------- fin PREGUNTAS ---------------------------------------------------*/
 
 
