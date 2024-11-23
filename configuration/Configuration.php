@@ -26,7 +26,6 @@ include_once("controller/EditarController.php");
 include_once ("controller/DashboardAdminController.php");
 include_once ("model/DashboardAdminModel.php");
 
-include_once ("controller/CrearController.php");
 
 include_once ("model/CategoriaModel.php");
 
@@ -74,7 +73,7 @@ class Configuration
     }
 
 public function getDashboardAdminController(){
-    return new DashboardAdminController($this->getUsuarioModel(), $this->getDashboardAdminModel(), $this->getPresenter());
+    return new DashboardAdminController($this->getUsuarioModel(), $this->getPreguntaModel(), $this->getDashboardAdminModel(), $this->getPresenter());
 
 }
 

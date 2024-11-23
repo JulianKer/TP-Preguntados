@@ -136,8 +136,16 @@ class UsuarioModel
         return $this -> database -> obtenerCantidadDeJugadoresPorSexo();
     }
 
+    public function obtenerCantidadDePreguntasPorCategoria(){
+        return $this-> database->obtenerCantidadDePreguntasPorCategoria();
+    }
 
+    public function obtenerCantidadDePartidasJugadasPorUsuario(){
+        return $this->database->obtenerCantidadDePartidasPorUsuario();
+    }
 
-
+    public function obtenerPreguntasHabilitadas(){
+        return $this->database->obtenerPreguntasHabilitadas();
+    }
 
 }
