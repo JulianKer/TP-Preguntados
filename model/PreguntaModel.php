@@ -188,4 +188,6 @@ class PreguntaModel
     public function desactivarTodasLasPreguntasHabilitadasYReportadas(){
         $this->database->desactivarTodasLasPreguntasHabilitadasYReportadas();
     }
+
+
 }
