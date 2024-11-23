@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/public/css/home.css">
+    <link rel="stylesheet" href="/public/css/homeEditor.css">
+
+    <script src="/public/js/popUp.js" defer></script>
+    <title>Inicio - QuizMaster</title>
+</head>
+<body>
+
+
+    {{#exitoMsjSobreSugerida}}
+        <p class="alerta exito">{{exitoMsjSobreSugerida}}</p>
+    {{/exitoMsjSobreSugerida}}
+    {{#errorMsjSobreSugerida}}
+        <p class="alerta error">{{errorMsjSobreSugerida}}</p>
+    {{/errorMsjSobreSugerida}}
+
+    {{#exitoEditar}}
+        <p class="alerta exito">{{exitoEditar}}</p>
+    {{/exitoEditar}}
+    <div class="main-content">
+        <div class="lobby-card">
+            <h1 class="welcome-title">Bienvenido, {{user}} !</h1>
+            <div class="button-group">
+                <a class="button" href="/principal/inicio">Preguntas</a>
+                <a class="button" href="/principal/reportes">Reportes</a>
+                <a class="button seleccionado" href="/editar/sugeridas">Preguntas sugeridas</a>
+                <a class="button" href="/editar/nuevaPregunta">Crear pregunta</a>
+            </div>
+        </div>
+        <div class="lobby-card card-container-preguntas">
+            <div class="container-cantidades">
+                <p class="recent-games-title titulo-preguntas">Preguntas sugeridas por los usuarios</p>
+                <p class="recent-games-title">Totales: <span style="font-weight: bolder; margin-left: .5em">{{total}}</span></p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Categoría</th>
+                        <th>Pregunta</th>
+                        <th>Fecha</th>
+                        <th class="acciones-th">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#sugeridas}}
+                        <tr>
+                            <td>{{id_pregunta}}</td>
+                            <td>{{nombre}}</td>
+                            <td>{{pregunta}}</td>
+                            <td>{{fecha_alta}}</td>
+                            <td class="botones-td">
+                                <button class="btn checkIcon">
+                                    <a href="/editar/aprobarSugerencia/{{id_pregunta}}">
+                                        <img src="/public/images/icons/checkIcon.svg" alt="Aprobar" title="Aprobar">
+                                        <span>Aprobar</span>
+                                    </a>
+                                </button>
+                                <button class="btn cancelIcon">
+                                    <a href="/editar/rechazarSugerida/{{id_pregunta}}">
+                                        <img src="/public/images/icons/cancelIcon.svg" alt="Rechazar" title="Rechazar">
+                                        <span>Rechazar</span>
+                                    </a>
+                                </button>
+                            </td>
+                        </tr>
+                    {{/sugeridas}}
+                    </tbody>
+                </table>
+
+                {{^sugeridas}}
+                    <div class="sin-partidas" style="margin: 1em; margin-bottom: 0">
+                        <p>¡No hay preguntas sugeridas!</p>
+                    </div>
+                {{/sugeridas}}
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

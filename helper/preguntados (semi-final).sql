@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-11-2024 a las 00:32:56
+-- Tiempo de generación: 22-11-2024 a las 17:03:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,7 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `preguntados`
 --
-
 CREATE DATABASE IF NOT EXISTS `preguntados` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `preguntados`;
 
@@ -33,7 +32,6 @@ USE `preguntados`;
 CREATE TABLE `categoria` (
   `id_categoria` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT 1,
   `fecha_alta` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -77,7 +75,6 @@ INSERT INTO `estado` (`id_estado`, `descripcion`) VALUES
 (4, 'aprobada'),
 (5, 'pendiente');
 
-
 -- --------------------------------------------------------
 
 --
@@ -91,79 +88,6 @@ CREATE TABLE `partida` (
   `terminada` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `partida`
---
-
-INSERT INTO `partida` (`id_partida`, `id_usuario`, `puntaje`, `terminada`) VALUES
-(112, 10, 20, 1),
-(113, 10, 10, 1),
-(114, 10, 0, 1),
-(115, 10, 0, 1),
-(116, 10, 0, 1),
-(117, 10, 0, 1),
-(118, 10, 0, 1),
-(119, 10, 0, 1),
-(120, 10, 0, 1),
-(121, 10, 0, 1),
-(122, 10, 10, 1),
-(123, 10, 0, 1),
-(124, 10, 0, 1),
-(125, 10, 0, 1),
-(126, 10, 10, 1),
-(127, 10, 0, 1),
-(128, 10, 0, 1),
-(129, 10, 0, 1),
-(130, 10, 10, 1),
-(131, 10, 0, 1),
-(132, 10, 0, 1),
-(133, 10, 30, 1),
-(134, 10, 0, 1),
-(135, 10, 0, 1),
-(136, 10, 0, 1),
-(137, 10, 10, 1),
-(138, 10, 0, 1),
-(139, 10, 10, 1),
-(140, 10, 20, 1),
-(141, 10, 0, 1),
-(142, 10, 10, 1),
-(143, 10, 0, 1),
-(144, 10, 0, 1),
-(145, 10, 0, 1),
-(146, 10, 0, 1),
-(147, 10, 0, 1),
-(148, 10, 10, 1),
-(149, 10, 0, 1),
-(150, 10, 0, 1),
-(151, 10, 10, 1),
-(152, 10, 0, 1),
-(153, 10, 0, 1),
-(154, 10, 0, 1),
-(155, 10, 0, 1),
-(156, 10, 0, 1),
-(157, 10, 10, 1),
-(158, 10, 0, 1),
-(159, 10, 30, 1),
-(160, 10, 0, 1),
-(161, 10, 0, 1),
-(162, 10, 0, 1),
-(163, 10, 0, 1),
-(164, 10, 0, 1),
-(165, 10, 0, 1),
-(166, 10, 0, 1),
-(167, 10, 0, 1),
-(168, 10, 0, 1),
-(169, 10, 0, 1),
-(170, 10, 10, 1),
-(171, 10, 10, 1),
-(172, 10, 0, 1),
-(173, 10, 0, 1),
-(174, 10, 0, 1),
-(175, 10, 10, 1),
-(176, 10, 0, 1),
-(177, 10, 10, 1),
-(178, 10, 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -174,7 +98,7 @@ CREATE TABLE `pregunta` (
   `id_pregunta` int(11) NOT NULL,
   `pregunta` varchar(255) NOT NULL,
   `id_categoria` int(11) NOT NULL,
-  `id_dificultad` int(11) NOT NULL,
+  `dificultad` int(11) NOT NULL DEFAULT 1,
   `estado` int(11) NOT NULL,
   `apariciones` int(11) DEFAULT 0,
   `aciertos` int(11) DEFAULT 0,
@@ -185,67 +109,67 @@ CREATE TABLE `pregunta` (
 -- Volcado de datos para la tabla `pregunta`
 --
 
-INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `id_categoria`, `id_dificultad`, `estado`, `apariciones`, `aciertos`, `fecha_alta`) VALUES
-(1, '¿Quién fue el primer presidente de los Estados Unidos?', 1, 1, 4, 0, 0, '2024-10-27 04:13:33'),
-(2, '¿En qué año comenzó la Primera Guerra Mundial?', 1, 1, 2, 0, 0, '2024-10-27 04:13:33'),
-(3, '¿Cuál fue la civilización que construyó las pirámides de Egipto?', 1, 1, 1, 0, 0, '2024-10-27 04:13:33'),
-(4, '¿Qué famoso explorador descubrió América en 1492?', 1, 1, 2, 0, 0, '2024-10-27 04:13:33'),
-(5, '¿Cuál fue el evento que marcó el inicio de la Revolución Francesa?', 1, 1, 4, 0, 0, '2024-10-27 04:13:33'),
-(6, '¿Cuál es el nombre de la serie de televisión que sigue las aventuras de un grupo de amigos en Nueva York?', 2, 1, 1, 0, 0, '2024-10-27 04:13:33'),
-(7, '¿Quién ganó el premio Óscar a la Mejor Película en 2020?', 2, 1, 1, 0, 0, '2024-10-27 04:13:33'),
-(8, '¿Qué película de animación presenta a un joven que se convierte en héroe de su pueblo tras descubrir su linaje?', 2, 1, 2, 0, 0, '2024-10-27 04:13:33'),
-(9, '¿Cuál es el nombre de la canción que se considera el himno de la libertad en varios países?', 2, 1, 2, 0, 0, '2024-10-27 04:13:33'),
-(10, '¿Qué famoso superhéroe es conocido como el Hombre Araña?', 2, 1, 1, 0, 0, '2024-10-27 04:13:33'),
-(11, '¿Cuál es el río más largo del mundo?', 3, 1, 1, 0, 0, '2024-10-27 04:13:34'),
-(12, '¿En qué continente se encuentra el desierto del Sahara?', 3, 1, 1, 0, 0, '2024-10-27 04:13:34'),
-(13, '¿Cuál es la capital de Japón?', 3, 1, 2, 0, 0, '2024-10-27 04:13:34'),
-(14, '¿Qué país tiene la mayor cantidad de islas del mundo?', 3, 1, 2, 0, 0, '2024-10-27 04:13:34'),
-(15, '¿Cuál es la montaña más alta del mundo?', 3, 1, 1, 0, 0, '2024-10-27 04:13:34'),
-(16, '¿Cuál es la fórmula del agua?', 4, 2, 1, 0, 0, '2024-10-27 04:15:56'),
-(17, '¿Qué planeta es conocido como el planeta rojo?', 4, 2, 4, 0, 0, '2024-10-27 04:15:56'),
-(18, '¿Cuál es el órgano más grande del cuerpo humano?', 4, 3, 1, 0, 0, '2024-10-27 04:15:56'),
-(19, '¿Qué tipo de energía se produce mediante la fotosíntesis?', 4, 3, 1, 0, 0, '2024-10-27 04:15:56'),
-(20, '¿Cuál es la teoría que explica el origen del universo?', 4, 3, 1, 0, 0, '2024-10-27 04:15:56'),
-(21, '¿Cuántos jugadores hay en un equipo de fútbol?', 5, 2, 1, 0, 0, '2024-10-27 04:15:56'),
-(22, '¿Cuál es el evento deportivo más visto del mundo?', 5, 2, 1, 0, 0, '2024-10-27 04:15:56'),
-(23, '¿Qué país ganó la Copa del Mundo de Fútbol en 2018?', 5, 2, 2, 0, 0, '2024-10-27 04:15:56'),
-(24, '¿Cuál es el deporte más practicado del mundo?', 5, 3, 1, 0, 0, '2024-10-27 04:15:56'),
-(25, '¿En qué deporte se utiliza una raqueta?', 5, 3, 1, 0, 0, '2024-10-27 04:15:56'),
-(26, '¿Quién pintó la Mona Lisa?', 6, 2, 1, 0, 0, '2024-10-27 04:15:56'),
-(27, '¿Qué movimiento artístico es Van Gogh asociado?', 6, 2, 1, 0, 0, '2024-10-27 04:15:56'),
-(28, '¿Cuál es el famoso monumento de piedra en Perú?', 6, 2, 1, 0, 0, '2024-10-27 04:15:56'),
-(29, '¿Qué técnica se utiliza para hacer esculturas en mármol?', 6, 3, 2, 0, 0, '2024-10-27 04:15:56'),
-(30, '¿Qué museo alberga la estatua de David de Miguel Ángel?', 6, 3, 2, 0, 0, '2024-10-27 04:15:56'),
-(31, '¿Cuál es la raíz cuadrada de 16?', 7, 2, 1, 0, 0, '2024-10-27 04:19:26'),
-(32, '¿Qué es π (pi)?', 7, 2, 2, 0, 0, '2024-10-27 04:19:26'),
-(33, '¿Cuál es la fórmula del área de un círculo?', 7, 3, 2, 0, 0, '2024-10-27 04:19:26'),
-(34, '¿Cuántos lados tiene un hexágono?', 7, 3, 4, 0, 0, '2024-10-27 04:19:26'),
-(35, '¿Qué es un número primo?', 7, 3, 1, 0, 0, '2024-10-27 04:19:26'),
-(36, '¿Cuál es la capital de Francia?', 8, 2, 1, 0, 0, '2024-10-27 04:19:27'),
-(37, '¿Quién escribió \"Cien años de soledad\"?', 8, 2, 1, 0, 0, '2024-10-27 04:19:27'),
-(38, '¿Cuál es el río más largo del mundo?', 8, 2, 1, 0, 0, '2024-10-27 04:19:27'),
-(39, '¿Qué país tiene la mayor población del mundo?', 8, 3, 1, 0, 0, '2024-10-27 04:19:27'),
-(40, '¿En qué año llegó el hombre a la Luna?', 8, 3, 2, 0, 0, '2024-10-27 04:19:27'),
-(41, '¿Qué significa HTML?', 9, 2, 1, 0, 0, '2024-10-27 04:19:27'),
-(42, '¿Cuál es el lenguaje de programación más popular en 2024?', 9, 2, 1, 0, 0, '2024-10-27 04:19:27'),
-(43, '¿Qué es una función en programación?', 9, 3, 1, 0, 0, '2024-10-27 04:19:27'),
-(44, '¿Qué es un bucle en programación?', 9, 3, 2, 0, 0, '2024-10-27 04:19:27'),
-(45, '¿Qué herramienta se utiliza para el control de versiones?', 9, 3, 1, 0, 0, '2024-10-27 04:19:27'),
-(46, '¿Cuál es el objetivo del juego de ajedrez?', 10, 2, 1, 0, 0, '2024-10-27 04:20:28'),
-(47, '¿Qué videojuego se lanzó en 1980 y es conocido por su personaje principal, un ladrón de frutas?', 10, 2, 2, 0, 0, '2024-10-27 04:20:28'),
-(48, '¿Qué tipo de juego es \"The Legend of Zelda\"?', 10, 3, 1, 0, 0, '2024-10-27 04:20:28'),
-(49, '¿Qué se necesita para ganar en \"Monopoly\"?', 10, 3, 1, 0, 0, '2024-10-27 04:20:28'),
-(50, '¿Qué es un \"speedrun\"?', 10, 3, 1, 0, 0, '2024-10-27 04:20:28'),
-(51, '¿Cuál es el plato típico de España que lleva arroz?', 11, 2, 1, 0, 0, '2024-10-27 04:20:28'),
-(52, '¿Qué es el sushi?', 11, 2, 1, 0, 0, '2024-10-27 04:20:28'),
-(53, '¿Cuál es el ingrediente principal de la masa de pizza?', 11, 3, 1, 0, 0, '2024-10-27 04:20:28'),
-(54, '¿Qué fruta se usa para hacer guacamole?', 11, 3, 1, 0, 0, '2024-10-27 04:20:28'),
-(55, '¿Cuál es la bebida alcohólica más consumida en el mundo?', 11, 3, 1, 0, 0, '2024-10-27 04:20:28'),
-(56, '¿Quién es considerado el piloto más exitoso de la historia de la F1?', 12, 2, 1, 0, 0, '2024-10-27 04:20:28'),
-(57, '¿En qué año se celebró la primera carrera de Fórmula 1?', 12, 2, 1, 0, 0, '2024-10-27 04:20:28'),
-(58, '¿Cuál es la escudería más ganadora de la F1?', 12, 2, 1, 0, 0, '2024-10-27 04:20:28'),
-(59, '¿Qué es el DRS en Fórmula 1?', 12, 3, 1, 0, 0, '2024-10-27 04:20:28'),
-(60, '¿Cuántas vueltas tiene el Gran Premio de Mónaco?', 12, 3, 1, 0, 0, '2024-10-27 04:20:28');
+INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `id_categoria`, `dificultad`, `estado`, `apariciones`, `aciertos`, `fecha_alta`) VALUES
+(1, '¿Quién fue el primer presidente de los Estados Unidos?', 1, 1, 4, 50, 50, '2024-10-27 04:13:33'),
+(2, '¿En qué año comenzó la Primera Guerra Mundial?', 1, 1, 4, 50, 50, '2024-10-27 04:13:33'),
+(3, '¿Cuál fue la civilización que construyó las pirámides de Egipto?', 1, 1, 4, 50, 50, '2024-10-27 04:13:33'),
+(4, '¿Qué famoso explorador descubrió América en 1492?', 1, 1, 4, 50, 50, '2024-10-27 04:13:33'),
+(5, '¿Cuál fue el evento que marcó el inicio de la Revolución Francesa?', 1, 1, 4, 50, 50, '2024-10-27 04:13:33'),
+(6, '¿Cuál es el nombre de la serie de televisión que sigue las aventuras de un grupo de amigos en Nueva York?', 2, 1, 4, 50, 50, '2024-10-27 04:13:33'),
+(7, '¿Quién ganó el premio Óscar a la Mejor Película en 2020?', 2, 1, 4, 50, 50, '2024-10-27 04:13:33'),
+(8, '¿Qué película de animación presenta a un joven que se convierte en héroe de su pueblo tras descubrir su linaje?', 2, 1, 4, 50, 50, '2024-10-27 04:13:33'),
+(9, '¿Cuál es el nombre de la canción que se considera el himno de la libertad en varios países?', 2, 1, 4, 50, 50, '2024-10-27 04:13:33'),
+(10, '¿Qué famoso superhéroe es conocido como el Hombre Araña?', 2, 1, 4, 50, 50, '2024-10-27 04:13:33'),
+(11, '¿Cuál es el río más largo del mundo?', 3, 1, 4, 50, 50, '2024-10-27 04:13:34'),
+(12, '¿En qué continente se encuentra el desierto del Sahara?', 3, 1, 4, 50, 50, '2024-10-27 04:13:34'),
+(13, '¿Cuál es la capital de Japón?', 3, 1, 4, 50, 50, '2024-10-27 04:13:34'),
+(14, '¿Qué país tiene la mayor cantidad de islas del mundo?', 3, 1, 4, 50, 50, '2024-10-27 04:13:34'),
+(15, '¿Cuál es la montaña más alta del mundo?', 3, 1, 4, 50, 50, '2024-10-27 04:13:34'),
+(16, '¿Cuál es la fórmula del agua?', 4, 1, 4, 50, 50, '2024-10-27 04:15:56'),
+(17, '¿Qué planeta es conocido como el planeta rojo?', 4, 1, 4, 50, 50, '2024-10-27 04:15:56'),
+(18, '¿Cuál es el órgano más grande del cuerpo humano?', 4, 1, 4, 50, 50, '2024-10-27 04:15:56'),
+(19, '¿Qué tipo de energía se produce mediante la fotosíntesis?', 4, 1, 4, 50, 50, '2024-10-27 04:15:56'),
+(20, '¿Cuál es la teoría que explica el origen del universo?', 4, 1, 4, 50, 50, '2024-10-27 04:15:56'),
+(21, '¿Cuántos jugadores hay en un equipo de fútbol?', 5, 2, 4, 50, 25, '2024-10-27 04:15:56'),
+(22, '¿Cuál es el evento deportivo más visto del mundo?', 5, 2, 4, 50, 25, '2024-10-27 04:15:56'),
+(23, '¿Qué país ganó la Copa del Mundo de Fútbol en 2018?', 5, 2, 4, 50, 25, '2024-10-27 04:15:56'),
+(24, '¿Cuál es el deporte más practicado del mundo?', 5, 2, 4, 50, 25, '2024-10-27 04:15:56'),
+(25, '¿En qué deporte se utiliza una raqueta?', 5, 2, 4, 50, 25, '2024-10-27 04:15:56'),
+(26, '¿Quién pintó la Mona Lisa?', 6, 2, 4, 50, 25, '2024-10-27 04:15:56'),
+(27, '¿Qué movimiento artístico es Van Gogh asociado?', 6, 2, 4, 50, 25, '2024-10-27 04:15:56'),
+(28, '¿Cuál es el famoso monumento de piedra en Perú?', 6, 2, 4, 50, 25, '2024-10-27 04:15:56'),
+(29, '¿Qué técnica se utiliza para hacer esculturas en mármol?', 6, 2, 4, 50, 25, '2024-10-27 04:15:56'),
+(30, '¿Qué museo alberga la estatua de David de Miguel Ángel?', 6, 2, 4, 50, 25, '2024-10-27 04:15:56'),
+(31, '¿Cuál es la raíz cuadrada de 16?', 7, 2, 4, 50, 25, '2024-10-27 04:19:26'),
+(32, '¿Qué es π (pi)?', 7, 2, 4, 50, 25, '2024-10-27 04:19:26'),
+(33, '¿Cuál es la fórmula del área de un círculo?', 7, 2, 4, 50, 25, '2024-10-27 04:19:26'),
+(34, '¿Cuántos lados tiene un hexágono?', 7, 2, 4, 50, 25, '2024-10-27 04:19:26'),
+(35, '¿Qué es un número primo?', 7, 2, 4, 50, 25, '2024-10-27 04:19:26'),
+(36, '¿Cuál es la capital de Francia?', 8, 2, 4, 50, 25, '2024-10-27 04:19:27'),
+(37, '¿Quién escribió \"Cien años de soledad\"?', 8, 2, 4, 50, 25, '2024-10-27 04:19:27'),
+(38, '¿Cuál es el río más largo del mundo?', 8, 2, 4, 50, 25, '2024-10-27 04:19:27'),
+(39, '¿Qué país tiene la mayor población del mundo?', 8, 2, 4, 50, 25, '2024-10-27 04:19:27'),
+(40, '¿En qué año llegó el hombre a la Luna?', 8, 2, 4, 50, 25, '2024-10-27 04:19:27'),
+(41, '¿Qué significa HTML?', 9, 3, 4, 50, 0, '2024-10-27 04:19:27'),
+(42, '¿Cuál es el lenguaje de programación más popular en 2024?', 9, 3, 4, 50, 0, '2024-10-27 04:19:27'),
+(43, '¿Qué es una función en programación?', 9, 3, 4, 50, 0, '2024-10-27 04:19:27'),
+(44, '¿Qué es un bucle en programación?', 9, 3, 4, 50, 0, '2024-10-27 04:19:27'),
+(45, '¿Qué herramienta se utiliza para el control de versiones?', 9, 3, 4, 50, 0, '2024-10-27 04:19:27'),
+(46, '¿Cuál es el objetivo del juego de ajedrez?', 10, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(47, '¿Qué videojuego se lanzó en 1980 y es conocido por su personaje principal, un ladrón de frutas?', 10, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(48, '¿Qué tipo de juego es \"The Legend of Zelda\"?', 10, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(49, '¿Qué se necesita para ganar en \"Monopoly\"?', 10, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(50, '¿Qué es un \"speedrun\"?', 10, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(51, '¿Cuál es el plato típico de España que lleva arroz?', 11, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(52, '¿Qué es el sushi?', 11, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(53, '¿Cuál es el ingrediente principal de la masa de pizza?', 11, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(54, '¿Qué fruta se usa para hacer guacamole?', 11, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(55, '¿Cuál es la bebida alcohólica más consumida en el mundo?', 11, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(56, '¿Quién es considerado el piloto más exitoso de la historia de la F1?', 12, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(57, '¿En qué año se celebró la primera carrera de Fórmula 1?', 12, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(58, '¿Cuál es la escudería más ganadora de la F1?', 12, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(59, '¿Qué es el DRS en Fórmula 1?', 12, 3, 4, 50, 0, '2024-10-27 04:20:28'),
+(60, '¿Cuántas vueltas tiene el Gran Premio de Mónaco?', 12, 3, 4, 50, 0, '2024-10-27 04:20:28');
 
 -- --------------------------------------------------------
 
@@ -260,15 +184,8 @@ CREATE TABLE `preguntapartida` (
   `id_usuario` int(11) NOT NULL,
   `respondida` tinyint(1) NOT NULL,
   `acertoElUsuario` tinyint(1) NOT NULL,
-  `fechaEntregada` DATETIME NOT NULL
+  `fechaEntregada` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `preguntapartida`
---
-
-INSERT INTO `preguntapartida` (`id_preguntaPartida`, `id_partida`, `id_pregunta`, `id_usuario`, `respondida`, `acertoElUsuario`, `fechaEntregada`) VALUES
-(304, 156, 45, 10, 1, 0, '2024-11-17 14:30:00');
 
 -- --------------------------------------------------------
 
@@ -564,18 +481,24 @@ CREATE TABLE `usuario` (
   `verificado` tinyint(1) NOT NULL DEFAULT 0,
   `musica` tinyint(1) NOT NULL DEFAULT 0,
   `puntaje_usuario` int(11) DEFAULT 0,
-  `rango` int(11) NOT NULL DEFAULT 3
+  `rango` int(11) NOT NULL DEFAULT 3,
+  `principiante` tinyint(1) NOT NULL DEFAULT 1,
+  `dificultad` int(11) NOT NULL DEFAULT 1,
+  `respondidasusuario` int(11) DEFAULT 0,
+  `aciertosusuario` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ubicacion`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`, `musica`, `puntaje_usuario`, `rango`) VALUES
-(7, 'Victoria', 'Schmuker', 'vicky', '123', 'vicky@gmail.com', '2000-01-01', '-34.66903569482507, -58.560749358166504', '2024-10-28', '7.jpg', 'f', 1, 0, 0, 1),
-(9, 'Julián Gabriel', 'Schmuker', 'juli', '123', 'test@unlam.edu.ar', '0000-00-00', '-34.689328289275, -58.63649494074707', '2024-10-29', '9.jpg', 'm', 1, 0, 0, 2),
-(10, 'Lucas', 'Rios', 'lucon', '123', 'lucas@gmail.com', '2000-01-01', '-34.657316662962344, -58.58199245356445', '2024-10-30', '10.jpeg', 'm', 1, 0, 240, 3),
-(31, 'Facundo', 'Darano', 'facu', '123', 'facu@gmail.com', '2000-01-01', '-34.66988278951427, -58.56958991907959', '2024-11-09', '31.jpeg', 'm', 1, 1, 0, 3);
+INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ubicacion`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`, `musica`, `puntaje_usuario`, `rango`, `principiante`, `dificultad`, `respondidasusuario`, `aciertosusuario`) VALUES
+(7, 'Victoria', 'Schmuker', 'editor', '123', 'vicky@gmail.com', '2000-01-01', '-34.66903569482507, -58.560749358166504', '2024-10-28', '7.jpg', 'f', 1, 0, 0, 2, 1, 1, 0, 0),
+(9, 'Julián Gabriel', 'Schmuker', 'admin', '123', 'test@unlam.edu.ar', '0000-00-00', '-34.689328289275, -58.63649494074707', '2024-10-29', '9.jpg', 'm', 1, 0, 0, 1, 1, 1, 0, 0),
+(10, 'Lucas', 'Rios', 'jugador1', '123', 'lucas@gmail.com', '2000-01-01', '-34.657316662962344, -58.58199245356445', '2024-10-30', '10.jpeg', 'm', 1, 0, 230, 3, 1, 1, 0, 0),
+(31, 'Facundo', 'Darano', 'jugador2', '123', 'facu@gmail.com', '2000-01-01', '-34.66988278951427, -58.56958991907959', '2024-11-09', '31.jpeg', 'm', 1, 0, 0, 3, 1, 1, 0, 0),
+(32, 'Alejandro', 'Noble', 'jugador3', '123', 'aleNoble@gmail.com', '1994-02-02', '-34.62292656745384, -58.37904579066162', '2024-11-22', '32.jpg', 'm', 1, 0, 0, 3, 1, 1, 0, 0),
+(33, 'Lola', 'Pérez', 'jugador4', '123', 'lola@gmail.com', '1996-07-11', '-28.073262193664604, -64.1903413', '2024-11-22', '33.jpg', 'm', 1, 1, 0, 3, 1, 1, 0, 0);
 
 --
 -- Índices para tablas volcadas
@@ -651,13 +574,13 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
+  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
@@ -669,7 +592,7 @@ ALTER TABLE `pregunta`
 -- AUTO_INCREMENT de la tabla `preguntapartida`
 --
 ALTER TABLE `preguntapartida`
-  MODIFY `id_preguntaPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=329;
+  MODIFY `id_preguntaPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=450;
 
 --
 -- AUTO_INCREMENT de la tabla `reporte`
@@ -687,7 +610,7 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Restricciones para tablas volcadas

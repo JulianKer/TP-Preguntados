@@ -12,8 +12,20 @@ class PreguntaModel
     public function obtenerPregunta($numPreguntaRandom){
         return $this->database->obtenerPregunta($numPreguntaRandom);
     }
+
+    public function editarRespuesta($idOpcionAActualizar, $valorDeLaOpcionAActualizar){
+        $this->database->editarRespuesta($idOpcionAActualizar, $valorDeLaOpcionAActualizar);
+    }
+
     public function obtenerRespuestas($idPregunta){
         return $this->database->obtenerRespuestas($idPregunta);
+    }
+
+    public function obtenerEstasRespuestasConNumeroDeOpcion($respuestas){
+        for ($i=0; $i < count($respuestas); $i++) {
+            $respuestas[$i]['numeroDeOpcion'] = ($i+1);
+        }
+        return $respuestas;
     }
     public function obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta){
         return $this->database->obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta);
@@ -48,16 +60,66 @@ class PreguntaModel
         return $this->database->actualizarPregunta($pregunta);
     }
 
+    public function actualizarPreguntaEditada($idPregunta, $pregunta, $categoria, $idEstado){
+        $preguntaEncontrada = $this->obtenerPregunta($idPregunta);
+
+        if (!$preguntaEncontrada) {
+            return false;
+        }
+        $this->database->actualizarPreguntaEditada($idPregunta, $pregunta, $categoria, $idEstado);
+        return true;
+    }
+
     public  function obtenerCantidadTotalDePreguntasQueExisten(){
         return $this->database->obtenerCantidadTotalDePreguntasQueExisten();
     }
 
-    public function obtenerIdsDeTodasLasPreguntasQueExisten(){
-        return $this->database->obtenerIdsDeTodasLasPreguntasQueExisten();
+    public function obtenerIdsDeTodasLasPreguntasHabilitadasYOReportadasQueExistenDeEstaDificultad($dificultadUser){
+        return $this->database->obtenerIdsDeTodasLasPreguntasHabilitadasYOReportadasQueExistenDeEstaDificultad($dificultadUser);
+    }
+
+    public function obtenerTodasLasPreguntasDeLaTablaAprobadasYDesactivadas(){
+        $preguntasRecibidas = $this->database->obtenerTodasLasPreguntasDeLaTablaAprobadasYDesactivadas();
+
+        for ($i = 0; $i < count($preguntasRecibidas); $i++) {
+            if ($preguntasRecibidas[$i]["id_estado"] === 1) { // Si está "desactivada", le pongo el botón de "habilitar"
+                $preguntasRecibidas[$i]["imagenDelBoton"] = "checkIcon";
+                $preguntasRecibidas[$i]["accion"] = "habilitar";
+            }
+            if ($preguntasRecibidas[$i]["id_estado"] === 4) { // Sino, te pongo el botón de desactivar
+                $preguntasRecibidas[$i]["imagenDelBoton"] = "cancelIcon";
+                $preguntasRecibidas[$i]["accion"] = "desactivar";
+            }
+        }
+        //var_dump($preguntasRecibidas);
+        return $preguntasRecibidas;
+    }
+
+    public function obtenerDesactivadas(){
+        return $this->database->obtenerDesactivadas();
+    }
+
+    public function obtenerHabilitadas(){
+        return $this->database->obtenerHabilitadas();
     }
 
     public function actualizarEstadoPregunta($id_pregunta, $id_estado){
         return $this->database->actualizarEstadoPregunta($id_pregunta, $id_estado);
+    }
+
+    public function calcularDificultadDePregunta($pregunta){
+        $dificultadNueva = $pregunta['dificultad']; // por default le dejo la que ya tiene (q igual se va a cambiar PERO por las dudas)
+        $resultado = ($pregunta['aciertos'] / $pregunta['apariciones']) * 100; // este me va a dar el porcentaje de 0-100
+
+        if ($resultado >= 70){
+            $dificultadNueva = 1; // osea facil
+        }else if ($resultado <= 30){
+            $dificultadNueva = 3; // osea dificil
+        }else{
+            $dificultadNueva = 2; // osea normal
+        }
+
+        return $dificultadNueva;
     }
 
     public function crearReporte($id_pregunta, $id_usuario, $descripcion){
@@ -65,8 +127,65 @@ class PreguntaModel
         // faltaria guardar la descripcion del reporte en la base de datos pero despues lo agrego.
     }
 
-    public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta){
-        return $this->database->crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta);
+    public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta, $idEstadoQueDebeQuedarLaPregunta){
+        return $this->database->crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta, $idEstadoQueDebeQuedarLaPregunta);
+    }
+
+    public function desactivarPregunta($idDePreguntaADesactivar){
+        if ($idDePreguntaADesactivar <= 0 || $idDePreguntaADesactivar > $this->obtenerCantidadTotalDePreguntasQueExisten()) {
+            return "Esa pregunta no existe, no se puede desactivar.";
+        }
+
+        $pregunta = $this->obtenerPregunta($idDePreguntaADesactivar);
+
+        if ($pregunta != null && $pregunta["estado"] === 4) {
+            $this->database->cambiarEstadoDePregunta($idDePreguntaADesactivar, 1);
+            return "Pregunta " . $idDePreguntaADesactivar . " desactivada correctamente.";
+        }else{
+            return "No se pudo desactivar la pregunta " . $idDePreguntaADesactivar . ".";
+        }
+    }
+
+    public function habilitarPregunta($idDePreguntaAHabilitar){
+        if ($idDePreguntaAHabilitar <= 0 || $idDePreguntaAHabilitar > $this->obtenerCantidadTotalDePreguntasQueExisten()) {
+            return "Esa pregunta no existe, no se puede habilitar.";
+        }
+
+        $pregunta = $this->obtenerPregunta($idDePreguntaAHabilitar);
+
+        if ($pregunta != null && $pregunta["estado"] === 1) {
+            $this->cambiarEstadoDePregunta($idDePreguntaAHabilitar, 4);
+            return "Pregunta " . $idDePreguntaAHabilitar . " habilitada correctamente.";
+        }else{
+            return "No se pudo habilitar la pregunta " . $idDePreguntaAHabilitar . ".";
+        }
+    }
+
+    public function cambiarEstadoDePregunta($idDePreguntaACambiar, $idEstado){
+        $this->database->cambiarEstadoDePregunta($idDePreguntaACambiar, $idEstado);
+    }
+
+    public function obtenerTodasSugeridas(){
+        return $this->database->obtenerTodasSugeridas();
+    }
+
+    public function obtenerPreguntaSugerida($idPreguntaSugerida){
+        return $this->database->obtenerPreguntaSugerida($idPreguntaSugerida);
+    }
+
+    public function aprobarSugerencia($idPreguntaSugerida){
+        $this->database->aprobarSugerencia($idPreguntaSugerida);
+    }
+
+    public function rechazarSugerencia($idPreguntaSugerida){
+        $this->database->rechazarSugerencia($idPreguntaSugerida);
+    }
+
+    public function habilitarTodasLasPreguntasDesactivadas(){
+        $this->database->habilitarTodasLasPreguntasDesactivadas();
+    }
+
+    public function desactivarTodasLasPreguntasHabilitadasYReportadas(){
+        $this->database->desactivarTodasLasPreguntasHabilitadasYReportadas();
     }
 }
-

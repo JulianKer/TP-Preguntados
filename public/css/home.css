@@ -3,6 +3,11 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
+    box-sizing: border-box;
+
+    & a{
+        color: #fff !important;
+    }
 }
 .main-content {
     margin: 2em auto;
@@ -42,7 +47,25 @@ body {
     font-size: 1rem;
     text-align: center;
     text-decoration: none;
+    transition: all .2s;
 }
+
+.button:hover{
+    background-color: #3e5595;
+}
+
+.seleccionado{
+    background-color: transparent;
+    outline: solid 2px #1e3a8a;
+    color: #1e3a8a !important;
+}
+
+.seleccionado:hover{
+    outline: solid 2px #3e5595;
+    color: #3e5595;
+    background-color: transparent;
+}
+
 .recent-games-title {
     color: #1e3a8a;
     font-size: 1.2rem;
@@ -60,6 +83,7 @@ body {
     font-size: 1em;
     background-color: #ffe9e9;
     color: #a60000;
+    border: solid 1px #fdb8b8;
     border-radius: .3em;
     text-align: center;
     padding: .1em 0;

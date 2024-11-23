@@ -21,12 +21,16 @@ include_once ("model/PreguntaModel.php");
 include_once ("controller/RankingController.php");
 include_once ("model/RankingModel.php");
 
+include_once("controller/EditarController.php");
+
 include_once ("controller/DashboardAdminController.php");
 include_once ("model/DashboardAdminModel.php");
 
 include_once ("controller/CrearController.php");
 
 include_once ("model/CategoriaModel.php");
+
+include_once ("model/ReporteModel.php");
 
 include_once ("helper/Mail.php");
 include_once ("helper/SubirImagen.php");
@@ -42,7 +46,7 @@ class Configuration
     }
 
     public function getPrincipalController(){
-        return new PrincipalController($this->getPrincipalModel(), $this->getPartidaModel(), $this->getUsuarioModel(), $this->getRankingModel(), $this->getPresenter());
+        return new PrincipalController($this->getPrincipalModel(), $this->getPartidaModel(), $this->getUsuarioModel(), $this->getRankingModel(), $this->getPreguntaModel(), $this->getReporteModel(), $this->getPresenter());
     }
 
     public function getUsuarioController(){
@@ -65,8 +69,8 @@ class Configuration
         return new RankingController($this->getRankingModel(),$this->getUsuarioModel(),$this->getPartidaModel(), $this->getPresenter());
     }
 
-    public function getCrearController(){
-        return new CrearController($this->getPreguntaModel(), $this->getUsuarioModel(), $this->getCategoriaModel(), $this->getPresenter());
+    public function getEditarController(){
+        return new EditarController($this->getPreguntaModel(), $this->getUsuarioModel(), $this->getCategoriaModel(), $this->getReporteModel(), $this->getPresenter());
     }
 
 public function getDashboardAdminController(){
@@ -113,7 +117,7 @@ public function getDashboardAdminController(){
 
     private function getPartidaModel()
     {
-        return new PartidaModel($this->getDatabase());
+        return new PartidaModel($this->getDatabase(), $this->getPreguntaModel(), $this->getUsuarioModel());
     }
 
     private function getPreguntaModel()
@@ -127,6 +131,10 @@ public function getDashboardAdminController(){
 
     public function getCategoriaModel(){
         return new CategoriaModel($this->getDatabase());
+    }
+
+    public function getReporteModel(){
+        return new ReporteModel($this->getDatabase());
     }
 
     public function getDashboardAdminModel(){

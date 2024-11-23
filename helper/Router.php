@@ -39,6 +39,8 @@ class Router
             }else{
                 Seguridad::verSiHayUnUsuarioEnLaSesion();
                 call_user_func(array($controller, $this->defaultMethod));
+                //header("location: /" . $controller . "/" . $this->defaultMethod);
+                //exit(); ver asi cambia la url
             }
         }
     }

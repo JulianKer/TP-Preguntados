@@ -112,6 +112,10 @@ class UsuarioModel
         $this->database->actualizarPuntaje($puntaje, $idUsuario);
     }
 
+    public function actualizarUsuario($usuario){
+        $this->database->actualizarUsuario($usuario);
+    }
+
     public function saberSiEsJugador($rango){
         return $rango === 3;
     }

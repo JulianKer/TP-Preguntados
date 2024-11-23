@@ -83,9 +83,6 @@ class Database{
     }
 
     public function obtenerIdUserPorUserName($username){
-        /*$sql = "SELECT id FROM usuario WHERE nombreusuario = '" . $username . "'";
-        return $this->database->queryAssoc($sql);*/
-
         $stmt = $this->conn->prepare("SELECT id FROM usuario WHERE nombreusuario = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -93,19 +90,12 @@ class Database{
     }
 
     public function obtenerUsuarioPorId($id){
-        /*$sql = "SELECT * FROM usuario WHERE id = '" . $id . "'";
-        return $this->database->query($sql);*/
-
         $stmt = $this->conn->prepare("SELECT * FROM usuario WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
     public function verificarEmail($usuario_id) {
-        /*$sql = "UPDATE usuario SET verificado = 1 WHERE id = " . intval($usuario_id);
-        $resultado = $this->database->execute($sql);
-        return $resultado === 1;*/
-
         $stmt = $this->conn->prepare("UPDATE usuario SET verificado = 1 WHERE id = ?");
         $stmt->bind_param("i", $usuario_id);
         $stmt->execute();
@@ -116,9 +106,6 @@ class Database{
     }
 
     public function setearMusicaActivadaDelUsuario($activacionDeMusica, $idUsuario){
-        /*$sql = "UPDATE usuario SET musica = $activacionDeMusica WHERE id = $idUsuario";
-        $this->database->execute($sql);*/
-
         $stmt = $this->conn->prepare("UPDATE usuario SET musica = ? WHERE id = ?");
         $stmt->bind_param("ii", $activacionDeMusica, $idUsuario);
         $stmt->execute();
@@ -129,46 +116,23 @@ class Database{
         $stmt->bind_param("ii", $puntaje, $idUsuario);
         $stmt->execute();
     }
+
+    public function actualizarUsuario($usuario){
+        $respondidas = $usuario['respondidasusuario'];
+        $aciertos = $usuario['aciertosusuario'];
+        $dificultad = $usuario['dificultad'];
+        $idUser = $usuario['id'];
+
+        $stmt = $this->conn->prepare("UPDATE usuario SET `respondidasusuario` = ?, `aciertosusuario` = ?, `dificultad` = ? WHERE id = ?");
+        $stmt->bind_param("iiii", $respondidas, $aciertos, $dificultad, $idUser);
+        $stmt->execute();
+    }
     /* --------------------- FIN user------------------------------------------------------------------*/
 
 
 
     /* --------------------- INICIO PARTIDAS------------------------------------------------------------------*/
-        public function obtenerPregunta($numPreguntaRandom){
-            //$sql = "SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria WHERE p.id_pregunta = $numPreguntaRandom";
-            //return $this->conn->queryAssoc($sql);
-
-            $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria WHERE p.id_pregunta = ?");
-            $stmt->bind_param("i", $numPreguntaRandom);
-            $stmt->execute();
-            return $stmt->get_result()->fetch_assoc();
-        }
-
-        public function obtenerRespuestas($idPregunta){
-            //$sql = "SELECT * FROM respuesta WHERE id_pregunta = $idPregunta";
-            //$resultado = $this->conn->query($sql);
-            //return $resultado;
-
-            $stmt = $this->conn->prepare("SELECT * FROM respuesta WHERE id_pregunta = ?");
-            $stmt->bind_param("i", $idPregunta);
-            $stmt->execute();
-            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        }
-
-        public function obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta){
-            //$sql = "SELECT * FROM respuesta WHERE id_pregunta = $id_pregunta AND correcta = true";
-            //return $this->conn->queryAssoc($sql);
-
-            $stmt = $this->conn->prepare("SELECT * FROM respuesta WHERE id_pregunta = ? AND correcta = true");
-            $stmt->bind_param("i", $id_pregunta);
-            $stmt->execute();
-            return $stmt->get_result()->fetch_assoc();
-        }
-
         public  function crearPartidaEnCursoParaEsteUser($idUser){
-    //        $sql = "INSERT INTO partida (id_usuario, puntaje, terminada) VALUES ( $idUser, 0, FALSE);";
-    //        return $this->conn->insertar($sql);
-
             $stmt = $this->conn->prepare("INSERT INTO partida (id_usuario, puntaje, terminada) VALUES (?, 0, FALSE)");
             $stmt->bind_param("i", $idUser);
 
@@ -181,9 +145,6 @@ class Database{
         }
 
         public function buscarSiHayUnaPartidaEnCursoParaEsteUser($idUser){
-            //$sql = "SELECT * FROM partida WHERE id_usuario = $idUser AND terminada = 0";
-            //return $this->conn->queryAssoc($sql);
-
             $stmt = $this->conn->prepare("SELECT * FROM partida WHERE id_usuario = ? AND terminada = 0");
             $stmt->bind_param("i", $idUser);
             $stmt->execute();
@@ -191,9 +152,6 @@ class Database{
         }
 
         public function buscarUltimaPreguntaNoResponididaDeLaPartida($idPartida){
-            //$sql = "SELECT * FROM preguntapartida WHERE id_partida = $idPartida AND respondida = false LIMIT 1";
-            //return $this->conn->queryAssoc($sql);
-
             $stmt = $this->conn->prepare("SELECT * FROM preguntapartida WHERE id_partida = ? AND respondida = false LIMIT 1");
             $stmt->bind_param("i", $idPartida);
             $stmt->execute();
@@ -205,37 +163,23 @@ class Database{
             $idPartida = $partida['id_partida'];
             $terminada = $partida['terminada'] ? 1 : 0; // este lo convierto a 0 o 1 pq en la bdd es un tinyint y el stmt no te lo convierte directamente del booleano
 
-            //$sql = "UPDATE `partida` SET `puntaje`= $puntaje,`terminada`= $terminada  WHERE `id_partida`= $idPartida";
-            //return $this->conn->actualizar($sql);
-
             $stmt = $this->conn->prepare("UPDATE `partida` SET `puntaje`= ?,`terminada`= ?  WHERE `id_partida`= ?");
             $stmt->bind_param("iii", $puntaje, $terminada, $idPartida);
             $stmt->execute();
         }
 
         public function crearNuevaPreguntaPartida($idPartida, $idPregunta, $idUser, $fechaParaGuardar) {
-    //        $sql = "INSERT INTO preguntapartida (id_pregunta, id_partida, respondida, acertoElUsuario) VALUES ($idPregunta,$idPartida, 0, 0)";
-    //        $this->conn->actualizar($sql);
-
             $stmt = $this->conn->prepare("INSERT INTO preguntapartida (id_pregunta, id_partida, id_usuario, respondida, acertoElUsuario, fechaEntregada) VALUES (?,?,?, 0, 0,?)");
             $stmt->bind_param("iiis", $idPregunta, $idPartida, $idUser, $fechaParaGuardar);
             $stmt->execute();
         }
 
-    // ver que este metodo creo que no lo uso en mi partidaModel
-        /*public function buscarUltimaPartidaPreguntaDeEstaPartida($idPartida){
-    //        $ultimoIdInsertado = $this->database->getLastInsert();
-    //        $sql = "SELECT * FROM preguntapartida where id_preguntaPartida = $ultimoIdInsertado AND id_partida = $ultimoIdInsertado";
-    //        return $this->conn->queryAssoc($sql);
-        }*/
     public function actualizaPreguntaPartida($preguntaPartida){
         $idPreguntaPartida = $preguntaPartida['id_preguntaPartida'] ?? null;
         $respondida = isset($preguntaPartida['respondida']) ? (int)$preguntaPartida['respondida'] : null;
         $acertoElUsuario = isset($preguntaPartida['acertoElUsuario']) ? (int)$preguntaPartida['acertoElUsuario'] : null;
 
         if ($idPreguntaPartida !== null && $respondida !== null && $acertoElUsuario !== null) {
-            //$sql = "UPDATE `preguntapartida` SET `respondida` = $respondida, `acertoElUsuario` = $acertoElUsuario WHERE `id_preguntaPartida` = $idPreguntaPartida";
-            //$this->conn->actualizar($sql);
 
             $stmt = $this->conn->prepare("UPDATE `preguntapartida` SET `respondida` = ?, `acertoElUsuario` = ? WHERE `id_preguntaPartida` = ?");
             $stmt->bind_param("iii", $respondida, $acertoElUsuario, $idPreguntaPartida);
@@ -250,10 +194,6 @@ class Database{
 
 
     public function buscarLaUltimaPartidaInsertada($idPartidaABuscar){
-//        $sql = "SELECT * FROM partida WHERE id_partida = $idPartidaABuscar";
-//        return $this->database->queryAssoc($sql);
-
-
         $stmt = $this->conn->prepare("SELECT * FROM partida WHERE id_partida = ?");
         $stmt->bind_param("i", $idPartidaABuscar);
         $stmt->execute();
@@ -265,8 +205,6 @@ class Database{
         $stmt->bind_param("i", $idUser);
         $stmt->execute();
     }
-
-
 
 
     public function obtenerPartidasDelUsuario($idUser){
@@ -282,10 +220,10 @@ class Database{
 
     /*-------------------- PREGUNTAS ----------------------------------------------------------------------*/
 
-    public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta){ // este inserta la pregunta con estado (5) "pendiente" (para q el admin la apruebe o la rechace)
+    public function crearEInsertarNuevaPreguntaSugeridaYDevolverElidConElQueSeInserto($categoria, $pregunta, $idEstadoQueDebeQuedarLaPregunta){ // este inserta la pregunta con estado (5) "pendiente" (para q el admin la apruebe o la rechace)
         $stmt = $this->conn->prepare("INSERT INTO `pregunta` (`pregunta`, `id_categoria`, `id_dificultad`, `estado`, `apariciones`, `aciertos`) 
-                                                            VALUES (?, ? , 1, 5, 0, 0)");
-        $stmt->bind_param("si", $pregunta, $categoria);
+                                                            VALUES (?, ? , 1, ?, 0, 0)");
+        $stmt->bind_param("sii", $pregunta, $categoria, $idEstadoQueDebeQuedarLaPregunta);
         $stmt->execute();
         return $stmt->insert_id;
     }
@@ -293,10 +231,17 @@ class Database{
     public function actualizarPregunta($pregunta){
         $apariciones = $pregunta['apariciones'];
         $aciertos = $pregunta['aciertos'];
+        $dificultad = $pregunta['dificultad'];
         $idPregunta = $pregunta['id_pregunta'];
 
-        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `apariciones`= ?,`aciertos`= ?  WHERE `id_partida`= ?");
-        $stmt->bind_param("iii", $apariciones, $aciertos, $idPregunta);
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `apariciones`= ?,`aciertos`= ?, `dificultad`= ? WHERE `id_pregunta`= ?");
+        $stmt->bind_param("iiii", $apariciones, $aciertos, $dificultad, $idPregunta);
+        $stmt->execute();
+    }
+
+    public function actualizarPreguntaEditada($idPregunta, $pregunta, $categoria, $idEstado){
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `pregunta`= ?,`id_categoria`= ?, `estado`= ? WHERE `id_pregunta`= ?");
+        $stmt->bind_param("siii", $pregunta, $categoria, $idEstado, $idPregunta);
         $stmt->execute();
     }
 
@@ -305,8 +250,9 @@ class Database{
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['total_preguntas'];
     }
-    public function obtenerIdsDeTodasLasPreguntasQueExisten(){
-        $stmt = $this->conn->prepare("SELECT id_pregunta FROM `pregunta`");
+    public function obtenerIdsDeTodasLasPreguntasHabilitadasYOReportadasQueExistenDeEstaDificultad($dificultadUser){
+        $stmt = $this->conn->prepare("SELECT id_pregunta FROM `pregunta` WHERE pregunta.dificultad = ? AND pregunta.estado = 4 OR pregunta.estado = 2");
+        $stmt->bind_param("i", $dificultadUser);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -314,10 +260,69 @@ class Database{
         return array_column($ids, 'id_pregunta');
     }
 
+    public function obtenerPregunta($numPreguntaRandom){
+        //$sql = "SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria WHERE p.id_pregunta = $numPreguntaRandom";
+        //return $this->conn->queryAssoc($sql);
 
+        $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria WHERE p.id_pregunta = ?");
+        $stmt->bind_param("i", $numPreguntaRandom);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
 
-    public function buscarPreguntasResponidasPorElUsuario($idUser){
-        $stmt = $this->conn->prepare("SELECT pp.id_pregunta FROM preguntapartida pp JOIN usuario u ON pp.id_usuario = u.id WHERE u.id = $idUser");
+    public function obtenerTodasLasPreguntasDeLaTablaAprobadasYDesactivadas(){
+        $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria JOIN estado e ON e.id_estado = p.estado WHERE p.estado = 1 or p.estado = 4 ORDER BY id_pregunta ASC");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerDesactivadas(){
+        $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria JOIN estado e ON e.id_estado = p.estado WHERE p.estado = 1 ORDER BY id_pregunta ASC");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerHabilitadas(){
+        $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c on p.id_categoria = c.id_categoria JOIN estado e ON e.id_estado = p.estado WHERE p.estado = 4 ORDER BY id_pregunta ASC");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerCantidadDeTodasLasPreguntasDeLaTablaAprobadasYDesactivadas(){
+        $stmt = $this->conn->prepare("SELECT COUNT(*) as Total FROM pregunta WHERE estado = 1 or estado = 4");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function cambiarEstadoDePregunta($idDePreguntaACambiar, $idEstado){
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `estado`= ? WHERE `id_pregunta`= ?");
+        $stmt->bind_param("ii", $idEstado, $idDePreguntaACambiar);
+        $stmt->execute();
+    }
+
+    public function editarRespuesta($idOpcionAActualizar, $valorDeLaOpcionAActualizar){
+        $stmt = $this->conn->prepare("UPDATE `respuesta` SET `descripcion`= ?, `correcta`= 0 WHERE `id_respuesta`= ?");
+        $stmt->bind_param("si", $valorDeLaOpcionAActualizar, $idOpcionAActualizar);
+        $stmt->execute();
+    }
+
+    public function obtenerRespuestas($idPregunta){
+        $stmt = $this->conn->prepare("SELECT * FROM respuesta WHERE id_pregunta = ?");
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerRespuestaCorrectaDeEstaPregunta($id_pregunta){
+        $stmt = $this->conn->prepare("SELECT * FROM respuesta WHERE id_pregunta = ? AND correcta = true");
+        $stmt->bind_param("i", $id_pregunta);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function buscarPreguntasHabilitadasYOReportadasResponidasPorElUsuarioDeSuDificultad($idUser, $dificultad){
+        $stmt = $this->conn->prepare("SELECT pp.id_pregunta FROM preguntapartida pp JOIN usuario u ON pp.id_usuario = u.id JOIN pregunta p ON p.id_pregunta = pp.id_pregunta WHERE u.id = ? AND p.dificultad = ? AND p.estado = 4 OR p.estado = 2");
+        $stmt->bind_param("ii", $idUser, $dificultad);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -329,11 +334,45 @@ class Database{
         return $ids;
     }
 
-    public function actualizarEstadoPregunta($id_pregunta, $id_estado)
-    {
+    public function actualizarEstadoPregunta($id_pregunta, $id_estado){
         $sql = "UPDATE pregunta SET estado = ? WHERE id_pregunta = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ii", $id_estado, $id_pregunta); // 'ii' indica dos enteros
+        $stmt->execute();
+    }
+
+    public function obtenerTodasSugeridas(){
+        $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c ON p.id_categoria = c.id_categoria WHERE estado = 5 ORDER BY id_pregunta ASC");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerPreguntaSugerida($idPreguntaSugerida){
+        $stmt = $this->conn->prepare("SELECT * FROM pregunta p JOIN categoria c ON p.id_categoria = c.id_categoria WHERE id_pregunta = ? AND estado = 5");
+        $stmt->bind_param("i", $idPreguntaSugerida);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function aprobarSugerencia($idPreguntaSugerida){
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `estado` = 4 WHERE id_pregunta = ?");
+        $stmt->bind_param("i", $idPreguntaSugerida);
+        $stmt->execute();
+    }
+
+    public function rechazarSugerencia($idPreguntaSugerida){
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `estado` = 3 WHERE id_pregunta = ?");
+        $stmt->bind_param("i", $idPreguntaSugerida);
+        $stmt->execute();
+    }
+
+    public function habilitarTodasLasPreguntasDesactivadas(){
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `estado` = 4 WHERE estado = 1");
+        $stmt->execute();
+    }
+
+    public function desactivarTodasLasPreguntasHabilitadasYReportadas(){
+        $stmt = $this->conn->prepare("UPDATE `pregunta` SET `estado` = 1 WHERE estado = 4 OR estado = 2");
         $stmt->execute();
     }
     /*------------------------------------- fin PREGUNTAS ---------------------------------------------------*/
@@ -376,13 +415,6 @@ class Database{
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
-
-    public function crearReporte($id_pregunta, $id_usuario, $descripcion) {
-        $sql = "INSERT INTO reporte (id_pregunta, id_usuario, descripcion) VALUES (?, ?, ?)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iis", $id_pregunta, $id_usuario, $descripcion);
-        $stmt->execute();
-    }
     /*----------------------------------- FIN RANKING ---------------------------------------------------------*/
 
 
@@ -396,14 +428,59 @@ class Database{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
+    /*----------------------------------- FIN  CATEGORIAS---------------------------------------------------------*/
+
+
+
+
+    /*----------------------------------- INICIO REPORTES ---------------------------------------------------------*/
+    public function crearReporte($id_pregunta, $id_usuario, $descripcion) {
+        $sql = "INSERT INTO reporte (id_pregunta, id_usuario, descripcion) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("iis", $id_pregunta, $id_usuario, $descripcion);
+        $stmt->execute();
+    }
+
+    public function eliminarReporte($idReporte){
+        $stmt = $this->conn->prepare("DELETE FROM `reporte` WHERE `id_reporte` = ?");
+        $stmt->bind_param("i", $idReporte);
+        $stmt->execute();
+    }
+
+
+    /*----------------------------------- INICIO CATEGORIAS ---------------------------------------------------------*/
+
+    public function obtenerReportePorId($idReporte){
+        $stmt = $this->conn->prepare("SELECT * FROM `reporte` WHERE `id_reporte` = ?");
+        $stmt->bind_param("i",$idReporte);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
     /*----------------------------------- FIN RANKING ---------------------------------------------------------*/
+    public function getError(){
+        return $this->error;
+    }
+    public function __destruct(){
+        if ($this->error == ""){
+            $this->conn->close();
+        }
+    }
+
+
+
+
+
+    /*----------------------------------- GRAFICOS DE ADMIN ---------------------------------------------------------*/
+
+
+
+
+
     public function obtenerCantidadDeJugadores()
     {
         $stmt = $this->conn->prepare("SELECT COUNT(*) AS cantidad FROM usuario WHERE rango = 3");
         $stmt->execute();
-
         $resultado = $stmt->get_result()->fetch_assoc();
-
         return intval($resultado['cantidad']);
     }
     public function obtenerCantidadDeJugadoresPorSexo()
@@ -438,12 +515,4 @@ class Database{
 
 
 
-    public function getError(){
-        return $this->error;
-    }
-    public function __destruct(){
-        if ($this->error == ""){
-            $this->conn->close();
-        }
-    }
 }

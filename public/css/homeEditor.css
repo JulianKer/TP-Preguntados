@@ -1,0 +1,277 @@
+
+.main-content {
+    margin: 0 auto 2em auto;
+    width: 1200px;
+}
+.lobby-card {
+    min-width: 100%;
+}
+
+.container-cantidades{
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-container-preguntas{
+    max-height: 660px;
+}
+
+.button-group{
+    margin-top: 1em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.table-container {
+    margin: 20px auto;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 565px;
+    overflow: scroll;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+table {
+    min-width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead {
+    background-color: #1E3A8A;
+    color: #fff;
+    position: sticky;
+    top: 0px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+th {
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+    background-color: #e6f7ff;
+}
+
+.acciones-th{
+    min-width: 20px;
+    max-width: 200px;
+    width: 200px;
+}
+
+.botones-td{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+button {
+    padding: 5px 10px;
+    margin: 2px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 12px;
+    min-width: 120px;
+}
+
+button.editar, .ver {
+    background-color: #007BFF;
+    color: #fff;
+    transition: all .2s;
+}
+
+.editar:hover, .ver:hover{
+    background-color: #5fa7fd;
+}
+
+.checkIcon {
+    background-color: #00ba25;
+    color: #fff;
+    transition: all .2s;
+}
+
+.checkIcon:hover {
+    background-color: #1adc44;
+}
+
+.cancelIcon {
+    background-color: #f30000;
+    color: #fff;
+    transition: all .2s;
+}
+
+.cancelIcon:hover {
+    background-color: #fa3737;
+}
+
+.btn a{
+    text-decoration: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.btn img{
+    width: 2em;
+}
+
+
+
+
+
+
+
+.alerta {
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+
+    min-width: 100px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 1rem auto 0 auto;
+
+    text-align: center;
+}
+
+.alerta.exito {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+
+.alerta.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+
+
+.cont-buton-todas{
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 2em;
+    margin-top: 1em;
+}
+
+
+
+
+
+
+/* Responsiveness */
+
+
+@media screen and (max-width: 1250px) {
+    .main-content{
+        max-width: 100dvw;
+        margin: 2em auto;
+    }
+    .lobby-card{
+        width: 95%;
+        min-width: 90%;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+
+    .button-group{
+        grid-template-columns: 1fr;
+    }
+    table {
+        font-size: 14px;
+        width: 780px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    .acciones-th{
+        min-width: 20px;
+        max-width: 100%;
+        width: 0;
+    }
+
+    .botones-td{
+        display: flex;
+        justify-content: space-between;
+    }
+    button {
+        font-size: 10px;
+        padding: 5px 8px;
+        min-width: 4em;
+        max-width: 2em;
+
+        & span{
+            display: none;
+        }
+    }
+
+    .alerta{
+        margin: 1rem;
+    }
+
+    .container-cantidades{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cont-buton-todas{
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead tr {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 15px;
+    }
+
+    td {
+        padding: 10px;
+        text-align: right;
+        position: relative;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    td[data-label="Acciones"] {
+        text-align: left;
+    }
+}
