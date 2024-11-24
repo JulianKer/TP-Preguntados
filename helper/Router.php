@@ -23,6 +23,15 @@ class Router
     {
         $controllerName = 'get' . ucfirst($module) . 'Controller';
         $validController = method_exists($this->configuration, $controllerName) ? $controllerName : $this->defaultController;
+
+        // este lo hice por si el controller name q ponen, no coincide con ninguno, entonces te redirijo al principal/inicio
+        // PERO neceistaba este if tmb para que NO quede en bucle cuando de verdad querias ir al principal/inicio, entocnes con
+        // la segunda condicion, me aseguro de que no se haga el bucle pq digo q sean distintos "getPrincipalController" de
+        // "getPrincipalController" por ende NO entra
+        if ($validController === $this->defaultController && $controllerName != $this->defaultController) {
+            header("location: /principal/inicio");
+            exit();
+        }
         return call_user_func(array($this->configuration, $validController));
     }
 
@@ -39,8 +48,6 @@ class Router
             }else{
                 Seguridad::verSiHayUnUsuarioEnLaSesion();
                 call_user_func(array($controller, $this->defaultMethod));
-                //header("location: /" . $controller . "/" . $this->defaultMethod);
-                //exit(); ver asi cambia la url
             }
         }
     }

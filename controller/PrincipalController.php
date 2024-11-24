@@ -21,6 +21,10 @@ class PrincipalController
     }
 
     public function inicio(){
+        header("location: /principal/home");
+    }
+
+    public function home(){
         //Seguridad::verSiHayUnUsuarioEnLaSesion();
 
         $idUsuario = $_SESSION['idUser'];
