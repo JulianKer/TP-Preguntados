@@ -34,9 +34,12 @@ include_once ("model/ReporteModel.php");
 include_once ("helper/Mail.php");
 include_once ("helper/SubirImagen.php");
 include_once ("helper/QrGenerador.php");
+include_once ("helper/pdfGenerador.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 include_once('vendor/qrLib/barcode.php');
+include_once ('vendor/fpdf/fpdf.php');
+
 
 class Configuration
 {
@@ -73,7 +76,7 @@ class Configuration
     }
 
 public function getDashboardAdminController(){
-    return new DashboardAdminController($this->getUsuarioModel(), $this->getPreguntaModel(), $this->getDashboardAdminModel(), $this->getPresenter());
+    return new DashboardAdminController($this->getUsuarioModel(), $this->getPreguntaModel(), $this->getDashboardAdminModel(), $this->getPresenter(), $this->getFpdf());
 
 }
 
@@ -144,6 +147,10 @@ public function getDashboardAdminController(){
 
     public function getMail(){
         return new Mail();
+    }
+
+    public function getFpdf(){
+        return new pdfGenerador();
     }
 
     public function getSubirImagen(){
