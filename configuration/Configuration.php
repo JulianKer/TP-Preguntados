@@ -109,7 +109,8 @@ public function getDashboardAdminController(){
     {
         $controllerDef = isset($_SESSION['user']) ? "getPrincipalController" : "getAccesoController";
         $methodDef = isset($_SESSION['user']) ? "inicio" : "ingresar";
-        return new Router($this, $controllerDef, $methodDef);
+        $seguridad = new Seguridad();
+        return new Router($this, $controllerDef, $methodDef, $seguridad);
     }
 
     private function getUsuarioModel()
