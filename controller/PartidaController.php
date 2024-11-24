@@ -36,6 +36,7 @@ class   PartidaController
 
         $data['idUsuario'] = $idUser;
         $data['musicaActivada'] = $userEncontrado["musica"];
+        $data['sonidoActivado'] = $userEncontrado["sonido"];
         $data['objUsuario'] = $userEncontrado;
 
         $data['partida'] = $this->model->obtenerPartidaEnCursoDelUserOCrearUnaNuevaPartida($idUser);

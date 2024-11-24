@@ -79,8 +79,9 @@ class Database
         $fechaRegistro = date('Y-m-d');
         $verificado = 0;
         $musica = 1;
-        $stmt = $this->conn->prepare("INSERT INTO `usuario` (`nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ubicacion`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`, `musica`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssssssii", $nombre, $apellido, $username, $password, $email, $nacimiento, $ubicacion, $fechaRegistro, $profile_pic, $sexo, $verificado, $musica);
+        $sonido = 1;
+        $stmt = $this->conn->prepare("INSERT INTO `usuario` (`nombre`, `apellido`, `nombreusuario`, `contrasenia`, `email`, `añonacimiento`, `ubicacion`, `fecharegistro`, `fotoperfil`, `sexo`, `verificado`, `musica`, `sonido`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssssssiii", $nombre, $apellido, $username, $password, $email, $nacimiento, $ubicacion, $fechaRegistro, $profile_pic, $sexo, $verificado, $musica, $sonido);
         if ($stmt->execute()) {
             return $stmt->insert_id;
         } else {
@@ -117,10 +118,15 @@ class Database
         return $this->conn->insert_id;
     }
 
-    public function setearMusicaActivadaDelUsuario($activacionDeMusica, $idUsuario)
-    {
+    public function setearMusicaActivadaDelUsuario($activacionDeMusica, $idUsuario){
         $stmt = $this->conn->prepare("UPDATE usuario SET musica = ? WHERE id = ?");
         $stmt->bind_param("ii", $activacionDeMusica, $idUsuario);
+        $stmt->execute();
+    }
+
+    public function setearSonidoDelUsuario($activacion, $idDelUser){
+        $stmt = $this->conn->prepare("UPDATE usuario SET sonido = ? WHERE id = ?");
+        $stmt->bind_param("ii", $activacion, $idDelUser);
         $stmt->execute();
     }
 

@@ -21,6 +21,24 @@
     </div>
 </div>
 
+{{#sonidoActivado}}
+    {{#esDeCorreccion}}
+        {{#laSeleccionadaEsCorrecta}}
+            <audio id="fondo-musica" autoplay style="display: none;">
+                <source src="/public/audio/correcto.mp3" type="audio/mpeg">
+                Tu navegador no soporta la etiqueta de audio.
+            </audio>
+        {{/laSeleccionadaEsCorrecta}}
+
+        {{^laSeleccionadaEsCorrecta}}
+            <audio id="fondo-musica" autoplay style="display: none;">
+                <source src="../public/audio/incorrectoCompleto.mp3" type="audio/mpeg">
+                Tu navegador no soporta la etiqueta de audio.
+            </audio>
+        {{/laSeleccionadaEsCorrecta}}
+    {{/esDeCorreccion}}
+{{/sonidoActivado}}
+
 <div class="main-content">
     <div class="question-card {{categoria}}">
         <!--<input type="range" id="rango" name="rango" min="0" max="10" step="1" value="10">-->

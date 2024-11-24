@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('input[name="musica"]').forEach((elem) => {
         elem.addEventListener("change", () => {
             const musicaActivada = elem.value === "SI";
-            console.log("aaa" + musicaActivada)
 
             if (musicaActivada) {
                 audio.play();
@@ -27,3 +26,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+

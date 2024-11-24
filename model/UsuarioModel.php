@@ -66,6 +66,10 @@ class UsuarioModel
         $this->database->setearMusicaActivadaDelUsuario($activacionDeMusica, $idUsuario);
     }
 
+    public function setearSonidoDelUsuario($activacion, $idDelUser){
+        $this->database->setearSonidoDelUsuario($activacion, $idDelUser);
+    }
+
 //    public function enviarMail($idUsuario){
 //        $mail = new PHPMailer(true);
 //        // Encontrar usuario aca

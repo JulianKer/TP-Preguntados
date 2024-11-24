@@ -77,10 +77,20 @@
                         <p>Música:</p>
                         <div class="radio-container">
                             <input type="radio" name="musica" value="SI" id="musicaSi" {{#musicaActivada}}checked{{/musicaActivada}}>
-                            <label for="musicaSi">Activada</label>
+                            <label for="musicaSi">Activar</label>
 
                             <input type="radio" name="musica" value="NO" id="musicaNo" {{^musicaActivada}}checked{{/musicaActivada}}>
-                            <label for="musicaNo">Desactivada</label>
+                            <label for="musicaNo">Desactivar</label>
+                        </div>
+                    </form>
+                    <form id="sonidoForm" method="POST">
+                        <p>Sonidos:</p>
+                        <div class="radio-container">
+                            <input type="radio" name="sonido" value="SI" id="sonidoSi" {{#sonidoActivado}}checked{{/sonidoActivado}} onchange="this.form.submit()">
+                            <label for="sonidoSi">Activar</label>
+
+                            <input type="radio" name="sonido" value="NO" id="sonidoNo" {{^sonidoActivado}}checked{{/sonidoActivado}} onchange="this.form.submit()">
+                            <label for="sonidoNo">Desactivar</label>
                         </div>
                     </form>
                 </div>
