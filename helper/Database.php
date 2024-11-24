@@ -491,8 +491,11 @@ class Database
         $stmt->execute();
     }
 
-
-    /*----------------------------------- INICIO CATEGORIAS ---------------------------------------------------------*/
+    public function obtenerTodosLosReportes(){
+        $stmt = $this->conn->prepare("SELECT * FROM `reporte`");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 
     public function obtenerReportePorId($idReporte)
     {
@@ -501,8 +504,9 @@ class Database
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+    /*----------------------------------- FIN  REPORTES---------------------------------------------------------*/
 
-    /*----------------------------------- FIN RANKING ---------------------------------------------------------*/
+
     public function getError()
     {
         return $this->error;
