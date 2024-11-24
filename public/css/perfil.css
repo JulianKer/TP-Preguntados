@@ -200,14 +200,15 @@ body {
 
 }
 
-#musicaForm {
+#musicaForm, #sonidoForm {
     font-family: Arial, sans-serif;
     display: flex;
     align-items: center;
     gap: 3em;
 }
 
-#musicaForm p {
+#musicaForm p,
+#sonidoForm p{
     font-size: 1.2em;
     color: #333;
 }
@@ -218,10 +219,13 @@ body {
     gap: 15px;
 }
 
+/* Ocultar el input, pero mantenerlo accesible para clics */
 .radio-container input[type="radio"] {
-    display: none;
+    opacity: 0;
+    position: absolute;
 }
 
+/* Estilizar el label correctamente */
 .radio-container label {
     position: relative;
     padding-left: 30px;
@@ -245,19 +249,26 @@ body {
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-#musicaSi:checked + label:before {
+/* Estilos cuando el input está marcado */
+#musicaSi:checked + label:before,
+#sonidoSi:checked + label:before {
     background-color: #28a745;
     border-color: #28a745;
 }
-#musicaSi:checked + label {
+
+#musicaSi:checked + label,
+#sonidoSi:checked + label {
     color: #28a745;
 }
 
-#musicaNo:checked + label:before {
+#musicaNo:checked + label:before,
+#sonidoNo:checked + label:before {
     background-color: #dc3545;
     border-color: #dc3545;
 }
-#musicaNo:checked + label {
+
+#musicaNo:checked + label,
+#sonidoNo:checked + label {
     color: #dc3545;
 }
 

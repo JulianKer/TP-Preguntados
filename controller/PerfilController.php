@@ -49,9 +49,16 @@ class PerfilController{
             $activacion = $_POST["musica"] == "SI" ? 1 : 0;
             $this->model->setearMusicaActivadaDelUsuario($activacion, $idDelUser);
             header("location: /perfil/usuario");
-            exit(); // lo habia intentado hacer por ajax pero tenia problemas con el .play del audio x eso directamente redirijo para q cargue tod y listo
+            exit();
+        }else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["sonido"])){
+            $activacion = $_POST["sonido"] == "SI" ? 1 : 0;
+            $this->model->setearSonidoDelUsuario($activacion, $idDelUser);
+            header("location: /perfil/usuario");
+            exit();
         }
+
         $data["musicaActivada"] = $userEncontrado ? $userEncontrado["musica"] : "";
+        $data["sonidoActivado"] = $userEncontrado ? $userEncontrado["sonido"] : "";
         $data['user'] = $userEncontrado ? $_SESSION['user'] : "";
         $data['objUsuario'] = $userEncontrado ?? null;
 
