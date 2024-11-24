@@ -170,102 +170,104 @@
         </div>
     </div>{{/esEditor}}
 
+
 {{#esAdmin}}
-    <div class="main">
-        <div id="chart_div">
-            <h2>Cantidad de Jugadores: <span id="cantidad_jugadores">Cargando...</span></h2>
-            <h2>Cantidad de Preguntas: <span id="cantidad_preguntas">Cargando...</span></h2>
+    <form method="post" action='/dashboardAdmin/generarPdf' id="generarPdf" target="_blank" class="flex-column">
+        <input type="submit" value="Generar PDF" class="boton-pdf"/>
+        <div class="totales">
+            <div>
+                <h2>Total de jugadores</h2>
+                <input type="hidden" name="cantidadJugadores" id="cantidadJugadores">
+                <div id="cantidad_jugadores"></div>
+            </div>
+            <div>
+                <h2>Total de preguntas en el juego</h2>
+                <input type="hidden" name="cantidadPreguntas" id="cantidadPreguntas">
+                <div id="cantidad_preguntas"></div>
+            </div>
         </div>
-        <div class="charts-container">
-            <div id="chart_div_sexo"></div>
-            <div id="chart_div_partidasJugadas"></div>
-            <div id="chart_div_barras"></div>
+        <div class="row">
+            <input type="hidden" name="chart3" id="chart3">
+            <div id="chart_div_sexo" class="col"></div>
+            <input type="hidden" name="chart4" id="chart4">
+            <div id="chart_div_partidasJugadas" class="col"></div>
+            <input type="hidden" name="chart5" id="chart5">
+            <div id="chart_div_barras" class="col"></div>
         </div>
-        <div class="button-container">
-            <button id="download-pdf" class="btn btn-success">Descargar PDF</button>
-        </div>
+    </form>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(dibujarValores);
 
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-            google.charts.load('current', { 'packages': ['corechart'] });
-            google.charts.setOnLoadCallback(dibujarValores);
+        function dibujarValores() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var datos = JSON.parse(this.responseText);
+                    console.log(datos);
 
-            function dibujarValores() {
-                if (window.XMLHttpRequest) {
-                    var xmlhttp = new XMLHttpRequest();
-                } else {
-                    var xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    document.getElementById("cantidad_jugadores").innerText = datos.datosCantidadJugadores;
+                    document.getElementById("cantidad_preguntas").innerText = datos.cantidadDePreguntas;
+
+                    // aca asigno los input invisible a los datos.
+                    document.getElementById("cantidadJugadores").value = datos.datosCantidadJugadores;
+                    document.getElementById("cantidadPreguntas").value = datos.cantidadDePreguntas;
+
+                    dibujarTorta(datos.cantidadJugadoresPorSexo, "chart_div_sexo", "chart3", "PORCENTAJE JUGADORES POR SEXO");
+                    dibujarGraficoColumna(datos.cantidadDePreguntasPorCategoria, "chart_div_barras", "chart5", "CANTIDAD DE PREGUNTAS POR CATEGORIA");
+                    dibujarGraficoColumna(datos.cantidadDePartidasJugadasPorUsuario, "chart_div_partidasJugadas", "chart4", "CANTIDAD DE PARTIDAS POR JUGADOR");
                 }
+            };
+            xmlhttp.open("GET", '/dashboardAdmin/obtenerDatos', true);
+            xmlhttp.send();
+        }
 
-                xmlhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var datos = JSON.parse(this.responseText);
-                        console.log(datos);
+        function dibujarTorta(datos, idElemento, inputId, titulo) {
+            let graficoMostrable = new google.visualization.DataTable();
+            graficoMostrable.addColumn('string', 'dato');
+            graficoMostrable.addColumn('number', 'valor');
+            datos.forEach(function (fila) {
+                graficoMostrable.addRow([fila.dato, fila.valor]);
+            });
 
-                        var cantidadJugadores = datos.datosCantidadJugadores;
-                        var cantidadDePreguntas = datos.cantidadDePreguntas;
-                        var cantidadJugadoresPorSexo = datos.cantidadJugadoresPorSexo;
-                        var cantidadDePreguntasPorCategoria = datos.cantidadDePreguntasPorCategoria;
-                        var cantidadDePartidasJugadasPorUsuario = datos.cantidadDePartidasJugadasPorUsuario;
+            let options = {
+                'title': titulo,
+                'width': 400,
+                'height': 300
+            };
 
-                        // Mostrar cantidad de jugadores
-                        document.getElementById("cantidad_jugadores").innerText = cantidadJugadores;
-                        document.getElementById("cantidad_preguntas").innerText = cantidadDePreguntas;
-                        dibujarTorta(cantidadJugadoresPorSexo, "chart_div_sexo", "PORCENTAJE JUGADORES POR SEXO");
-                        dibujarGraficoColumna(cantidadDePreguntasPorCategoria, "chart_div_barras", "CANTIDAD DE PREGUNTAS POR CATEGORIA", 'CATEGORIAS', 'Total Preguntas');
-                        dibujarGraficoColumna(cantidadDePartidasJugadasPorUsuario, "chart_div_partidasJugadas", "CANTIDAD DE PARTIDAS POR JUGADOR", 'JUGADORES', 'PARTIDAS');
-                    }
-                }
-                xmlhttp.open("GET", '/dashboardAdmin/obtenerDatos', true);
-                xmlhttp.send();
-            }
+            let chart = new google.visualization.PieChart(document.getElementById(idElemento));
+            google.visualization.events.addListener(chart, 'ready', function () {
+                document.getElementById(inputId).value = chart.getImageURI();
+            });
+            chart.draw(graficoMostrable, options);
 
-            function dibujarTorta(datos, idElemento, titulo) {
-                let graficoMostrable = new google.visualization.DataTable();
-                graficoMostrable.addColumn('string', 'dato');
-                graficoMostrable.addColumn('number', 'valor');
-                datos.forEach(function (fila) {
-                    graficoMostrable.addRow([fila.dato, fila.valor]);
-                });
+        }
 
-                let options = {
-                    'title': titulo,
-                    'width': 400,
-                    'height': 300,
-                    'legend': { textStyle: { color: '#000000', fontSize: 12 } },
-                    'titleTextStyle': { color: '#000000', fontSize: 16 }
-                };
+        function dibujarGraficoColumna(datos, idElemento, inputId, titulo) {
+            let grafico = new google.visualization.DataTable();
+            grafico.addColumn('string', 'dato');
+            grafico.addColumn('number', 'valor');
+            datos.forEach(function (fila) {
+                grafico.addRow([fila.dato, fila.valor]);
+            });
 
-                let chart = new google.visualization.PieChart(document.getElementById(idElemento));
-                chart.draw(graficoMostrable, options);
-            }
+            let options = {
+                title: titulo,
+                width: 400,
+                height: 300,
+                legend: {position: 'none'}
+            };
 
-            function dibujarGraficoColumna(datos, idElemento, titulo, hAxisTitle = '', vAxisTitle = '') {
-                let grafico = new google.visualization.DataTable();
-                grafico.addColumn('string', 'dato');
-                grafico.addColumn('number', 'valor');
-                datos.forEach(function (fila) {
-                    grafico.addRow([fila.dato, fila.valor]);
-                });
-
-                let options = {
-                    title: titulo,
-                    hAxis: { title: hAxisTitle },
-                    vAxis: { title: vAxisTitle },
-                    width: 400,
-                    height: 300,
-                    legend: { position: 'none' }
-                };
-
-                let chart = new google.visualization.ColumnChart(document.getElementById(idElemento));
-                chart.draw(grafico, options);
-            }
-        </script>
-    </div>
-
-
+            let chart = new google.visualization.ColumnChart(document.getElementById(idElemento));
+            google.visualization.events.addListener(chart, 'ready', function () {
+                document.getElementById(inputId).value = chart.getImageURI();
+            });
+            chart.draw(grafico, options);
+        }
+    </script>
 {{/esAdmin}}
-
 
 </body>
 </html>
