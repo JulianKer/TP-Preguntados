@@ -154,8 +154,11 @@ class Database
     /* --------------------- INICIO PARTIDAS------------------------------------------------------------------*/
     public function crearPartidaEnCursoParaEsteUser($idUser)
     {
-        $stmt = $this->conn->prepare("INSERT INTO partida (id_usuario, puntaje, terminada) VALUES (?, 0, FALSE)");
-        $stmt->bind_param("i", $idUser);
+        $fechaActual = new DateTime();
+        $fechaFormateada = $fechaActual->format('Y-m-d');
+
+        $stmt = $this->conn->prepare("INSERT INTO partida (id_usuario, puntaje, terminada, fechapartida) VALUES (?, 0, FALSE, ?)");
+        $stmt->bind_param("is", $idUser, $fechaFormateada);
 
         if ($stmt->execute()) {
             return $this->conn->insert_id;
@@ -562,6 +565,73 @@ class Database
         return $datos;
     }
 
+    public function obtenerCantidadDePreguntasPorCategoriaConFiltro($fechaDesde = null, $fechaHasta = null)
+    {
+        // Construir la consulta base
+        $query = "
+        SELECT 
+            c.nombre AS categoria,
+            COUNT(p.id_pregunta) AS cantidadPreguntas
+        FROM 
+            categoria c
+        LEFT JOIN 
+            pregunta p 
+        ON 
+            c.id_categoria = p.id_categoria
+        WHERE
+            1=1
+    ";
+
+        // Filtrar por fecha desde
+        if ($fechaDesde) {
+            $query .= " AND p.fecha_alta >= ?";
+        }
+
+        // Filtrar por fecha hasta
+        if ($fechaHasta) {
+            $query .= " AND p.fecha_alta <= ?";
+        }
+
+        // Agrupar por categoria
+        $query .= " GROUP BY c.id_categoria ORDER BY cantidadPreguntas DESC";
+
+        // Preparar la consulta
+        $stmt = $this->conn->prepare($query);
+
+        // Enlazar los parámetros según las fechas que recibimos
+        if ($fechaDesde && $fechaHasta) {
+            // Si ambas fechas son proporcionadas, enlazamos ambas
+            $stmt->bind_param("ss", $fechaDesde, $fechaHasta);
+        } elseif ($fechaDesde) {
+            // Si solo se recibe fechaDesde, solo enlazamos esa
+            $stmt->bind_param("s", $fechaDesde);
+        } elseif ($fechaHasta) {
+            // Si solo se recibe fechaHasta, solo enlazamos esa
+            $stmt->bind_param("s", $fechaHasta);
+        }
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener el resultado
+        $resultado = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        // Preparar los datos para el formato deseado
+        $datos = [];
+
+        foreach ($resultado as $registro) {
+            $categoria = $registro['categoria'];
+            $cantidadPreguntas = intval($registro['cantidadPreguntas']);
+            $datos[] = [
+                'dato' => $categoria,
+                'valor' => $cantidadPreguntas
+            ];
+        }
+
+        return $datos;
+    }
+
+
     public function obtenerCantidadDeJugadores()
     {
         $stmt = $this->conn->prepare("SELECT COUNT(*) AS cantidad FROM usuario WHERE rango = 3");
@@ -598,6 +668,55 @@ class Database
         return $datos;
     }
 
+    public function obtenerCantidadDeJugadoresPorSexoConFiltro($desde = null, $hasta = null)
+    {
+        // Base de la consulta SQL
+        $query = "SELECT CASE WHEN sexo = 'm' THEN 'Masculino' WHEN sexo = 'f' THEN 'Femenino' END AS sexo_filtrado, COUNT(*) AS cantidadUsuarios FROM usuario";
+
+        $params = [];
+        $conditions = [];
+
+        // Condiciones dinámicas para filtrar por fechas
+        if ($desde !== null) {
+            $conditions[] = "fecharegistro >= ?";
+            $params[] = $desde;
+        }
+        if ($hasta !== null) {
+            $conditions[] = "fecharegistro <= ?";
+            $params[] = $hasta;
+        }
+
+        // Si hay condiciones, agrégalas a la consulta
+        if (!empty($conditions)) {
+            $query .= " WHERE " . implode(" AND ", $conditions);
+        }
+
+        // Agrupación por sexo
+        $query .= " GROUP BY sexo_filtrado";
+
+        // Preparar y ejecutar la consulta
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param(str_repeat('s', count($params)), ...$params);
+        $stmt->execute();
+
+        // Obtener los resultados
+        $resultado = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        // Formatear los datos en el array esperado
+        $datos = [];
+        foreach ($resultado as $registro) {
+            $sexo = $registro['sexo_filtrado'];
+            $cantidadUsuarios = intval($registro['cantidadUsuarios']);
+            $datos[] = [
+                'dato' => $sexo,
+                'valor' => $cantidadUsuarios
+            ];
+        }
+
+        return $datos;
+    }
+
+
     public function obtenerCantidadDePartidasPorUsuario()
     {
         $stmt = $this->conn->prepare("
@@ -631,6 +750,76 @@ class Database
             ];
         }
 
+        return $datos;
+    }
+
+    public function obtenerCantidadDePartidasJugadasPorUsuarioConFiltro($fechaDesde, $fechaHasta){
+// Inicializar la consulta base
+        $query = "
+        SELECT 
+            u.nombreusuario AS usuario,
+            COUNT(p.id_partida) AS cantidadPartidas
+        FROM 
+            usuario u
+        LEFT JOIN 
+            partida p 
+        ON 
+            u.id = p.id_usuario
+        WHERE 
+            u.rango = 3";  // Filtra solo los usuarios con rango 3 (jugadores)
+
+        // Filtrar por fecha desde (si está presente)
+        if (!empty($fechaDesde)) {
+            $query .= " AND p.fechapartida >= ?";  // Asegura que la fecha de partida sea mayor o igual a $fechaDesde
+        }
+
+        // Filtrar por fecha hasta (si está presente)
+        if (!empty($fechaHasta)) {
+            $query .= " AND p.fechapartida <= ?";  // Asegura que la fecha de partida sea menor o igual a $fechaHasta
+        }
+
+        // Completar la consulta
+        $query .= "
+        GROUP BY 
+            u.id
+        ORDER BY 
+            cantidadPartidas DESC
+    ";
+
+        // Preparar la sentencia SQL
+        $stmt = $this->conn->prepare($query);
+
+        // Asociar los parámetros de fecha a la sentencia SQL
+        if (!empty($fechaDesde) && !empty($fechaHasta)) {
+            // Si ambas fechas están presentes
+            $stmt->bind_param("ss", $fechaDesde, $fechaHasta);
+        } elseif (!empty($fechaDesde)) {
+            // Si solo la fecha desde está presente
+            $stmt->bind_param("s", $fechaDesde);
+        } elseif (!empty($fechaHasta)) {
+            // Si solo la fecha hasta está presente
+            $stmt->bind_param("s", $fechaHasta);
+        }
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener el resultado
+        $resultado = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        $datos = [];
+
+        // Procesar el resultado para devolverlo en el formato requerido
+        foreach ($resultado as $registro) {
+            $usuario = $registro['usuario'];
+            $cantidadPartidas = intval($registro['cantidadPartidas']);
+            $datos[] = [
+                'dato' => $usuario,
+                'valor' => $cantidadPartidas
+            ];
+        }
+
+        // Retornar los datos procesados
         return $datos;
     }
 

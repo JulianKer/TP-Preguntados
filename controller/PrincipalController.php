@@ -43,6 +43,48 @@ class PrincipalController
             case 1: // admin
                 $data["esAdmin"] = $this->modelUsuario->saberSiEsAdmin($userEncontrado["rango"]);
 
+                $data["datosCantidadJugadores"] = $this->modelUsuario->obtenerCantidadDeJugadores();
+                $data["cantidadDePreguntas"] = $this->modelUsuario->obtenerPreguntasHabilitadas();
+
+                // genero de los jugaopres
+                $sexoDesde = isset($_GET['sexoDesde']) ? $_GET['sexoDesde'] : null;
+                $sexoHasta = isset($_GET['sexoHasta']) ? $_GET['sexoHasta'] : null;
+                $data["filtroSexoDesde"] = $sexoDesde;
+                $data["filtroSexoHasta"] = $sexoHasta;
+
+                //partidas x jugador
+                $partidasJugadasDesde = isset($_GET['partidasJugadasDesde']) ? $_GET['partidasJugadasDesde'] : null;
+                $partidasJugadasHasta = isset($_GET['partidasJugadasHasta']) ? $_GET['partidasJugadasHasta'] : null;
+                $data["filtroPartidasDesde"] = $partidasJugadasDesde;
+                $data["filtroPartidasHasta"] = $partidasJugadasHasta;
+
+                // preg x categoria
+                $barrasDesde = isset($_GET['barrasDesde']) ? $_GET['barrasDesde'] : null;
+                $barrasHasta = isset($_GET['barrasHasta']) ? $_GET['barrasHasta'] : null;
+                $data["filtroBarrasDesde"] = $barrasDesde;
+                $data["filtroBarrasHasta"] = $barrasHasta;
+
+                if ($sexoDesde || $sexoHasta) {
+                    $arrayJson["cantidadJugadoresPorSexo"] = $this->modelUsuario->obtenerCantidadDeJugadoresPorSexoConFiltro($sexoDesde, $sexoHasta);
+                }else{
+                    $arrayJson["cantidadJugadoresPorSexo"] = $this->modelUsuario->obtenerCantidadDeJugadoresPorSexo();
+                }
+
+                if ($partidasJugadasDesde || $partidasJugadasHasta) {
+                    $arrayJson["cantidadDePartidasJugadasPorUsuario"] = $this->modelUsuario->obtenerCantidadDePartidasJugadasPorUsuarioConFiltro($partidasJugadasDesde, $partidasJugadasHasta);
+                }else{
+                    $arrayJson["cantidadDePartidasJugadasPorUsuario"] = $this->modelUsuario->obtenerCantidadDePartidasJugadasPorUsuario();
+                }
+
+                if ($barrasDesde || $barrasHasta) {
+                    $arrayJson["cantidadDePreguntasPorCategoria"] = $this->modelUsuario->obtenerCantidadDePreguntasPorCategoriaConFiltro($barrasDesde, $barrasHasta);
+                }else{
+                    $arrayJson["cantidadDePreguntasPorCategoria"] = $this->modelUsuario->obtenerCantidadDePreguntasPorCategoria();
+                }
+
+                $data['arrayJson'] = json_encode($arrayJson);
+
+
                 break;
                 case 2: // editor
                     unset($_SESSION["idReporte"]);

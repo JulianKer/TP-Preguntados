@@ -110,6 +110,38 @@ body {
     transition: all .2s;
 }
 
+
+
+/*---------------------------------------------------*/
+#filterForm{
+    border-top: solid 1px #b3b3b3;
+    padding-top: 2em;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+    gap: 2em;
+}
+
+.cont-botonesFiltros{
+    grid-column: 1/4;
+    margin-top: 2em;
+    display: flex;
+    gap: 5em;
+}
+
+.cont-filtro-admin{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.filter-group{
+    display: flex;
+    gap: 2em;
+}
+/*---------------------------------------------------*/
+
+
 /*---------------POPUP-------------------*/
 .popupCompleto{
     position: fixed;
@@ -175,6 +207,15 @@ body {
 
     .game-list {
         min-height: 217px;
+    }
+
+    #filterForm{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .cont-botonesFiltros{
+        grid-column: 1/2;
     }
 
 }

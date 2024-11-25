@@ -168,29 +168,179 @@
             <div class="totales text-center my-4">
                 <div class="p-3 mb-3 bg-light shadow-sm rounded">
                     <h2>Total de jugadores</h2>
-                    <input type="hidden" name="cantidadJugadores" id="cantidadJugadores" />
-                    <div id="cantidad_jugadores"></div>
+                    <input type="hidden" name="cantidadJugadores" id="cantidadJugadores" value="{{datosCantidadJugadores}}"/>
+                    <div id="cantidad_jugadores">{{datosCantidadJugadores}}</div>
                 </div>
                 <div class="p-3 mb-3 bg-light shadow-sm rounded">
                     <h2>Total de preguntas en el juego</h2>
-                    <input type="hidden" name="cantidadPreguntas" id="cantidadPreguntas" />
-                    <div id="cantidad_preguntas"></div>
+                    <input type="hidden" name="cantidadPreguntas" id="cantidadPreguntas" value="{{cantidadDePreguntas}}"/>
+                    <div id="cantidad_preguntas">{{cantidadDePreguntas}}</div>
                 </div>
             </div>
 
             <div class="row text-center">
+                <!--------------------------------------------------------------------------------->
                 <input type="hidden" name="chart3" id="chart3" />
                 <div id="chart_div_sexo" class="col-md-4 col-12 mb-3"></div>
+                <!--------------------------------------------------------------------------------->
+
+                <!--------------------------------------------------------------------------------->
                 <input type="hidden" name="chart4" id="chart4" />
                 <div id="chart_div_partidasJugadas" class="col-md-4 col-12 mb-3"></div>
+                <!--------------------------------------------------------------------------------->
+
+                <!--------------------------------------------------------------------------------->
                 <input type="hidden" name="chart5" id="chart5" />
                 <div id="chart_div_barras" class="col-md-4 col-12 mb-3"></div>
+                <!--------------------------------------------------------------------------------->
+
+            </div>
+        </form>
+
+
+        <form id="filterForm" action="/principal/home" method="get">
+            <!-- por sexo -->
+            <div class="cont-filtro-admin">
+                <h5>Jugadores por Sexo</h5>
+                <div class="filter-group">
+                    <label for="sexoDesde">Desde:</label>
+                    <input type="date" id="sexoDesde" name="sexoDesde" {{#filtroSexoDesde}} value="{{filtroSexoDesde}}" {{/filtroSexoDesde}}>
+                </div>
+                <div class="filter-group">
+                    <label for="sexoHasta">Hasta:</label>
+                    <input type="date" id="sexoHasta" name="sexoHasta" {{#filtroSexoHasta}} value="{{filtroSexoHasta}}" {{/filtroSexoHasta}}>
+                </div>
+            </div>
+
+            <!-- partidas jugadas por usuario -->
+            <div class="cont-filtro-admin">
+                <h5>Partidas Jugadas por Usuario</h5>
+                <div class="filter-group">
+                    <label for="partidasJugadasDesde">Desde:</label>
+                    <input type="date" id="partidasJugadasDesde" name="partidasJugadasDesde" {{#filtroPartidasDesde}} value="{{filtroPartidasDesde}}" {{/filtroPartidasDesde}}>
+                </div>
+                <div class="filter-group">
+                    <label for="partidasJugadasHasta">Hasta:</label>
+                    <input type="date" id="partidasJugadasHasta" name="partidasJugadasHasta" {{#filtroPartidasHasta}} value="{{filtroPartidasHasta}}" {{/filtroPartidasHasta}}>
+                </div>
+            </div>
+
+            <!-- preguntas por categoría -->
+            <div class="cont-filtro-admin">
+                <h5>Preguntas por Categoría</h5>
+                <div class="filter-group">
+                    <label for="barrasDesde">Desde:</label>
+                    <input type="date" id="barrasDesde" name="barrasDesde" {{#filtroBarrasDesde}} value="{{filtroBarrasDesde}}" {{/filtroBarrasDesde}}>
+                </div>
+                <div class="filter-group">
+                    <label for="barrasHasta">Hasta:</label>
+                    <input type="date" id="barrasHasta" name="barrasHasta" {{#filtroBarrasHasta}} value="{{filtroBarrasHasta}}" {{/filtroBarrasHasta}}>
+                </div>
+            </div>
+
+            <div class="cont-botonesFiltros">
+                <button type="submit" id="applyFiltersBtn" class="btn btn-primary" style="background-color: #2547a8">Aplicar Filtros</button>
+                <button type="button" onclick="location.href = '/principal/home';" class="btn btn-primary" style="background-color: #2547a8"> Limpiar filtros</button>
             </div>
         </form>
     </div>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+    <script>
+        // Verificar si los datos de Mustache están disponibles
+        let datosDelFiltro = {{#arrayJson}} {{{arrayJson}}} {{/arrayJson}} {{^arrayJson}}null{{/arrayJson}};
+        console.log("DATOS QUE ENVIE DESDE EL HOME CON JSONENCODE:");
+        console.log(datosDelFiltro);
+        console.log("----------------------------------");
+
+        // Si los datos están presentes, generar los gráficos
+        if (datosDelFiltro && datosDelFiltro !== null) {
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(() => generarGraficosConDatosMustache(datosDelFiltro));
+        }
+
+        function generarGraficosConDatosMustache(datos) {
+            console.log("Generando gráficos con datos del filtro (Mustache):");
+            console.log(datos);
+
+            // Generar gráfico de torta para jugadores por sexo
+            generarGraficoTortaPorSexo(datos.cantidadJugadoresPorSexo, "chart_div_sexo", "chart3");
+
+            // Generar gráfico de barras para preguntas por categoría
+            generarGraficoBarrasPorCategoria(datos.cantidadDePreguntasPorCategoria, "chart_div_barras", "chart5");
+
+            // Generar gráfico de barras para partidas jugadas por usuario
+            generarGraficoBarrasPorPartidas(datos.cantidadDePartidasJugadasPorUsuario, "chart_div_partidasJugadas", "chart4");
+        }
+
+        // Función para generar el gráfico de torta (jugadores por sexo)
+        function generarGraficoTortaPorSexo(datos, idElemento, inputId) {
+            let data = new google.visualization.DataTable();
+            data.addColumn('string', 'Sexo');
+            data.addColumn('number', 'Cantidad');
+            datos.forEach(function (fila) {
+                data.addRow([fila.dato, fila.valor]);
+            });
+
+            let options = {
+                title: "PORCENTAJE JUGADORES POR SEXO",
+                width: 400,
+                height: 300
+            };
+
+            let chart = new google.visualization.PieChart(document.getElementById(idElemento));
+            google.visualization.events.addListener(chart, 'ready', function () {
+                document.getElementById(inputId).value = chart.getImageURI();
+            });
+            chart.draw(data, options);
+        }
+
+        function generarGraficoBarrasPorCategoria(datos, idElemento, inputId) {
+            let data = new google.visualization.DataTable();
+            data.addColumn('string', 'Categoría');
+            data.addColumn('number', 'Cantidad');
+            datos.forEach(function (fila) {
+                data.addRow([fila.dato, fila.valor]);
+            });
+
+            let options = {
+                title: "CANTIDAD DE PREGUNTAS POR CATEGORIA",
+                width: 400,
+                height: 300,
+                legend: { position: 'none' }
+            };
+
+            let chart = new google.visualization.ColumnChart(document.getElementById(idElemento));
+            google.visualization.events.addListener(chart, 'ready', function () {
+                document.getElementById(inputId).value = chart.getImageURI();
+            });
+            chart.draw(data, options);
+        }
+
+        function generarGraficoBarrasPorPartidas(datos, idElemento, inputId) {
+            let data = new google.visualization.DataTable();
+            data.addColumn('string', 'Jugador');
+            data.addColumn('number', 'Partidas');
+            datos.forEach(function (fila) {
+                data.addRow([fila.dato, fila.valor]);
+            });
+
+            let options = {
+                title: "CANTIDAD DE PARTIDAS POR JUGADOR",
+                width: 400,
+                height: 300,
+                legend: { position: 'none' }
+            };
+
+            let chart = new google.visualization.ColumnChart(document.getElementById(idElemento));
+            google.visualization.events.addListener(chart, 'ready', function () {
+                document.getElementById(inputId).value = chart.getImageURI();
+            });
+            chart.draw(data, options);
+        }
+    </script>
+
+    <!--<script type="text/javascript">
         google.charts.load('current', { 'packages': ['corechart'] });
         google.charts.setOnLoadCallback(dibujarValores);
 
@@ -198,7 +348,7 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    var datos = JSON.parse(this.responseText);
+                    let datos = JSON.parse(this.responseText);
                     console.log(datos);
 
                     document.getElementById("cantidad_jugadores").innerText = datos.datosCantidadJugadores;
@@ -260,7 +410,7 @@
             });
             chart.draw(grafico, options);
         }
-    </script>
+    </script>-->
 {{/esAdmin}}
 
 </body>
