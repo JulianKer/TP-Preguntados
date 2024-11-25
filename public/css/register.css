@@ -9,14 +9,17 @@ body {
     color: white;
     padding: 1rem;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 
-    & h1{
-        margin: 0.83em 0;
-        width: 100%;
+    & p{
         text-align: center;
         font-size: 1.5em;
+        margin: 0;
     }
 }
+
 .main-content {
     padding: 1rem;
     max-width: 80dvw;

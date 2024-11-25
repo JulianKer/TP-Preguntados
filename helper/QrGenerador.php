@@ -1,6 +1,7 @@
 <?php
 
 class QrGenerador{
+
     public static function generarYguardarQr($contenidoDelQr){
         $generator = new barcode_generator();
 

@@ -13,13 +13,8 @@
     width: 100%;
 }
 
-.footer-logo {
-    text-align: center;
-}
-
 .footer-logo-img {
-    max-width: 150px;
-    height: auto;
+    min-width: 100px;
 }
 
 .footer-social {
