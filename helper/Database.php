@@ -648,6 +648,7 @@ class Database
                 CASE
                     WHEN sexo = 'm' THEN 'Masculino'
                     WHEN sexo = 'f' THEN 'Femenino'
+                    WHEN sexo = 'x' THEN 'Otro'
                 END AS sexo_filtrado,
                 COUNT(*) AS cantidadUsuarios
                 FROM usuario
@@ -671,7 +672,7 @@ class Database
     public function obtenerCantidadDeJugadoresPorSexoConFiltro($desde = null, $hasta = null)
     {
         // Base de la consulta SQL
-        $query = "SELECT CASE WHEN sexo = 'm' THEN 'Masculino' WHEN sexo = 'f' THEN 'Femenino' END AS sexo_filtrado, COUNT(*) AS cantidadUsuarios FROM usuario";
+        $query = "SELECT CASE WHEN sexo = 'm' THEN 'Masculino' WHEN sexo = 'f' THEN 'Femenino' WHEN sexo = 'x' THEN 'Otro' END AS sexo_filtrado, COUNT(*) AS cantidadUsuarios FROM usuario";
 
         $params = [];
         $conditions = [];
