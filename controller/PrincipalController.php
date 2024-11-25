@@ -79,7 +79,13 @@ class PrincipalController
 
                         $data["partidaPendiente"] = (bool)$this->modelPartida->buscarSiHayUnaPartidaEnCursoParaEsteUser($idUsuario);
                         $data["posicionEnElRanking"] = $this->modelRanking->dameLaPosicionEnElRankingDeEsteUsuario($userEncontrado["id"]);
-                        $data["partidasDelUsuario"] = $this->modelPartida->obtenerPartidasDelUsuario($userEncontrado["id"]);
+
+                        $partidasDelUser = $this->modelPartida->obtenerPartidasDelUsuario($userEncontrado["id"]);
+
+                        foreach ($partidasDelUser as  $index => &$partida) {
+                            $partida["numeroPartida"] = count($partidasDelUser) - ($index);
+                        }
+                        $data["partidasDelUsuario"] = $partidasDelUser;
                         break;
         }
         $this->presenter->show('home', $data);
