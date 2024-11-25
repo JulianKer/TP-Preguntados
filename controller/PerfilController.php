@@ -64,7 +64,13 @@ class PerfilController{
 
         $data['usuarioAMostrar'] = $userAMostrar;
         $data["coordenadas"] = $this->model->obtenerCoordenadas($userAMostrar["ubicacion"]);
-        $data["partidasDelUsuario"] = $this->partidasModel->obtenerPartidasDelUsuario($userAMostrar["id"]);
+
+        $partidasDelUser = $this->partidasModel->obtenerPartidasDelUsuario($userAMostrar["id"]);
+
+        foreach ($partidasDelUser as  $index => &$partida) {
+            $partida["numeroPartida"] = count($partidasDelUser) - ($index);
+        }
+        $data["partidasDelUsuario"] = $partidasDelUser;
 
 
         $data["esJugador"] = $this->model->saberSiEsJugador($userAMostrar["rango"]);
