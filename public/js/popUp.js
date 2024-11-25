@@ -10,8 +10,12 @@ if (btnReanudar){
 
 // ----------- para perfil ----------------------
 let qr = document.querySelector(".qr");
-if (qr){
+let logoQr = document.querySelector(".iconoDentroQrNormal")
+if (qr && logoQr){
     qr.addEventListener("click", ()=>{
+        popup.style.display = "flex";
+    })
+    logoQr.addEventListener("click", ()=>{
         popup.style.display = "flex";
     })
 }

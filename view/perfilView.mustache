@@ -15,7 +15,11 @@
 <div class="popupCompleto" style="display: none">
     <div class="caja-popup">
         <h3>@{{usuarioAMostrar.nombreusuario}}</h3>
-        <img class="qr-popup" src="/public/images/qr/qr.svg" alt="QR - Perfil" title="QR">
+        <div class="cont-qr">
+            <img class="qr-popup" src="/public/images/qr/qr.svg" alt="QR - Perfil" title="QR">
+            <img src="/public/images/icons/logoQuizParaQr.svg" class="iconoDentroDelQr iconoQrDentroPopUp" alt="QM">
+        </div>
+
         <p id="btnReanudar">Cerrar</p>
     </div>
 </div>
@@ -32,8 +36,9 @@
                         <p class="profile-username">@{{usuarioAMostrar.nombreusuario}}</p>
                     </div>
                 </div>
-                <div>
+                <div class="cont-qr">
                     <img class="qr" src="/public/images/qr/qr.svg" alt="QR - Perfil" title="QR">
+                    <img src="/public/images/icons/logoQuizParaQr.svg" class="iconoDentroDelQr iconoDentroQrNormal" alt="QM">
                 </div>
             </div>
 
