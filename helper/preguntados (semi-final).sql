@@ -85,7 +85,8 @@ CREATE TABLE `partida` (
   `id_partida` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `puntaje` int(11) NOT NULL,
-  `terminada` tinyint(1) NOT NULL
+  `terminada` tinyint(1) NOT NULL,
+  `fechapartida` DATE NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

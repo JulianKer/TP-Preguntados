@@ -133,19 +133,31 @@ class UsuarioModel
     }
 
     public function obtenerCantidadDeJugadores(){
-       return $this -> database -> obtenerCantidadDeJugadores();
+       return $this->database->obtenerCantidadDeJugadores();
     }
 
     public function obtenerCantidadDeJugadoresPorSexo(){
-        return $this -> database -> obtenerCantidadDeJugadoresPorSexo();
+        return $this->database->obtenerCantidadDeJugadoresPorSexo();
+    }
+
+    public function obtenerCantidadDeJugadoresPorSexoConFiltro($sexoDesde, $sexoHasta){
+        return $this->database->obtenerCantidadDeJugadoresPorSexoConFiltro($sexoDesde, $sexoHasta);
     }
 
     public function obtenerCantidadDePreguntasPorCategoria(){
-        return $this-> database->obtenerCantidadDePreguntasPorCategoria();
+        return $this->database->obtenerCantidadDePreguntasPorCategoria();
+    }
+
+    public function obtenerCantidadDePreguntasPorCategoriaConFiltro($barrasDesde, $barrasHasta){
+        return $this->database->obtenerCantidadDePreguntasPorCategoriaConFiltro($barrasDesde, $barrasHasta);
     }
 
     public function obtenerCantidadDePartidasJugadasPorUsuario(){
         return $this->database->obtenerCantidadDePartidasPorUsuario();
+    }
+
+    public function obtenerCantidadDePartidasJugadasPorUsuarioConFiltro($partidasJugadasDesde, $partidasJugadasHasta){
+        return $this->database->obtenerCantidadDePartidasJugadasPorUsuarioConFiltro($partidasJugadasDesde, $partidasJugadasHasta);
     }
 
     public function obtenerPreguntasHabilitadas(){
